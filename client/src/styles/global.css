@@ -1,0 +1,43 @@
+/* Define color variables for consistency across the application */
+:root {
+  --color-primary-50: #f2f9fd;
+  --color-primary-100: #e3f1fb;
+  --color-primary-200: #c1e5f6;
+  --color-primary-300: #8bd0ee;
+  --color-primary-400: #4db7e3;
+  --color-primary-500: #269fd1;
+  --color-primary-600: #187fb1;
+  --color-primary-700: #135f86;
+  --color-primary-800: #155677;
+  --color-primary-900: #174863;
+  --color-primary-950: #0f2f42;
+  --background-color: #ffffff; /* Light background color */
+  --text-color: #000000; /* Dark text color */
+}
+/* Define scalable font sizes and responsive typography */
+:root {
+  --font-primary: "Poppins", sans-serif;
+  --font-secondary: "Roboto", sans-serif;
+  --font-tertiary: "Nunito", sans-serif;
+  --font-quaternary: "Montserrat", sans-serif;
+
+  --font-size-base: 16px;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 20px;
+  }
+}

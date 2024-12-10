@@ -1,0 +1,3 @@
+[submodule "schoolbridge/server"]
+    path = schoolbridge/server
+    url = https://github.com/Zahed-Hossen/SchoolBridge-Server.git

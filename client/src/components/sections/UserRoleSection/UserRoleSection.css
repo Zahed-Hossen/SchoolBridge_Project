@@ -1,0 +1,81 @@
+/* General Section Styling */
+.user-roles-section {
+  padding: 50px 20px;
+  background-color: #c1e5f6; /* Lightest blue from your color palette */
+  text-align: center;
+}
+
+.user-roles-section .section-heading {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem; /* Responsive font size */
+  color: #135f86; /* Medium-dark blue from your color palette */
+  margin-bottom: 30px;
+}
+
+/* Roles Container */
+.roles-container {
+  display: flex;
+  flex-wrap: wrap; /* Ensures responsive layout */
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Individual Role Card */
+.user-role {
+  flex: 1 1 250px; /* Responsive card size */
+  max-width: 300px; /* Ensure cards don't grow too large */
+  padding: 20px;
+  border: 1px solid #c1e5f6; /* Soft blue border */
+  border-radius: 8px;
+  background-color: #f2f9fd; /* White card background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Card Hover Effect */
+.user-role:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Role Card Icon */
+.user-role img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+/* Role Title */
+.user-role h2 {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.5rem;
+  color: #174863;
+  margin-bottom: 10px;
+}
+
+/* Role Description */
+.user-role p {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  color: #155677;
+  line-height: 1.6;
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .user-role {
+    flex: 1 1 calc(33.333% - 40px); /* 3 cards per row */
+  }
+}
+
+@media (max-width: 768px) {
+  .user-role {
+    flex: 1 1 calc(50% - 40px); /* 2 cards per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .user-role {
+    flex: 1 1 100%; /* 1 card per row */
+  }
+}

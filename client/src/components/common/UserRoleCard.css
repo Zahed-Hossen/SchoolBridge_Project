@@ -1,0 +1,28 @@
+.user-role-card {
+  background-color: rgb(227,241,251);
+  border: 1px solid #8bd0ee; /* Border matches the blue palette */
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.role-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1rem;
+}
+
+.role-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.25rem;
+  color: #155677;
+  margin-bottom: 0.5rem;
+}
+
+.role-description {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  color: #174863;
+  line-height: 1.5;
+}
