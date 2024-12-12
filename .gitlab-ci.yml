@@ -14,7 +14,7 @@ cache:
 # Build stage for client
 build_client:
   stage: build
-  image: node:16
+  image: node:18
   script:
     - echo "Installing dependencies for client..."
     - cd client
@@ -23,12 +23,12 @@ build_client:
     - npm run build
   artifacts:
     paths:
-      - client/dist/
+      - client/build/
 
 # Build stage for server
 build_server:
   stage: build
-  image: node:16
+  image: node:18
   script:
     - echo "Installing dependencies for server..."
     - cd server
@@ -42,7 +42,7 @@ build_server:
 # Lint stage for client
 lint_client:
   stage: lint
-  image: node:16
+  image: node:18
   script:
     - echo "Linting the client code..."
     - cd client
@@ -52,7 +52,7 @@ lint_client:
 # Lint stage for server
 lint_server:
   stage: lint
-  image: node:16
+  image: node:18
   script:
     - echo "Linting the server code..."
     - cd server
@@ -62,7 +62,7 @@ lint_server:
 # Test stage for client
 test_client:
   stage: test
-  image: node:16
+  image: node:18
   script:
     - echo "Running tests for client..."
     - cd client
@@ -72,7 +72,7 @@ test_client:
 # Test stage for server
 test_server:
   stage: test
-  image: node:16
+  image: node:18
   script:
     - echo "Running tests for server..."
     - cd server
@@ -82,7 +82,7 @@ test_server:
 # Security scanning stage for client
 security_client:
   stage: security
-  image: node:16
+  image: node:18
   script:
     - echo "Running security scan for client..."
     - cd client
@@ -92,7 +92,7 @@ security_client:
 # Security scanning stage for server
 security_server:
   stage: security
-  image: node:16
+  image: node:18
   script:
     - echo "Running security scan for server..."
     - cd server
