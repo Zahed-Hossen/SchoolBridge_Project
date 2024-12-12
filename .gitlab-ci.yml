@@ -8,45 +8,94 @@ stages:
 # Cache dependencies
 cache:
   paths:
-    - node_modules/
+    - client/node_modules/
+    - server/node_modules/
 
-# Build stage
-build:
+# Build stage for client
+build_client:
   stage: build
   image: node:16
   script:
-    - echo "Installing dependencies..."
+    - echo "Installing dependencies for client..."
+    - cd client
     - npm install
-    - echo "Building the project..."
+    - echo "Building the client project..."
     - npm run build
   artifacts:
     paths:
-      - dist/
+      - client/dist/
 
-# Lint stage
-lint:
+# Build stage for server
+build_server:
+  stage: build
+  image: node:16
+  script:
+    - echo "Installing dependencies for server..."
+    - cd server
+    - npm install
+    - echo "Building the server project..."
+    - npm run build
+  artifacts:
+    paths:
+      - server/dist/
+
+# Lint stage for client
+lint_client:
   stage: lint
   image: node:16
   script:
-    - echo "Linting the code..."
+    - echo "Linting the client code..."
+    - cd client
     - npm install
     - npm run lint
 
-# Test stage
-test:
+# Lint stage for server
+lint_server:
+  stage: lint
+  image: node:16
+  script:
+    - echo "Linting the server code..."
+    - cd server
+    - npm install
+    - npm run lint
+
+# Test stage for client
+test_client:
   stage: test
   image: node:16
   script:
-    - echo "Running tests..."
+    - echo "Running tests for client..."
+    - cd client
     - npm install
     - npm test
 
-# Security scanning stage
-security:
+# Test stage for server
+test_server:
+  stage: test
+  image: node:16
+  script:
+    - echo "Running tests for server..."
+    - cd server
+    - npm install
+    - npm test
+
+# Security scanning stage for client
+security_client:
   stage: security
   image: node:16
   script:
-    - echo "Running security scan..."
+    - echo "Running security scan for client..."
+    - cd client
+    - npm install
+    - npm audit
+
+# Security scanning stage for server
+security_server:
+  stage: security
+  image: node:16
+  script:
+    - echo "Running security scan for server..."
+    - cd server
     - npm install
     - npm audit
 
