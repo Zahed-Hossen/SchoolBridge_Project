@@ -1,19 +1,44 @@
+# Define stages
 stages:
   - build
   - test
   - deploy
 
+# Cache dependencies
+cache:
+  paths:
+    - node_modules/
+
+# Build stage
 build:
   stage: build
+  image: node:16
   script:
+    - echo "Installing dependencies..."
+    - npm install
     - echo "Building the project..."
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
 
+# Test stage
 test:
   stage: test
+  image: node:16
   script:
     - echo "Running tests..."
+    - npm install
+    - npm test
 
+# Deploy stage
 deploy:
   stage: deploy
   script:
     - echo "Deploying the project..."
+    # Add your deployment commands here
+  only:
+    - main
+  environment:
+    name: production
+    url: https://your-actual-production-url.com
