@@ -1,8 +1,9 @@
 # Define stages
 stages:
   - build
+  - lint
   - test
-  - deploy
+  - security
 
 # Cache dependencies
 cache:
@@ -22,6 +23,15 @@ build:
     paths:
       - dist/
 
+# Lint stage
+lint:
+  stage: lint
+  image: node:16
+  script:
+    - echo "Linting the code..."
+    - npm install
+    - npm run lint
+
 # Test stage
 test:
   stage: test
@@ -31,14 +41,22 @@ test:
     - npm install
     - npm test
 
-# Deploy stage
-deploy:
-  stage: deploy
+# Security scanning stage
+security:
+  stage: security
+  image: node:16
   script:
-    - echo "Deploying the project..."
-    # Add your deployment commands here
-  only:
-    - main
-  environment:
-    name: production
-    url: https://your-actual-production-url.com
+    - echo "Running security scan..."
+    - npm install
+    - npm audit
+
+# Notifications
+after_script:
+  - |
+    if [ "$CI_JOB_STATUS" == "failed" ]; then
+      curl -X POST -H 'Content-type: application/json' --data '{"text":"Build failed: $CI_PROJECT_NAME - $CI_JOB_NAME"}' $SLACK_WEBHOOK_URL
+    fi
+  - |
+    if [ "$CI_JOB_STATUS" == "success" ]; then
+      curl -X POST -H 'Content-type: application/json' --data '{"text":"Build succeeded: $CI_PROJECT_NAME - $CI_JOB_NAME"}' $SLACK_WEBHOOK_URL
+    fi
