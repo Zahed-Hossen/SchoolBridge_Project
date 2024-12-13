@@ -1,0 +1,123 @@
+/* Container for the Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  position: relative;
+  color: white;
+}
+
+/* Overlay for the Hero Section */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  z-index: 1;
+}
+
+/* Content for the Hero Section */
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Heading Styles */
+.hero-heading {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Subheading Styles */
+.hero-subheading {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Button Styles */
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.primary-btn {
+  background-color: #4db7e3;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+  font-family: "Montserrat", sans-serif;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background-color: #269fd1;
+}
+
+.secondary-btn {
+  background-color: #e3f1fb;
+  color: #269fd1;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #269fd1;
+  border-radius: 20px;
+  font-family: "Montserrat", sans-serif;
+  cursor: pointer;
+}
+
+.secondary-btn:hover {
+  background-color: #c1e5f6;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .hero-heading {
+    font-size: 1.75rem;
+  }
+
+  .hero-subheading {
+    font-size: 1.125rem;
+  }
+
+  .primary-btn, .secondary-btn {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-heading {
+    font-size: 1.5rem;
+  }
+
+  .hero-subheading {
+    font-size: 1rem;
+  }
+
+  .primary-btn, .secondary-btn {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-heading {
+    font-size: 1.25rem;
+  }
+
+  .hero-subheading {
+    font-size: 0.875rem;
+  }
+
+  .primary-btn, .secondary-btn {
+    padding: 0.5rem 1rem;
+  }
+}
