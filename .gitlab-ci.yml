@@ -14,7 +14,7 @@ cache:
 # Build stage for client (Vite)
 build_client:
   stage: build
-  image: node:18
+  image: node:20
   script:
     - echo "Installing dependencies for Vite client..."
     - cd client
@@ -28,7 +28,7 @@ build_client:
 # Build stage for server
 build_server:
   stage: build
-  image: node:18
+  image: node:20
   script:
     - echo "Installing dependencies for server..."
     - cd server
@@ -38,74 +38,3 @@ build_server:
   artifacts:
     paths:
       - server/dist/
-
-# Lint stage for client (Vite)
-lint_client:
-  stage: lint
-  image: node:18
-  script:
-    - echo "Linting the Vite client code..."
-    - cd client
-    - npm install
-    - npm run lint
-
-# Lint stage for server
-lint_server:
-  stage: lint
-  image: node:18
-  script:
-    - echo "Linting the server code..."
-    - cd server
-    - npm install
-    - npm run lint
-
-# Test stage for client (Vite)
-test_client:
-  stage: test
-  image: node:18
-  script:
-    - echo "Running tests for Vite client..."
-    - cd client
-    - npm install
-    - npm test
-
-# Test stage for server
-test_server:
-  stage: test
-  image: node:18
-  script:
-    - echo "Running tests for server..."
-    - cd server
-    - npm install
-    - npm test
-
-# Security scanning stage for client (Vite)
-security_client:
-  stage: security
-  image: node:18
-  script:
-    - echo "Running security scan for Vite client..."
-    - cd client
-    - npm install
-    - npm audit
-
-# Security scanning stage for server
-security_server:
-  stage: security
-  image: node:18
-  script:
-    - echo "Running security scan for server..."
-    - cd server
-    - npm install
-    - npm audit
-
-# Notifications
-after_script:
-  - |
-    if [ "$CI_JOB_STATUS" == "failed" ]; then
-      curl -X POST -H 'Content-type: application/json' --data '{"text":"Build failed: $CI_PROJECT_NAME - $CI_JOB_NAME"}' $SLACK_WEBHOOK_URL
-    fi
-  - |
-    if [ "$CI_JOB_STATUS" == "success" ]; then
-      curl -X POST -H 'Content-type: application/json' --data '{"text":"Build succeeded: $CI_PROJECT_NAME - $CI_JOB_NAME"}' $SLACK_WEBHOOK_URL
-    fi

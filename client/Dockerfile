@@ -1,5 +1,5 @@
 # Use the official Node.js image
-FROM node:18
+FROM node:20
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -23,4 +23,4 @@ RUN npm install -g serve
 EXPOSE 3000
 
 # Command to serve the application
-CMD ["serve", "-s", "build"]
+CMD ["serve", "-s", "dist"]
