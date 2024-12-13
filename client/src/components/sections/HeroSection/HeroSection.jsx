@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './HeroSection.css';
 import heroImage from '../../../assets/image/LandingPage.avif';
 import LoginModal from '../../Login_Modal/LoginModal.jsx'; // Adjust path as necessary

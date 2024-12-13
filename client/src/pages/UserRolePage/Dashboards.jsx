@@ -1,4 +1,3 @@
-import React from 'react';
 
 const TeacherDashboard = () => <h1>Welcome to the Teacher Dashboard</h1>;
 const StudentDashboard = () => <h1>Welcome to the Student Dashboard</h1>;

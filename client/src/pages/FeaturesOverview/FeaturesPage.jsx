@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./FeaturesPage.css";
 import HeroImage from "../../assets/image/FeatureOverviewPage_HeroImage.avif";
@@ -74,22 +73,22 @@ const FeaturesPage = () => {
         <div className="testimonials-grid">
           <div className="testimonial-card">
             <p>
-              "SchoolBridge has transformed the way we manage our classrooms.
-              It's a game-changer!"
+              &quot;SchoolBridge has transformed the way we manage our classrooms.
+              It&apos;s a game-changer!&quot;
             </p>
             <h3>- Teacher A</h3>
           </div>
           <div className="testimonial-card">
             <p>
-              "The communication tools have made it so much easier to stay in
-              touch with my child's teachers."
+              &quot;The communication tools have made it so much easier to stay in
+              touch with my child&apos;s teachers.&quot;
             </p>
             <h3>- Parent B</h3>
           </div>
           <div className="testimonial-card">
             <p>
-              "I love being able to track my progress and see where I need to
-              improve."
+              &quot;I love being able to track my progress and see where I need to
+              improve.&quot;
             </p>
             <h3>- Student C</h3>
           </div>
@@ -107,7 +106,7 @@ const FeaturesPage = () => {
         <div className="faq">
           <h3>How can I sign up?</h3>
           <p>
-            You can sign up by clicking the "Get Started" button on the homepage
+            You can sign up by clicking the &quot;Get Started&quot; button on the homepage
             and filling out the registration form.
           </p>
         </div>

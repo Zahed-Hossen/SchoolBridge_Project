@@ -1,4 +1,3 @@
-import React from "react";
 import UserRoleCard from "../../common/UserRoleCard.jsx"; // Adjusted path for UserRoleCard
 import userRoles from "./UserRolesData.js";
 import "./UserRoleSection.css";

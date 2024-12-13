@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import "./FeatureCard.css"; // Optional styling for individual cards
 
 const FeatureCard = ({ icon, title, description }) => {
@@ -11,6 +11,11 @@ const FeatureCard = ({ icon, title, description }) => {
       <p className="feature-description">{description}</p>
     </div>
   );
+};
+FeatureCard.propTypes = {
+  icon: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 export default FeatureCard;

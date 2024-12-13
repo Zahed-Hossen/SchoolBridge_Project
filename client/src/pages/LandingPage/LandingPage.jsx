@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import NavBar from "../../components/sections/NavBar/NavBar.jsx"; // Header Section
 import HeroSection from "../../components/sections/HeroSection/HeroSection.jsx"; // Hero Section
 import FeaturesSection from "../../components/sections/FeaturesSection/FeaturesSection.jsx"; // Features Section

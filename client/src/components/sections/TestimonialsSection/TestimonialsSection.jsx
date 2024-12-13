@@ -1,4 +1,3 @@
-import React from "react";
 import "./TestimonialsSection.css";
 import testimonials from"./TestimonialData.js";
 
@@ -17,7 +16,7 @@ const TestimonialsSection = () => {
             <div className="testimonial-info">
               <h3 className="testimonial-name">{testimonial.name}</h3>
               <p className="testimonial-role">{testimonial.role}</p>
-              <p className="testimonial-text">"{testimonial.text}"</p>
+              <p className="testimonial-text">&quot;{testimonial.text}&quot;</p>
             </div>
           </div>
         ))}

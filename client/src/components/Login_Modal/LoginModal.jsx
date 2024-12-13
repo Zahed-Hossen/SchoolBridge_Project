@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import './LoginModal.css';
+import PropTypes from 'prop-types';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState('');
@@ -171,6 +172,10 @@ const LoginModal = ({ isOpen, onClose }) => {
       </div>
     </div>
   );
+};
+LoginModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default LoginModal;

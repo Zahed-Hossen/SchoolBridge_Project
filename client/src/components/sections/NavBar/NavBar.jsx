@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import "./NavBar.css";
+import PropTypes from 'prop-types';
 
 const NavBar = ({ onLoginClick }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,8 +56,12 @@ const NavBar = ({ onLoginClick }) => {
     </nav>
   );
 };
+NavBar.propTypes = {
+  onLoginClick: PropTypes.func.isRequired,
+};
 
 export default NavBar;
+
 
 
 

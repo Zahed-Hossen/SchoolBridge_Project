@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./SignUpPage.css";
+import PropTypes from "prop-types";
 
 const SignUpPage = ({ isOpen, onClose }) => {
   const [role, setRole] = useState("");
@@ -265,6 +266,10 @@ const SignUpPage = ({ isOpen, onClose }) => {
       </div>
     </div>
   );
+};
+SignUpPage.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default SignUpPage;

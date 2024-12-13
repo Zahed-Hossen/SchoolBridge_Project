@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { loginUser } from "../utils/apiUtils";
 import ReusableButton from "../components/ReusableButton";
 import ReusableInput from "../components/ReusableInput";

@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const RoleProtectedRoute = ({ children, allowedRoles }) => {
   const token = localStorage.getItem("authToken");
@@ -8,6 +9,10 @@ const RoleProtectedRoute = ({ children, allowedRoles }) => {
   if (!allowedRoles.includes(userRole)) return <Navigate to="/" />; // Redirect if role not allowed
 
   return children; // Render the child component if authorized
+};
+RoleProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+  allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default RoleProtectedRoute;

@@ -1,6 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import "./UserRoleCard.css";
+import PropTypes from 'prop-types';
 
 const UserRoleCard = ({ icon, role, description, link }) => {
   return (
@@ -13,6 +13,12 @@ const UserRoleCard = ({ icon, role, description, link }) => {
       </Link>
     </div>
   );
+};
+UserRoleCard.propTypes = {
+  icon: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
 };
 
 export default UserRoleCard;
