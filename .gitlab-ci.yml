@@ -11,19 +11,19 @@ cache:
     - client/node_modules/
     - server/node_modules/
 
-# Build stage for client
+# Build stage for client (Vite)
 build_client:
   stage: build
   image: node:18
   script:
-    - echo "Installing dependencies for client..."
+    - echo "Installing dependencies for Vite client..."
     - cd client
     - npm install
-    - echo "Building the client project..."
+    - echo "Building the Vite client project..."
     - npm run build
   artifacts:
     paths:
-      - client/build/
+      - client/dist/
 
 # Build stage for server
 build_server:
@@ -39,12 +39,12 @@ build_server:
     paths:
       - server/dist/
 
-# Lint stage for client
+# Lint stage for client (Vite)
 lint_client:
   stage: lint
   image: node:18
   script:
-    - echo "Linting the client code..."
+    - echo "Linting the Vite client code..."
     - cd client
     - npm install
     - npm run lint
@@ -59,12 +59,12 @@ lint_server:
     - npm install
     - npm run lint
 
-# Test stage for client
+# Test stage for client (Vite)
 test_client:
   stage: test
   image: node:18
   script:
-    - echo "Running tests for client..."
+    - echo "Running tests for Vite client..."
     - cd client
     - npm install
     - npm test
@@ -79,12 +79,12 @@ test_server:
     - npm install
     - npm test
 
-# Security scanning stage for client
+# Security scanning stage for client (Vite)
 security_client:
   stage: security
   image: node:18
   script:
-    - echo "Running security scan for client..."
+    - echo "Running security scan for Vite client..."
     - cd client
     - npm install
     - npm audit
