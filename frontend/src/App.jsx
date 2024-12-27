@@ -170,7 +170,7 @@ function App() {
           {/* </Route> */}
 
           {/* Default Route */}
-          <Route path="*" element={<AuthPage />} />
+          <Route path="/signup" element={<AuthPage />} />
         </Routes>
       </Router>
     </AuthProvider>
