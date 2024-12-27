@@ -27,3 +27,6 @@ setup-frontend.sh
 #folder
 Temp
 setup-frontend.sh
+
+# Ignore all Markdown files
+*.md

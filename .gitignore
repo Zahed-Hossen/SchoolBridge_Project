@@ -4,6 +4,7 @@ node_modules/
 # Ignore package-lock.json
 package-lock.json
 package.json
+
 # Ignore specific files
 start-backend.bat
 start-frontend.bat
@@ -13,6 +14,8 @@ allAuthPages.md
 flow-chart.md
 Directory.md
 
+# Ignore all Markdown files
+*.md
 
 # Ignore other files or directories as needed
 .DS_Store
