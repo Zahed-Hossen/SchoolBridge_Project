@@ -19,11 +19,14 @@ build:
     - npm run build
   artifacts:
     paths:
-      - frontend/build/
+      - frontend/dist/
 
 deploy:
   stage: deploy
   script:
+    - cd frontend
     - firebase deploy --token $FIREBASE_TOKEN
   only:
     - main
+  dependencies:
+    - build
