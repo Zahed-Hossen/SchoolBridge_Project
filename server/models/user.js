@@ -1,88 +1,150 @@
-/**
- * @module User
- */
-
 import mongoose, { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-/**
- * User Schema
- * @typedef {Object} UserSchema
- * @property {string} name - The name of the user
- * @property {string} email - The email address of the user (unique)
- * @property {string} password - The hashed password of the user
- * @property {('Admin'|'Teacher'|'Student'|'Parent')} [role='Student'] - The role of the user
- */
-
-/**
- * Mongoose schema for the User model
- * @type {mongoose.Schema<UserSchema>}
- */
-
 const UserSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
+    fullName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, required: true, unique: true },
     role: {
       type: String,
       required: true,
-      enum: ["student", "teacher", "admin", "parent"],
+      enum: ['Student', 'Teacher', 'Admin', 'Parent'],
+      default: 'Student',
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: {
-      type: String,
-      default: null,
-    },
-    resetToken: {
-      type: String,
-      default: null,
-    },
-    resetTokenExpiration: {
+    lastLogin: {
       type: Date,
-      default: null,
-  }
+      default: Date.now,
+    },
+    password: { type: String, required: true },
+    isVerified: { type: Boolean, default: false },
+
+    verificationToken: { type: String, default: null },
+    verificationTokenExpiresAt: { type: Date, default: null },
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpiresAt: { type: Date, default: null },
+
+    // borrowingHistory: [
+    //   {
+    //     bookId: { type: Schema.Types.ObjectId, ref: 'Book' },
+    //     borrowedDate: { type: Date },
+    //     returnedDate: { type: Date },
+    //   },
+    // ],
+    // bio: { type: String, default: '' },
+    // profilePic: { type: String, default: '' }, // Base64 or URL
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true },
 );
 
-/**
- * Middleware function to hash the user's password before saving to the database.
- * This function is registered as a pre-save hook for the UserSchema.
- * @async
- * @function
- * @param {function} next - The next middleware function in the stack
- * @returns {Promise<void>}
- */
+// UserSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) return next();
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
 
-UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+// UserSchema.methods.comparePassword = async function (password) {
+//   return bcrypt.compare(password, this.password);
+// };
 
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
-
-/**
- * User model
- * @type {mongoose.Model<UserSchema>}
- */
-const User = model("User", UserSchema);
+const User = mongoose.models.User || model('User', UserSchema);
 
 export default User;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import mongoose, { Schema, model } from "mongoose";
+// import bcrypt from "bcryptjs";
+
+// const UserSchema = new Schema(
+//   {
+//     name: {
+//       type: String,
+//       required: true,
+//     },
+//     email: {
+//       type: String,
+//       required: true,
+//       unique: true,
+//     },
+//     password: {
+//       type: String,
+//       required: true,
+//     },
+//     role: {
+//       type: String,
+//       required: true,
+//       enum: ["student", "teacher", "admin", "parent"],
+//     },
+//     isVerified: {
+//       type: Boolean,
+//       default: false,
+//     },
+//     verificationToken: {
+//       type: String,
+//       default: null,
+//     },
+//     resetToken: {
+//       type: String,
+//       default: null,
+//     },
+
+//     fullName: { type: String, required: true },
+//     email: { type: String, required: true, unique: true },
+//     phone: { type: String },
+//     role: { type: String, enum: ["Student", "Teacher", "Admin"], default: "Student" },
+//     bio: { type: String, default: "" },
+//     profilePic: { type: String, default: "" }, // Base64 or URL
+//     password: { type: String, required: true },
+
+//     //Enhance the user schema to track borrowing history
+//     name: String,
+//     email: String,
+//     password: String,
+//     borrowingHistory: [
+//       {
+//         book: { type: mongoose.Schema.Types.ObjectId, ref: "Book" },
+//         borrowedAt: Date,
+//         returnedAt: Date,
+//         penalty: Number,
+//       },
+//     ],
+
+//     resetTokenExpiration: {
+//       type: Date,
+//       default: null,
+//   }
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
+
+// // const mongoose = require("mongoose");
+
+// UserSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) return next();
+
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = bcrypt.hash(this.password, salt);
+//   next();
+// });
+
+// const User = model("User", UserSchema);
+
+// export default UserSchema;

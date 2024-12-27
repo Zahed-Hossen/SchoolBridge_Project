@@ -1,39 +1,42 @@
-/**
- * @module baseRouter
- * @description Base router module for handling root endpoint requests
- */
+// import { Router } from 'express';
+// const router = Router();
 
-import { Router } from 'express';
-const router = Router();
 
-/**
- * @route GET /
- * @description Health check endpoint to verify backend server status
- * @returns {string} Message confirming backend server is operational
- * 
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- * 
- * @example
- * // Example Response
- * "Backend is working!"
- */
-router.get('/', (req, res) => {
-    res.send('Backend is working!');
+// router.get('/', (req, res) => {
+//     res.send('Backend is working! please check the frontend');
+// });
+
+
+// export default router;
+import express from 'express';
+import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
+
+const router = express.Router();
+
+// Test route for Admin role
+router.get('/admin', verifyTokenAndRole(['Admin']), (req, res) => {
+  res.status(200).json({ message: 'Admin access granted', user: req.user });
+});
+
+// Test route for Teacher role
+router.get('/teacher', verifyTokenAndRole(['Teacher']), (req, res) => {
+  res.status(200).json({ message: 'Teacher access granted', user: req.user });
+});
+
+// Test route for Student role
+router.get('/student', verifyTokenAndRole(['Student']), (req, res) => {
+  res.status(200).json({ message: 'Student access granted', user: req.user });
+});
+
+// Test route for Parent role
+router.get('/parent', verifyTokenAndRole(['Parent']), (req, res) => {
+  res.status(200).json({ message: 'Parent access granted', user: req.user });
+});
+
+
+router.get('/test', verifyTokenAndRole(['Admin']), (req, res) => {
+  res.status(200).json({ message: 'Access granted', user: req.user });
 });
 
 export default router;
-/*paths:
-  /:
-    get:
-      summary: Health Check
-      description: Endpoint to verify if the backend server is operational
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Backend is working!"
-*/                
+

@@ -1,41 +1,68 @@
-import express, { json } from 'express';
-import { config } from 'dotenv';
+import events from 'events';
+events.EventEmitter.defaultMaxListeners = 20;
+
+import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import testRoute from './routes/testRoute.js'; // Import the test route
-import connectDB from './config/db.js'; // Import the connectDB function
-import authRoutes from './routes/authRoutes.js'; // Import the auth routes
-import protectedRoutes from './routes/protectedRoute.js'; // Import the protected routes
+import cookieParser from 'cookie-parser';
+import { config } from 'dotenv';
+import  connectDB  from './config/db.js';
+import testRoutes from './routes/testRoute.js';
+import achievementsRoutes from './routes/achievements.js';
+import adminRoutes from './routes/admin.js';
+import attendanceRoutes from './routes/attendanceRoutes.js';
+import feesRoutes from './routes/fees.js';
+import authRoutes from './routes/authRoutes.js';
+import protectedRoutes from './routes/protectedRoute.js';
+import profileRoutes from './routes/profile.js';
+import libraryRoutes from './routes/library.js';
+import performanceRoutes from './routes/performance.js';
+import './tasks/notification.js';
+import getPerformanceData from './routes/getPerformanceData.js';
+import gradeRoutes from './routes/gradesRoutes.js';
+import parentRoutes from './routes/parent.js';
+import teacherRoutes from './routes/teacher.js';
+
 
 config();
 const app = express();
+
 
 // Log environment variables to ensure they are loaded correctly
 console.log('MONGO_URI:', process.env.MONGO_URI);
 console.log('PORT:', process.env.PORT);
 
+
 // Middleware
 app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from Vite's development server
-app.use(json());
+app.use(express.json()); // Used for express.json() middleware
+app.use(cookieParser());
+app.use(cors());
 
-// MongoDB Connection
-connectDB()
-  .then(() => {
-    // Start the server only after MongoDB is connected
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => {
-    console.error('MongoDB connection failed:', err.message);
-    // Start the server even if MongoDB connection fails
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT} without MongoDB connection`));
-  });
+const PORT = process.env.PORT || 5000; // Set the port to the environment variable or 5000 if not set
+app.listen(PORT, () => {
+  connectDB();
+  console.log('Server is running on port: ', PORT);
+});
+
 
 // Routes
-app.use('/api/test', testRoute); // Use the test route
-app.use('/api/auth', authRoutes); // Use the auth routes
-app.use('/api/protected', protectedRoutes); // Use the protected routes
+app.use('/api/test', testRoutes);
+app.use('/api/achievements', achievementsRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use( '/api/fees', feesRoutes );
+app.use('/api/auth', authRoutes);
+app.use('/api/protected', protectedRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/library', libraryRoutes);
+app.use('/api/performance', performanceRoutes);
+app.use('/api/getPerformanceData', getPerformanceData);
+app.use('/api/grade', gradeRoutes);
+app.use('/api/parent', parentRoutes);
+app.use('/api/teacher', teacherRoutes);
+
+
 
 // Serve the Vite production build
 if (process.env.NODE_ENV === 'production') {

@@ -1,19 +1,23 @@
 import express from "express";
-import authMiddleware from "../middleware/authMiddleware.js";
+import { protect, authorize } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 // Example routes
-router.get("/admin", authMiddleware.protect, authMiddleware.authorize("Admin"), (req, res) => {
+router.get("/admin/dashboard", protect, authorize("Admin"), (req, res) => {
   res.status(200).json({ message: "Welcome, Admin!" });
 });
 
-router.get("/teacher", authMiddleware.protect, authMiddleware.authorize("Teacher"), (req, res) => {
+router.get("/teacher/dashboard", protect, authorize("Teacher"), (req, res) => {
   res.status(200).json({ message: "Welcome, Teacher!" });
 });
 
-router.get("/student", authMiddleware.protect, authMiddleware.authorize("Student"), (req, res) => {
+router.get("/student/dashboard", protect, authorize("Student"), (req, res) => {
   res.status(200).json({ message: "Welcome, Student!" });
+});
+
+router.get('/parent/dashboard', protect, authorize('Parent'), (req, res) => {
+  res.status(200).json({ message: 'Welcome, Parent!' });
 });
 
 export default router;

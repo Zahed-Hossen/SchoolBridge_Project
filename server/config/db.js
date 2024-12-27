@@ -1,14 +1,7 @@
-// server/config/db.js
-//import { MongoClient } from 'mongodb';
 import { config } from 'dotenv';
 import mongoose from 'mongoose';
-config();
 
-// const uri = process.env.MONGO_URI;
-// const client = new MongoClient(uri, {
-//   // useNewUrlParser: true,
-//   // useUnifiedTopology: true,
-// });
+config();
 
 const connectDB = async () => {
   try {
@@ -21,15 +14,5 @@ const connectDB = async () => {
   }
 };
 
-//This function connects to MongoDB using the MONGO_URI environment variable. If the connection is successful, it logs a success message. If there's an error, it logs the error and exits the process with a failure status.
-// const connectDB = async () => {
-//   try {
-//     await client.connect();
-//     console.log('MongoDB connected successfully');
-//   } catch (err) {
-//     console.error('MongoDB connection failed:', err);
-//     process.exit(1);
-//   }
-// };
-
 export default connectDB;
+

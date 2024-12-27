@@ -1,66 +1,146 @@
 import asyncHandler from 'express-async-handler';
+import bcryptjs from 'bcryptjs';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import User from '../models/User.js';
-//import transporter from '../config/nodemailer.js';
+import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
+
+import {
+  sendPasswordResetRequestEmail,
+  sendPasswordResetSuccessEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail,
+} from '../config/emails.js';
+
 
 // Predefined roles
 const roles = ['Teacher', 'Student', 'Parent', 'Admin'];
 
-// Generate JWT
-const generateToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
-  });
-};
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { role, fullName, email, password } = req.body;
-
-  if (!role || !fullName || !email || !password) {
-    return res.status(400).json({ error: true, message: "All fields are required." });
+  const { role, fullName, email, phone, password } = req.body;
+	try {
+  if (!role || !fullName || !email || !phone || !password) {
+    return res
+      .status(400)
+      .json({ error: true, message: 'All fields are required.' });
   }
 
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    return res.status(400).json({ error: true, message: "Email is already registered." });
+    return res
+      .status(400)
+      .json({ error: true, message: 'Email is already registered.' });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const verificationToken = crypto.randomBytes(32).toString("hex");
+  const hashedPassword = await bcryptjs.hash(password, 10);
+  const verificationToken = Math.floor(
+    100000 + Math.random() * 900000,
+  ).toString();
 
   const user = await User.create({
     role,
     fullName,
     email,
+    phone,
     password: hashedPassword,
-    isVerified: false, // New field for email verification
+    isVerified: false,
     verificationToken,
+    verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
   });
 
-  if (user) {
-    const verificationUrl = `http://localhost:3000/verify-email?token=${verificationToken}`;
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Email Verification",
-      html: `<p>Hi ${fullName},</p>
-             <p>Click the link below to verify your email:</p>
-             <a href="${verificationUrl}">${verificationUrl}</a>
-             <p>If you didn't request this, please ignore this email.</p>`,
+  // Generate token and set as cookie
+    const token = generateTokenAndSetCookie(res, user._id, user.role, user.isVerified);
+		await sendVerificationEmail(user.email,  verificationToken);
+
+		res.status(201).json({
+			success: true,
+			message: "User created successfully",
+      token,
+			user: {
+				...user._doc,
+				password: undefined,
+			},
+		});
+	} catch (error) {
+		res.status(400).json({ success: false, message: error.message });
+	}
+});
+
+// @desc    Verify email
+// @route   GET /api/auth/verify-email
+// @access  Public
+const verifyEmail = asyncHandler(async (req, res) => {
+  const { token } = req.query;
+  console.log('Received token:', token); // Add this line for debugging
+  try {
+    if (!token) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'Invalid or missing token.' });
+    }
+
+    const user = await User.findOne({
+      verificationToken: token,
+      verificationTokenExpiresAt: { $gt: Date.now() },
     });
 
-    res.status(201).json({
-      error: false,
-      message: "User registered successfully! Please check your email to verify your account.",
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'Invalid token or user not found.' });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpiresAt = undefined;
+    await user.save();
+
+    await sendWelcomeEmail(user.email, user.fullName);
+
+    res.status(200).json({
+      success: true,
+      message: 'Email verified successfully',
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
     });
-  } else {
-    res.status(400).json({ error: true, message: "Invalid user data." });
+  } catch (error) {
+    console.log('error in verifyEmail ', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+// @desc    Verify OTP
+// @route   POST /api/auth/verify-otp
+// @access  Public
+const verifyOtp = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'User not found' });
+    }
+
+    if (user.verificationToken !== otp || user.verificationTokenExpiresAt < Date.now()) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired OTP' });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpiresAt = undefined;
+    await user.save();
+
+    await sendWelcomeEmail(user.email, user.fullName);
+
+    res.status(200).json({ success: true, message: 'OTP verified successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
@@ -88,59 +168,52 @@ const loginUser = asyncHandler(async (req, res) => {
     });
   }
 
+  console.log('Stored hashed password:', user.password);
+  console.log('Plain password:', password);
   const isMatch = await bcrypt.compare(password, user.password);
+  console.log('Password match result:', isMatch);
+
   if (!isMatch) {
     return res.status(401).json({ message: 'Invalid password.' });
   }
 
-  const token = generateToken(user._id, user.role);
+  const token = generateTokenAndSetCookie(res, user._id, user.role);
+
+		user.lastLogin = new Date();
+    await user.save();
+
 
   const roleDashboardPaths = {
-    Teacher: '/dashboard/teacher',
-    Student: '/dashboard/student',
-    Parent: '/dashboard/parent',
-    Admin: '/dashboard/admin',
+    Teacher: '/teacher/dashboard',
+    Student: '/student/dashboard',
+    Parent: '/parent/dashboard',
+    Admin: '/admin/dashboard',
   };
 
   const redirectPath = roleDashboardPaths[user.role];
 
-  res.status(200).json({
-    message: 'Login successful.',
-    token,
-    redirectPath,
-    user: { id: user._id, email: user.email, role: user.role },
-  });
-});
+		res.status(200).json({
+			success: true,
+			message: "Logged in successfully",
+      token,
+			user: {
+				...user._doc,
+				password: undefined,
+			},
+		});
+	});
 
-// @desc    Verify email
-// @route   GET /api/auth/verify-email
-// @access  Public
-// const verifyEmail = asyncHandler(async (req, res) => {
-//   const { token } = req.query;
-
-//   if (!token) {
-//     return res.status(400).json({ error: true, message: "Invalid or missing token." });
-//   }
-
-//   const user = await User.findOne({ verificationToken: token });
-
-//   if (!user) {
-//     return res.status(400).json({ error: true, message: "Invalid token or user not found." });
-//   }
-
-//   user.isVerified = true;
-//   user.verificationToken = undefined; // Remove the token after verification
-//   await user.save();
-
-//   res.status(200).json({ error: false, message: "Email verified successfully!" });
-// });
+const logout = async (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ success: true, message: 'Logged out successfully' });
+};
 
 // @desc    Handle password reset request
 // @route   POST /api/auth/password-reset
 // @access  Public
 const passwordReset = asyncHandler(async (req, res) => {
   const { email } = req.body;
-
+	try {
   if (!email) {
     return res.status(400).json({ error: true, message: "Email is required." });
   }
@@ -152,33 +225,33 @@ const passwordReset = asyncHandler(async (req, res) => {
   }
 
   const resetToken = crypto.randomBytes(32).toString("hex");
+  const resetPasswordExpiresAt = Date.now() + 1 * 60 * 60 * 1000;
+  // our
   const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
   // Save token and expiration to the user's account
-  user.resetToken = resetToken;
-  user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
+  user.resetPasswordToken = resetToken;
+  user.resetPasswordExpiresAt = resetPasswordExpiresAt; // 1 hour
+
+
   await user.save();
 
-  // Send the reset link via email
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Password Reset Request",
-    html: `<p>Hi ${user.fullName},</p>
-           <p>You requested a password reset. Click the link below to reset your password:</p>
-           <a href="${resetLink}">${resetLink}</a>
-           <p>If you did not request this, please ignore this email.</p>`,
-  });
+  		// send email
+		await sendPasswordResetRequestEmail(user.email, resetLink);
 
-  res.status(200).json({
-    error: false,
-    message: "Password reset link sent to your email.",
-  });
+		res.status(200).json({ success: true, message: "Password reset link sent to your email" });
+	} catch (error) {
+		console.log("Error in forgotPassword ", error);
+		res.status(400).json({ success: false, message: error.message });
+	}
 });
+
+
 // @desc    Reset password using token
 // @route   POST /api/auth/reset-password/:token
 // @access  Public
 const resetPassword = asyncHandler(async (req, res) => {
+  try {
   const { token } = req.params;
   const { password } = req.body;
 
@@ -187,8 +260,8 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findOne({
-    resetToken: token,
-    resetTokenExpiry: { $gt: Date.now() }, // Ensure token is not expired
+    resetPasswordToken: token,
+    resetPasswordExpiresAt: { $gt: Date.now() },
   });
 
   if (!user) {
@@ -196,40 +269,51 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 
   // Hash the new password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  const salt = await bcryptjs.genSalt(10);
+  const hashedPassword = await bcryptjs.hash(password, salt);
 
   // Update user's password and clear reset token
   user.password = hashedPassword;
-  user.resetToken = undefined;
-  user.resetTokenExpiry = undefined;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpiresAt = undefined;
 
   await user.save();
 
-  res.status(200).json({ error: false, message: "Password has been reset successfully." });
+  await sendPasswordResetSuccessEmail(user.email);
+
+		res.status(200).json({ success: true, message: "Password reset successful" });
+	} catch (error) {
+		console.log("Error in resetPassword ", error);
+		res.status(400).json({ success: false, message: error.message });
+	}
 });
+
+
 
 // @desc    Authenticate user with existing credentials
 // @route   POST /api/auth/authenticate
 // @access  Public
-const authenticateUser = asyncHandler(async (req, res) => {
-  const { email, password, role } = req.body;
+const checkAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
 
-  const user = await User.findOne({ email, role });
-
-  if (!user) {
-    return res.status(400).json({ message: 'Invalid email or role.' });
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.log("Error in checkAuth ", error);
+    res.status(400).json({ success: false, message: error.message });
   }
+};
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) {
-    return res.status(400).json({ message: 'Invalid password.' });
-  }
-
-  res.status(200).json({
-    message: 'Login successful!',
-    user: { email: user.email, role: user.role },
-  });
-});
-
-export { registerUser, loginUser, authenticateUser, passwordReset, resetPassword };
+export {
+  registerUser,
+  loginUser,
+  checkAuth,
+  passwordReset,
+  resetPassword,
+  verifyEmail,
+  verifyOtp,
+  logout,
+};
