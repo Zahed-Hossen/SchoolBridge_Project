@@ -50,7 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
     isVerified: false,
     verificationToken,
-    verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
+    verificationTokenExpiresAt: Date.now() +  5 * 60 * 1000, // 24 hours
   });
 
   // Generate token and set as cookie
@@ -77,6 +77,9 @@ const registerUser = asyncHandler(async (req, res) => {
 const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.query;
   console.log('Received token:', token); // Add this line for debugging
+  // const { email, code } = req.body;
+  // console.log('Received email:', email); // Add this line for debugging
+  // console.log('Received code:', code); // Add this line for debugging
   try {
     if (!token) {
       return res

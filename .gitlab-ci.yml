@@ -1,58 +1,29 @@
-# Define stages
+image: node:20
+
 stages:
   - build
-  - test
+  - deploy
 
-# Cache dependencies
 cache:
   paths:
-    - frontend/node_modules/
-    - server/node_modules/
+    - node_modules/
 
-# Build stage for frontend
-build_frontend:
+before_script:
+  - npm install -g firebase-tools
+
+build:
   stage: build
-  image: node:20
   script:
-    - echo "Installing dependencies for frontend..."
     - cd frontend
     - npm install
-    - echo "Building the frontend project..."
     - npm run build
   artifacts:
     paths:
-      - frontend/dist/
+      - frontend/build/
 
-# Build stage for server
-build_server:
-  stage: build
-  image: node:20
+deploy:
+  stage: deploy
   script:
-    - echo "Installing dependencies for server..."
-    - cd server
-    - npm install
-    - echo "Building the server project..."
-    - npm run build
-  artifacts:
-    paths:
-      - server/dist/
-
-# Test stage for frontend
-test_frontend:
-  stage: test
-  image: node:20
-  script:
-    - echo "Running tests for frontend..."
-    - cd frontend
-    - npm install
-    - npm test
-
-# Test stage for server
-test_server:
-  stage: test
-  image: node:20
-  script:
-    - echo "Running tests for server..."
-    - cd server
-    - npm install
-    - npm test
+    - firebase deploy --token $FIREBASE_TOKEN
+  only:
+    - main

@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
-import cookieParser from 'cookie-parser';
 
-const verifyTokenAndRole = (role) => (req, res, next) => {
+const verifyTokenAndRole = (allowedRoles) => (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 
   if (!token) {
@@ -14,7 +13,7 @@ const verifyTokenAndRole = (role) => (req, res, next) => {
     console.log('Decoded token:', decoded);
 
     // Check if the user's role matches one of the allowed roles
-    if (!role.includes(decoded.role)) {
+    if (!allowedRoles.includes(decoded.role)) {
       console.log('Access denied. Invalid role:', decoded.role);
       return res.status(403).json({ message: 'Access denied. Invalid role.' });
     }

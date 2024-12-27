@@ -51,7 +51,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
 const handleSignUpSuccess = (token) => {
   const decodedToken = jwtDecode(token);
   const userRole = decodedToken.role;
-  // const isVerified = decodedToken.isVerified;
+  const isVerified = decodedToken.isVerified;
 
   const roleDashboardPaths = {
     Teacher: '/teacher/dashboard',
@@ -60,16 +60,16 @@ const handleSignUpSuccess = (token) => {
     Admin: '/admin/dashboard',
   };
 
-  // if (!isVerified) {
-  //   navigate('/verify-email');
-  // } else {
+  if (!isVerified) {
+    navigate('/verify-email');
+  } else {
     const dashboardPath = roleDashboardPaths[userRole];
     if (dashboardPath) {
       navigate(dashboardPath);
     } else {
       console.error('Invalid role or redirection path not defined.');
     }
-  // }
+  }
 };
 
   const handleSubmit = async (e) => {

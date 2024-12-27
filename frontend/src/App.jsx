@@ -59,7 +59,7 @@ import AboutPage from './pages/AboutUs/AboutPage';
 import ContactUsPage from './pages/ContactUs/ContactUsPage';
 import PricingPage from './pages/Pricing/PricingPage';
 import Home from './pages/LandingPage/Home';
-// import EmailVerificationPage from './components/EmailVerificationPage';
+
 
 function App() {
   const [userId, setUserId] = useState(null);

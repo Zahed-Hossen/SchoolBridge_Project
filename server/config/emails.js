@@ -31,7 +31,10 @@ export const sendVerificationEmail = async (email, verificationToken) => {
     from: process.env.EMAIL_USER,
     to: email,
     subject: 'Verify your email',
-    html: VERIFICATION_EMAIL_TEMPLATE.verificationToken,
+    html: VERIFICATION_EMAIL_TEMPLATE.replace(
+      '{verificationCode}',
+      verificationToken,
+    ),
   };
 
   try {
