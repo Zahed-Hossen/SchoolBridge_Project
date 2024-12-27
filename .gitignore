@@ -1,0 +1,20 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore package-lock.json
+package-lock.json
+package.json
+# Ignore specific files
+start-backend.bat
+start-frontend.bat
+
+# Ignore other specific files
+allAuthPages.md
+flow-chart.md
+Directory.md
+
+
+# Ignore other files or directories as needed
+.DS_Store
+.env
+*.log

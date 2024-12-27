@@ -1,29 +1,27 @@
 # Define stages
 stages:
   - build
-  - lint
   - test
-  - security
 
 # Cache dependencies
 cache:
   paths:
-    - client/node_modules/
+    - frontend/node_modules/
     - server/node_modules/
 
-# Build stage for client (Vite)
-build_client:
+# Build stage for frontend
+build_frontend:
   stage: build
   image: node:20
   script:
-    - echo "Installing dependencies for Vite client..."
-    - cd client
+    - echo "Installing dependencies for frontend..."
+    - cd frontend
     - npm install
-    - echo "Building the Vite client project..."
+    - echo "Building the frontend project..."
     - npm run build
   artifacts:
     paths:
-      - client/dist/
+      - frontend/dist/
 
 # Build stage for server
 build_server:
@@ -38,3 +36,23 @@ build_server:
   artifacts:
     paths:
       - server/dist/
+
+# Test stage for frontend
+test_frontend:
+  stage: test
+  image: node:20
+  script:
+    - echo "Running tests for frontend..."
+    - cd frontend
+    - npm install
+    - npm test
+
+# Test stage for server
+test_server:
+  stage: test
+  image: node:20
+  script:
+    - echo "Running tests for server..."
+    - cd server
+    - npm install
+    - npm test

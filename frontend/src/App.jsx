@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 //Authentication
 import Login from './components/LoginModal';
 import SignUp from './components/SignUpModal';
-import VerifyEmail from './pages/VerifyEmail';
+import VerifyEmail from './pages/Auth/VerifyEmail';
 
 // Student Role Section
 import Dashboard from './pages/Student/Dashboard';
@@ -94,7 +94,7 @@ function App() {
           <Route path="/about-us" element={<AboutPage />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
           <Route path="/pricing" element={<PricingPage />} />
-          
+
           {/* Authentication Routes */}
           <Route path="/login" element={<Login isOpen={true} onClose={() => {}} />} />
           <Route path="/signup" element={<SignUp isOpen={true} onClose={()   => {}} />} />

@@ -9,10 +9,10 @@ services:
       - "5000:5000"
     networks:
       - schoolbridge-network
-  
+
   frontend:
     build:
-      context: ./client
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -25,5 +25,5 @@ services:
       - schoolbridge-network
 
 networks:
-  schoolbridge-network:  # Define the network here
-    driver: bridge  # Optional: specify the driver (default is bridge)
+  schoolbridge-network:
+    driver: bridge
