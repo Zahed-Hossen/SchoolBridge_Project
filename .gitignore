@@ -13,6 +13,7 @@ start-frontend.bat
 allAuthPages.md
 flow-chart.md
 Directory.md
+docker-compose.yml
 
 # Ignore all Markdown files
 *.md
