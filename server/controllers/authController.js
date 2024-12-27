@@ -144,6 +144,69 @@ const verifyOtp = asyncHandler(async (req, res) => {
   }
 });
 
+const OTPRequest = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  try {
+    // Generate OTP
+    const otp = speakeasy.totp({
+      secret: process.env.OTP_SECRET || "mysecret", // Secret key
+      digits: 6, // Length of the OTP
+      step: 300, // Validity in seconds (5 minutes)
+    });
+
+    // Store OTP in the database
+    const expiresAt = new Date(Date.now() + 300000); // 5 minutes from now
+    await otp.create({ email, otp, expiresAt });
+
+    // Send OTP via email
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Your OTP Code",
+      text: `Your OTP code is ${otp}. It will expire in 5 minutes.`,
+    });
+
+    res.status(200).json({ message: "OTP sent successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to send OTP" });
+  }
+};
+
+const OTPVerification = async (req, res) => {
+  const { email, otp } = req.body;
+
+  if (!email || !otp) {
+    return res.status(400).json({ error: "Email and OTP are required" });
+  }
+
+  try {
+    // Find OTP in the database
+    const otpRecord = await otp.findOne({ email, otp });
+
+    if (!otpRecord) {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    // Check if OTP is expired
+    if (otpRecord.expiresAt < new Date()) {
+      return res.status(400).json({ error: "OTP expired" });
+    }
+
+    // OTP is valid
+    await otp.deleteOne({ _id: otpRecord._id }); // Delete OTP after verification
+    res.status(200).json({ message: "OTP verified successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to verify OTP" });
+  }
+};
+
 // @desc    Authenticate user & get token
 // @route   POST /api/auth/login
 // @access  Public
@@ -316,4 +379,6 @@ export {
   verifyEmail,
   verifyOtp,
   logout,
+  OTPRequest,
+  OTPVerification,
 };

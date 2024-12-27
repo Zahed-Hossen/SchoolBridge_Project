@@ -8,6 +8,8 @@ import {
   passwordReset,
   resetPassword,
   verifyOtp,
+  OTPRequest,
+  OTPVerification
 } from '../controllers/authController.js';
 const router = Router();
 
@@ -21,23 +23,8 @@ router.post('/logout', logout);
 router.post('/verify-otp', verifyOtp);
 router.post('/forgot-password', passwordReset);
 router.post('/reset-password/:token', resetPassword);
+router.post( '/send-otp', OTPRequest);
+router.post('/verify-otp', OTPVerification);
 
-
-// router.get("/admin/dashboard", verifyTokenAndRole, authorize('admin'), (req,res) => {
-//   res.status(200).json({message: "Welcome to the admin page!"});
-// }
-// );
-
-router.get(
-  '/teacher/dashboard',
-  verifyTokenAndRole(['Teacher']),
-  (req, res) => {
-    res.status(200).json({ message: 'Welcome to the Teacher Dashboard!' });
-  },
-);
-
-// router.get('/admin/dashboard', verifyTokenAndRole(['Admin']), (req, res) => {
-//   res.status(200).json({ message: 'Welcome to the Admin Dashboard!' });
-// });
 
 export default router;

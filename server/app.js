@@ -34,12 +34,12 @@ console.log('PORT:', process.env.PORT);
 
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from Vite's development server
-app.use(express.json()); // Used for express.json() middleware
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(express.json()); 
 app.use(cookieParser());
 app.use(cors());
 
-const PORT = process.env.PORT || 5000; // Set the port to the environment variable or 5000 if not set
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   connectDB();
   console.log('Server is running on port: ', PORT);
