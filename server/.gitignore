@@ -33,3 +33,4 @@ package.md
 *.njsproj
 *.sln
 *.sw?
+.vercel

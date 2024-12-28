@@ -7,7 +7,7 @@
     "test": "jest",
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
-    "build": "echo 'No build script defined for server'"
+    "build": "[my-app] build --output public"
   },
   "keywords": [],
   "author": "",
@@ -42,7 +42,7 @@
     "jest": "^27.4.7",
     "nodemon": "^3.1.7"
   },
-  "engines":{
-    "node": ">=14.17.0"
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
