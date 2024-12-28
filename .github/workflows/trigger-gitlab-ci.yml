@@ -1,0 +1,24 @@
+name: Trigger GitLab CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Trigger GitLab CI Pipeline
+        run: |
+          curl -X POST \
+          -F token=$GITLAB_TRIGGER_TOKEN \
+          -F ref=main \
+          https://gitlab.com/api/v4/projects/$GITLAB_PROJECT_ID/trigger/pipeline
+        env:
+          GITLAB_TRIGGER_TOKEN: ${{ secrets.GITLAB_TRIGGER_TOKEN }}
+          GITLAB_PROJECT_ID: ${{ secrets.GITLAB_PROJECT_ID }}
