@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -12,7 +12,10 @@ const VerifyEmail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/verify-email', { email, code });
+      const response = await axios.post(
+        'https://schoolbridge-project-server.onrender.com/api/auth/verify-email',
+        { email, code },
+      );
       const { user } = response.data;
       toast.success('Email verified successfully');
       setMessage(response.data.message);

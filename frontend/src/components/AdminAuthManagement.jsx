@@ -59,7 +59,9 @@ const AdminAuthManagement = () => {
 
     const fetchLogs = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/admin/logs');
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/admin/logs',
+        );
         const data = await response.json();
         setLogs(data);
       } catch (error) {
@@ -74,13 +76,17 @@ const AdminAuthManagement = () => {
   const handleApprove = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/users/${userId}/approve`,
+        `https://schoolbridge-project-server.onrender.com/api/admin/users/${userId}/approve`,
         {
           method: 'POST',
         },
       );
       if (response.ok) {
-        setUsers(users.map(user => user.id === userId ? { ...user, approved: true } : user));
+        setUsers(
+          users.map((user) =>
+            user.id === userId ? { ...user, approved: true } : user,
+          ),
+        );
       } else {
         alert('Failed to approve user.');
       }
@@ -92,13 +98,13 @@ const AdminAuthManagement = () => {
   const handleDeny = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/users/${userId}/deny`,
+        `https://schoolbridge-project-server.onrender.com/api/admin/users/${userId}/deny`,
         {
           method: 'POST',
         },
       );
       if (response.ok) {
-        setUsers(users.filter(user => user.id !== userId));
+        setUsers(users.filter((user) => user.id !== userId));
       } else {
         alert('Failed to deny user.');
       }
@@ -123,7 +129,7 @@ const AdminAuthManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {users.map((user) => (
             <tr key={user.id}>
               <Td>{user.id}</Td>
               <Td>{user.name}</Td>
@@ -133,7 +139,9 @@ const AdminAuthManagement = () => {
               <Td>
                 {!user.approved && (
                   <>
-                    <Button onClick={() => handleApprove(user.id)}>Approve</Button>
+                    <Button onClick={() => handleApprove(user.id)}>
+                      Approve
+                    </Button>
                     <Button onClick={() => handleDeny(user.id)}>Deny</Button>
                   </>
                 )}
@@ -153,7 +161,7 @@ const AdminAuthManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {logs.map(log => (
+          {logs.map((log) => (
             <tr key={log.id}>
               <Td>{log.id}</Td>
               <Td>{log.user}</Td>

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import StudentLayout from '../../components/Student/StudentLayout';
-
 
 const LibraryContainer = styled.div`
   padding: 20px;
@@ -137,7 +136,9 @@ const Library = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/library/books');
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/library/books',
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -146,9 +147,11 @@ const Library = () => {
         setFilteredBooks(data);
 
         // Extract unique categories, authors, and genres
-        const uniqueCategories = [...new Set(data.map(book => book.category))];
-        const uniqueAuthors = [...new Set(data.map(book => book.author))];
-        const uniqueGenres = [...new Set(data.map(book => book.genre))];
+        const uniqueCategories = [
+          ...new Set(data.map((book) => book.category)),
+        ];
+        const uniqueAuthors = [...new Set(data.map((book) => book.author))];
+        const uniqueGenres = [...new Set(data.map((book) => book.genre))];
         setCategories(uniqueCategories);
         setAuthors(uniqueAuthors);
         setGenres(uniqueGenres);
@@ -165,21 +168,21 @@ const Library = () => {
     let filtered = books;
 
     if (searchTerm) {
-      filtered = filtered.filter(book =>
-        book.title.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter((book) =>
+        book.title.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
     if (filters.category) {
-      filtered = filtered.filter(book => book.category === filters.category);
+      filtered = filtered.filter((book) => book.category === filters.category);
     }
 
     if (filters.author) {
-      filtered = filtered.filter(book => book.author === filters.author);
+      filtered = filtered.filter((book) => book.author === filters.author);
     }
 
     if (filters.genre) {
-      filtered = filtered.filter(book => book.genre === filters.genre);
+      filtered = filtered.filter((book) => book.genre === filters.genre);
     }
 
     setFilteredBooks(filtered);
@@ -187,79 +190,85 @@ const Library = () => {
 
   return (
     <>
-    <StudentLayout>
-    <LibraryContainer>
-      <LibraryHeader>Library</LibraryHeader>
-      <LibraryFilters>
-        <Select
-          value={filters.category}
-          onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-        >
-          <option value="">All Categories</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </Select>
-        <Select
-          value={filters.author}
-          onChange={(e) => setFilters({ ...filters, author: e.target.value })}
-        >
-          <option value="">All Authors</option>
-          {authors.map((author, index) => (
-            <option key={index} value={author}>
-              {author}
-            </option>
-          ))}
-        </Select>
-        <Select
-          value={filters.genre}
-          onChange={(e) => setFilters({ ...filters, genre: e.target.value })}
-        >
-          <option value="">All Genres</option>
-          {genres.map((genre, index) => (
-            <option key={index} value={genre}>
-              {genre}
-            </option>
-          ))}
-        </Select>
-        <SearchInput
-          type="text"
-          placeholder="Search by title..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </LibraryFilters>
-      <p>No books found.</p>
-      <BookList>
-        {filteredBooks.map((book) => (
-          <BookCard key={book.id} onClick={() => setSelectedBook(book)}>
-            <BookTitle>{book.title}</BookTitle>
-            <BookAuthor>{book.author}</BookAuthor>
-            <BookDetails>
-              {book.category} - {book.genre}
-            </BookDetails>
-          </BookCard>
-        ))}
-      </BookList>
+      <StudentLayout>
+        <LibraryContainer>
+          <LibraryHeader>Library</LibraryHeader>
+          <LibraryFilters>
+            <Select
+              value={filters.category}
+              onChange={(e) =>
+                setFilters({ ...filters, category: e.target.value })
+              }
+            >
+              <option value="">All Categories</option>
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
+            </Select>
+            <Select
+              value={filters.author}
+              onChange={(e) =>
+                setFilters({ ...filters, author: e.target.value })
+              }
+            >
+              <option value="">All Authors</option>
+              {authors.map((author, index) => (
+                <option key={index} value={author}>
+                  {author}
+                </option>
+              ))}
+            </Select>
+            <Select
+              value={filters.genre}
+              onChange={(e) =>
+                setFilters({ ...filters, genre: e.target.value })
+              }
+            >
+              <option value="">All Genres</option>
+              {genres.map((genre, index) => (
+                <option key={index} value={genre}>
+                  {genre}
+                </option>
+              ))}
+            </Select>
+            <SearchInput
+              type="text"
+              placeholder="Search by title..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </LibraryFilters>
+          <p>No books found.</p>
+          <BookList>
+            {filteredBooks.map((book) => (
+              <BookCard key={book.id} onClick={() => setSelectedBook(book)}>
+                <BookTitle>{book.title}</BookTitle>
+                <BookAuthor>{book.author}</BookAuthor>
+                <BookDetails>
+                  {book.category} - {book.genre}
+                </BookDetails>
+              </BookCard>
+            ))}
+          </BookList>
 
-      {selectedBook && (
-        <ModalOverlay>
-          <ModalContent>
-            <ModalTitle>{selectedBook.title}</ModalTitle>
-            <ModalText>Author: {selectedBook.author}</ModalText>
-            <ModalText>Category: {selectedBook.category}</ModalText>
-            <ModalText>Genre: {selectedBook.genre}</ModalText>
-            <ModalText>{selectedBook.description}</ModalText>
-            <CloseButton onClick={() => setSelectedBook(null)}>
-              Close
-            </CloseButton>
-          </ModalContent>
-        </ModalOverlay>
-      )}
-    </LibraryContainer>
-    </StudentLayout>
+          {selectedBook && (
+            <ModalOverlay>
+              <ModalContent>
+                <ModalTitle>{selectedBook.title}</ModalTitle>
+                <ModalText>Author: {selectedBook.author}</ModalText>
+                <ModalText>Category: {selectedBook.category}</ModalText>
+                <ModalText>Genre: {selectedBook.genre}</ModalText>
+                <ModalText>{selectedBook.description}</ModalText>
+                <CloseButton onClick={() => setSelectedBook(null)}>
+                  Close
+                </CloseButton>
+              </ModalContent>
+            </ModalOverlay>
+          )}
+        </LibraryContainer>
+      </StudentLayout>
     </>
   );
 };

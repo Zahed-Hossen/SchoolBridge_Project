@@ -4,8 +4,6 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import StudentLayout from '../../components/Student/StudentLayout';
 
-
-
 // Styled components
 const Container = styled.div`
   padding: 20px;
@@ -82,7 +80,7 @@ const Announcements = () => {
   const fetchAnnouncements = useCallback(async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/announcements',
+        'https://schoolbridge-project-server.onrender.com/api/announcements',
       );
       setAnnouncements(response.data);
       setIsLoading(false);
@@ -121,45 +119,45 @@ const Announcements = () => {
   return (
     <>
       <StudentLayout>
-    <Container>
-      <Title>Announcements</Title>
-      <AnnouncementList>
-        {Array.isArray(currentItems) && currentItems.length > 0 ? (
-          currentItems.map((announcement) => (
-            <AnnouncementItem key={announcement.id}>
-              <div>
-                <h3>{announcement.title}</h3>
-                <Description>{announcement.description}</Description>
-                <Date>{announcement.date}</Date>
-              </div>
-              {!announcement.read && (
-                <MarkAsReadButton
-                  onClick={() => handleMarkAsRead(announcement.id)}
-                >
-                  Mark as Read
-                </MarkAsReadButton>
-              )}
-            </AnnouncementItem>
-          ))
-        ) : (
-          <p>No announcements yet.</p>
-        )}
-      </AnnouncementList>
-      <PaginationContainer>
-        <ReactPaginate
-          previousLabel={'Previous'}
-          nextLabel={'Next'}
-          breakLabel={'...'}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={3}
-          onPageChange={handlePageClick}
-          containerClassName={'pagination'}
-          activeClassName={'active'}
-        />
-      </PaginationContainer>
-    </Container>
-    </StudentLayout>
+        <Container>
+          <Title>Announcements</Title>
+          <AnnouncementList>
+            {Array.isArray(currentItems) && currentItems.length > 0 ? (
+              currentItems.map((announcement) => (
+                <AnnouncementItem key={announcement.id}>
+                  <div>
+                    <h3>{announcement.title}</h3>
+                    <Description>{announcement.description}</Description>
+                    <Date>{announcement.date}</Date>
+                  </div>
+                  {!announcement.read && (
+                    <MarkAsReadButton
+                      onClick={() => handleMarkAsRead(announcement.id)}
+                    >
+                      Mark as Read
+                    </MarkAsReadButton>
+                  )}
+                </AnnouncementItem>
+              ))
+            ) : (
+              <p>No announcements yet.</p>
+            )}
+          </AnnouncementList>
+          <PaginationContainer>
+            <ReactPaginate
+              previousLabel={'Previous'}
+              nextLabel={'Next'}
+              breakLabel={'...'}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={3}
+              onPageChange={handlePageClick}
+              containerClassName={'pagination'}
+              activeClassName={'active'}
+            />
+          </PaginationContainer>
+        </Container>
+      </StudentLayout>
     </>
   );
 };

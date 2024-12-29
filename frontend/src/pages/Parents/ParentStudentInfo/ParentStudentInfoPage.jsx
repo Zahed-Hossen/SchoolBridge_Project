@@ -5,7 +5,6 @@ import Modal from './EditModal'; // Reusable modal component
 import NotificationsDropdown from './NotificationsDropdown'; // Import NotificationsDropdown component
 import ParentLayout from '../../../components/Parent/ParentLayout';
 
-
 const Container = styled.div`
   padding: 20px;
   max-width: 900px;
@@ -98,7 +97,9 @@ const ParentStudentInfo = () => {
   useEffect(() => {
     const fetchParentData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/parent/info');
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/parent/info',
+        );
         if (!response.ok) {
           if (response.status === 404) {
             console.error(
@@ -137,7 +138,7 @@ const ParentStudentInfo = () => {
   const handleModalSubmit = async (updatedData) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/${updatedData.type}/update`,
+        `https://schoolbridge-project-server.onrender.com/api/${updatedData.type}/update`,
         {
           method: 'PUT',
           headers: {
@@ -167,11 +168,15 @@ const ParentStudentInfo = () => {
   };
 
   const handleViewPerformance = (childId) => {
-    navigate(`http://localhost:5000/performance/${childId}`);
+    navigate(
+      `https://schoolbridge-project-server.onrender.com/performance/${childId}`,
+    );
   };
 
   const handleViewGrades = (childId) => {
-    navigate(`http://localhost:5000/grades/${childId}`);
+    navigate(
+      `https://schoolbridge-project-server.onrender.com/grades/${childId}`,
+    );
   };
 
   if (error) {

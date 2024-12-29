@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AdminLayout from '../../components/Admin/AdminLayout';
 import axios from 'axios';
@@ -66,7 +66,7 @@ const AdminExams = () => {
     const fetchExams = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/exams',
+          'https://schoolbridge-project-server.onrender.com/api/admin/exams',
         );
         setExams(response.data);
       } catch (error) {
@@ -91,17 +91,17 @@ const AdminExams = () => {
       if (isEditing) {
         console.log('Updating exam:', form); // Debugging statement
         await axios.put(
-          `http://localhost:5000/api/admin/exams/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/admin/exams/${editingId}`,
           form,
         );
         setExams((prevExams) =>
           prevExams.map((exam) =>
-            exam._id === editingId ? { ...exam, ...form } : exam
-          )
+            exam._id === editingId ? { ...exam, ...form } : exam,
+          ),
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/admin/exams',
+          'https://schoolbridge-project-server.onrender.com/api/admin/exams',
           form,
         );
         setExams((prevExams) => [...prevExams, response.data]);
@@ -122,7 +122,9 @@ const AdminExams = () => {
 
   const handleDelete = async (examId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/exams/${examId}`);
+      await axios.delete(
+        `https://schoolbridge-project-server.onrender.com/api/admin/exams/${examId}`,
+      );
       setExams(exams.filter((exam) => exam._id !== examId));
     } catch (error) {
       console.error('Error deleting exam:', error);
@@ -165,20 +167,20 @@ const AdminExams = () => {
               value={form.class}
               onChange={handleChange}
               required
-            //  <select
-            //   id="class"
-            //   name="class"
-            //   value={form.class}
-            //   onChange={handleChange}
-            //   required
-            // >
-            //   <option value="">Select Class</option>
-            //   {classes.map((cls) => (
-            //     <option key={cls._id} value={cls._id}>
-            //       {cls.name}
-            //     </option>
-            //   ))}
-            // </select>
+              //  <select
+              //   id="class"
+              //   name="class"
+              //   value={form.class}
+              //   onChange={handleChange}
+              //   required
+              // >
+              //   <option value="">Select Class</option>
+              //   {classes.map((cls) => (
+              //     <option key={cls._id} value={cls._id}>
+              //       {cls.name}
+              //     </option>
+              //   ))}
+              // </select>
             />
           </FormGroup>
           <Button type="submit">{isEditing ? 'Update' : 'Add'} Exam</Button>
@@ -198,7 +200,9 @@ const AdminExams = () => {
               <tr key={exam._id}>
                 <TableCell>{exam._id}</TableCell>
                 <TableCell>{exam.subject}</TableCell>
-                <TableCell>{new Date(exam.date).toLocaleDateString()}</TableCell>
+                <TableCell>
+                  {new Date(exam.date).toLocaleDateString()}
+                </TableCell>
                 <TableCell>{exam.class}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleEdit(exam)}>Edit</Button>

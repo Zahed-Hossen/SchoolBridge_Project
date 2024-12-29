@@ -66,7 +66,7 @@ const AdminEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/events',
+          'https://schoolbridge-project-server.onrender.com/api/admin/events',
         );
         console.log('Fetched events:', response.data); // Debugging statement
         setEvents(response.data);
@@ -92,7 +92,7 @@ const AdminEvents = () => {
       if (isEditing) {
         console.log('Updating event:', form); // Debugging statement
         await axios.put(
-          `http://localhost:5000/api/admin/events/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/admin/events/${editingId}`,
           form,
         );
         setEvents((prevEvents) =>
@@ -103,7 +103,7 @@ const AdminEvents = () => {
       } else {
         console.log('Adding new event:', form); // Debugging statement
         const response = await axios.post(
-          'http://localhost:5000/api/admin/events',
+          'https://schoolbridge-project-server.onrender.com/api/admin/events',
           form,
         );
         setEvents((prevEvents) => [...prevEvents, response.data]);
@@ -124,7 +124,9 @@ const AdminEvents = () => {
 
   const handleDelete = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/events/${eventId}`);
+      await axios.delete(
+        `https://schoolbridge-project-server.onrender.com/api/admin/events/${eventId}`,
+      );
       setEvents(events.filter((event) => event._id !== eventId));
     } catch (error) {
       console.error('Error deleting event:', error);
@@ -186,11 +188,15 @@ const AdminEvents = () => {
               <tr key={event._id}>
                 <TableCell>{event._id}</TableCell>
                 <TableCell>{event.name}</TableCell>
-                <TableCell>{new Date(event.date).toLocaleDateString()}</TableCell>
+                <TableCell>
+                  {new Date(event.date).toLocaleDateString()}
+                </TableCell>
                 <TableCell>{event.location}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleEdit(event)}>Edit</Button>
-                  <Button onClick={() => handleDelete(event._id)}>Delete</Button>
+                  <Button onClick={() => handleDelete(event._id)}>
+                    Delete
+                  </Button>
                 </TableCell>
               </tr>
             ))}

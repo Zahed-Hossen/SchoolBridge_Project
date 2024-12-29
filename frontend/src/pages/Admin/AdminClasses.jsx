@@ -65,7 +65,7 @@ const AdminClasses = () => {
     const fetchClasses = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/classes',
+          'https://schoolbridge-project-server.onrender.com/api/admin/classes',
         );
         setClasses(response.data);
       } catch (error) {
@@ -78,8 +78,10 @@ const AdminClasses = () => {
 
   const handleDelete = async (classId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/classes/${classId}`);
-      setClasses(classes.filter(cls => cls._id !== classId));
+      await axios.delete(
+        `https://schoolbridge-project-server.onrender.com/api/admin/classes/${classId}`,
+      );
+      setClasses(classes.filter((cls) => cls._id !== classId));
     } catch (error) {
       console.error('Error deleting class:', error);
     }
@@ -98,12 +100,19 @@ const AdminClasses = () => {
     try {
       if (editingClass) {
         await axios.put(
-          `http://localhost:5000/api/admin/classes/${editingClass._id}`,
+          `https://schoolbridge-project-server.onrender.com/api/admin/classes/${editingClass._id}`,
           form,
         );
-        setClasses(classes.map(cls => (cls._id === editingClass._id ? { ...cls, ...form } : cls)));
+        setClasses(
+          classes.map((cls) =>
+            cls._id === editingClass._id ? { ...cls, ...form } : cls,
+          ),
+        );
       } else {
-        const response = await axios.post('http://localhost:5000/api/admin/classes', form);
+        const response = await axios.post(
+          'https://schoolbridge-project-server.onrender.com/api/admin/classes',
+          form,
+        );
         setClasses([...classes, response.data]);
       }
       setForm({ name: '', teacher: '', students: [] });
@@ -156,7 +165,9 @@ const AdminClasses = () => {
               required
             />
           </FormGroup>
-          <Button type="submit">{editingClass ? 'Update Class' : 'Add Class'}</Button>
+          <Button type="submit">
+            {editingClass ? 'Update Class' : 'Add Class'}
+          </Button>
         </form>
         <ClassTable>
           <thead>
@@ -169,7 +180,7 @@ const AdminClasses = () => {
             </tr>
           </thead>
           <tbody>
-            {classes.map(cls => (
+            {classes.map((cls) => (
               <tr key={cls._id}>
                 <TableCell>{cls._id}</TableCell>
                 <TableCell>{cls.name}</TableCell>

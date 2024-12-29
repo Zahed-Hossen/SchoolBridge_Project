@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ParentLayout from '../../../components/Parent/ParentLayout';
 
-
 const Container = styled.div`
   font-family: Arial, sans-serif;
   padding-top: 80px; /* To ensure content is not hidden behind the fixed header */
@@ -39,11 +38,10 @@ const Label = styled.label`
   margin-right: 10px;
 `;
 
-
 const GradesPage = () => {
   const { childId } = useParams();
   const [gradesData, setGradesData] = useState([]); // Initialize as an empty array
-  const [selectedSubject, setSelectedSubject] = useState("All Subjects");
+  const [selectedSubject, setSelectedSubject] = useState('All Subjects');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -51,7 +49,7 @@ const GradesPage = () => {
     const fetchGrades = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/grades/${childId}`,
+          `https://schoolbridge-project-server.onrender.com/api/grades/${childId}`,
         );
         setGradesData(response.data);
       } catch (error) {
@@ -64,7 +62,6 @@ const GradesPage = () => {
 
     fetchGrades();
   }, [childId]);
-
 
   const handleSubjectClick = (subject) => {
     setSelectedSubject(subject);
@@ -87,54 +84,55 @@ const GradesPage = () => {
   }
 
   // Filtered Grades
-  const filteredGrades = selectedSubject === "All Subjects"
-    ? gradesData
-    : gradesData.filter(grade => grade.subject === selectedSubject);
+  const filteredGrades =
+    selectedSubject === 'All Subjects'
+      ? gradesData
+      : gradesData.filter((grade) => grade.subject === selectedSubject);
 
   const selectedGradeData = gradesData.find(
-    	(grade) => grade.subject === selectedSubject,
+    (grade) => grade.subject === selectedSubject,
   );
 
   return (
     <>
-      <ParentLayout >
-      <Container>
-        <GradesContainer>
-          <SectionTitle>Student Grades</SectionTitle>
-          <Card>
-            <Label htmlFor="subject-filter">Filter by Subject:</Label>
-            <Dropdown
-              id="subject-filter"
-              value={selectedSubject || 'All Subjects'}
-              onChange={(e) => setSelectedSubject(e.target.value)}
-            >
-              <option value="All Subjects">All Subjects</option>
-              {gradesData.map((grade, index) => (
-                <option key={index} value={grade.subject}>
-                  {grade.subject}
-                </option>
-              ))}
-            </Dropdown>
-          </Card>
-          <Card>
-            <GradesTable
-              grades={filteredGrades}
-              onSubjectClick={handleSubjectClick}
-            />
-          </Card>
-          {selectedSubject && (
-            <PerformanceModal
-              subject={selectedSubject}
-              data={selectedGradeData.details} // Ensure this is the correct data structure
-              onClose={handleCloseModal}
-            />
-          )}
-          <Card>
-            <h3>Compare Grades</h3>
-            <CompareGrades grades={gradesData} />
-          </Card>
-        </GradesContainer>
-      </Container>
+      <ParentLayout>
+        <Container>
+          <GradesContainer>
+            <SectionTitle>Student Grades</SectionTitle>
+            <Card>
+              <Label htmlFor="subject-filter">Filter by Subject:</Label>
+              <Dropdown
+                id="subject-filter"
+                value={selectedSubject || 'All Subjects'}
+                onChange={(e) => setSelectedSubject(e.target.value)}
+              >
+                <option value="All Subjects">All Subjects</option>
+                {gradesData.map((grade, index) => (
+                  <option key={index} value={grade.subject}>
+                    {grade.subject}
+                  </option>
+                ))}
+              </Dropdown>
+            </Card>
+            <Card>
+              <GradesTable
+                grades={filteredGrades}
+                onSubjectClick={handleSubjectClick}
+              />
+            </Card>
+            {selectedSubject && (
+              <PerformanceModal
+                subject={selectedSubject}
+                data={selectedGradeData.details} // Ensure this is the correct data structure
+                onClose={handleCloseModal}
+              />
+            )}
+            <Card>
+              <h3>Compare Grades</h3>
+              <CompareGrades grades={gradesData} />
+            </Card>
+          </GradesContainer>
+        </Container>
       </ParentLayout>
     </>
   );

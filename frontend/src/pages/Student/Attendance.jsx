@@ -19,7 +19,6 @@ import axios from 'axios';
 
 import StudentLayout from '../../components/Student/StudentLayout';
 
-
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
@@ -27,12 +26,15 @@ const Attendance = () => {
 
   const fetchAttendanceData = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/attendance', {
-        params: {
-          startDate: startDate.toISOString().split('T')[0],
-          endDate: endDate.toISOString().split('T')[0],
+      const response = await axios.get(
+        'https://schoolbridge-project-server.onrender.com/api/attendance',
+        {
+          params: {
+            startDate: startDate.toISOString().split('T')[0],
+            endDate: endDate.toISOString().split('T')[0],
+          },
         },
-      });
+      );
       if (Array.isArray(response.data)) {
         setAttendanceData(response.data);
       } else {
@@ -69,45 +71,45 @@ const Attendance = () => {
   return (
     <>
       <StudentLayout>
-    <Container>
-      <Title>Attendance</Title>
-      <FilterContainer>
-        <DatePickerWrapper>
-          <label>Start Date:</label>
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-          />
-        </DatePickerWrapper>
-        <DatePickerWrapper>
-          <label>End Date:</label>
-          <DatePicker
-            selected={endDate}
-            onChange={(date) => setEndDate(date)}
-          />
-        </DatePickerWrapper>
-      </FilterContainer>
-      <AttendanceTable>
-        <thead>
-          <TableRow>
-            <TableHeader>Date</TableHeader>
-            <TableHeader>Status</TableHeader>
-          </TableRow>
-        </thead>
-        <tbody>
-          {attendanceData.map((entry, index) => (
-            <TableRow key={index}>
-              <TableCell>{entry.date}</TableCell>
-              <TableCell status={entry.status}>{entry.status}</TableCell>
-            </TableRow>
-          ))}
-        </tbody>
-      </AttendanceTable>
-      <ChartContainer>
-        <Bar data={chartData} options={{ responsive: true }} />
-      </ChartContainer>
-    </Container>
-    </StudentLayout>
+        <Container>
+          <Title>Attendance</Title>
+          <FilterContainer>
+            <DatePickerWrapper>
+              <label>Start Date:</label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </DatePickerWrapper>
+            <DatePickerWrapper>
+              <label>End Date:</label>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+              />
+            </DatePickerWrapper>
+          </FilterContainer>
+          <AttendanceTable>
+            <thead>
+              <TableRow>
+                <TableHeader>Date</TableHeader>
+                <TableHeader>Status</TableHeader>
+              </TableRow>
+            </thead>
+            <tbody>
+              {attendanceData.map((entry, index) => (
+                <TableRow key={index}>
+                  <TableCell>{entry.date}</TableCell>
+                  <TableCell status={entry.status}>{entry.status}</TableCell>
+                </TableRow>
+              ))}
+            </tbody>
+          </AttendanceTable>
+          <ChartContainer>
+            <Bar data={chartData} options={{ responsive: true }} />
+          </ChartContainer>
+        </Container>
+      </StudentLayout>
     </>
   );
 };

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   ProfileContainer,
   ProfilePicture,
@@ -13,7 +13,7 @@ import {
   PasswordSection,
   PasswordInput,
   PasswordButton,
-} from "./ProfilePageStyles";
+} from './ProfilePageStyles';
 
 const Profile = () => {
   // States for user data, passwords, loading, and errors
@@ -27,9 +27,9 @@ const Profile = () => {
     borrowingHistory: [],
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [editMode, setEditMode] = useState(false);
 
   // Fetch user data on component mount
@@ -37,11 +37,13 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('http://localhost:5000/api/profile');
+        const response = await axios.get(
+          'https://schoolbridge-project-server.onrender.com/api/profile',
+        );
         setUser(response.data);
         setLoading(false);
       } catch {
-        setError("Failed to load profile data. Please try again later.");
+        setError('Failed to load profile data. Please try again later.');
         setLoading(false);
       }
     };
@@ -68,11 +70,14 @@ const Profile = () => {
   const handleSaveProfile = async () => {
     try {
       setLoading(true);
-      await axios.put('http://localhost:5000/api/profile', user);
+      await axios.put(
+        'https://schoolbridge-project-server.onrender.com/api/profile',
+        user,
+      );
       setEditMode(false);
-      alert("Profile updated successfully!");
+      alert('Profile updated successfully!');
     } catch {
-      setError("Failed to update profile. Please try again later.");
+      setError('Failed to update profile. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -80,20 +85,23 @@ const Profile = () => {
 
   // Handle password update
   const handlePasswordUpdate = async () => {
-    if (newPassword !== confirmPassword || newPassword === "") {
-      setError("Passwords do not match. Please try again.");
+    if (newPassword !== confirmPassword || newPassword === '') {
+      setError('Passwords do not match. Please try again.');
       return;
     }
     try {
       setLoading(true);
-      await axios.put('http://localhost:5000/api/profile/password', {
-        newPassword,
-      });
-      alert("Password updated successfully!");
-      setNewPassword("");
-      setConfirmPassword("");
+      await axios.put(
+        'https://schoolbridge-project-server.onrender.com/api/profile/password',
+        {
+          newPassword,
+        },
+      );
+      alert('Password updated successfully!');
+      setNewPassword('');
+      setConfirmPassword('');
     } catch {
-      setError("Failed to update password. Please try again.");
+      setError('Failed to update password. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -206,9 +214,19 @@ const Profile = () => {
             {user.borrowingHistory.map((entry) => (
               <li key={entry._id}>
                 <p>Book: {entry.book.title}</p>
-                <p>Borrowed At: {new Date(entry.borrowedAt).toLocaleDateString()}</p>
-                <p>Returned At: {entry.returnedAt ? new Date(entry.returnedAt).toLocaleDateString() : "Not Returned"}</p>
-                <p>Penalty: {entry.penalty > 0 ? `$${entry.penalty}` : "No Penalty"}</p>
+                <p>
+                  Borrowed At: {new Date(entry.borrowedAt).toLocaleDateString()}
+                </p>
+                <p>
+                  Returned At:{' '}
+                  {entry.returnedAt
+                    ? new Date(entry.returnedAt).toLocaleDateString()
+                    : 'Not Returned'}
+                </p>
+                <p>
+                  Penalty:{' '}
+                  {entry.penalty > 0 ? `$${entry.penalty}` : 'No Penalty'}
+                </p>
               </li>
             ))}
           </ul>

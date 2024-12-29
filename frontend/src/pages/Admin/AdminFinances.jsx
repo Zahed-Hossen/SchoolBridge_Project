@@ -57,7 +57,11 @@ const Input = styled.input`
 
 const AdminFinances = () => {
   const [fees, setFees] = useState([]);
-  const [form, setForm] = useState({ student: '', amount: '', status: 'Pending' });
+  const [form, setForm] = useState({
+    student: '',
+    amount: '',
+    status: 'Pending',
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
@@ -66,7 +70,7 @@ const AdminFinances = () => {
     const fetchFees = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/fees',
+          'https://schoolbridge-project-server.onrender.com/api/admin/fees',
         );
         setFees(response.data);
       } catch (error) {
@@ -90,17 +94,17 @@ const AdminFinances = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `http://localhost:5000/api/admin/fees/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/admin/fees/${editingId}`,
           form,
         );
         setFees((prevFees) =>
           prevFees.map((fee) =>
-            fee._id === editingId ? { ...fee, ...form } : fee
-          )
+            fee._id === editingId ? { ...fee, ...form } : fee,
+          ),
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/admin/fees',
+          'https://schoolbridge-project-server.onrender.com/api/admin/fees',
           form,
         );
         setFees((prevFees) => [...prevFees, response.data]);
@@ -121,7 +125,9 @@ const AdminFinances = () => {
 
   const handleDelete = async (feeId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/fees/${feeId}`);
+      await axios.delete(
+        `https://schoolbridge-project-server.onrender.com/api/admin/fees/${feeId}`,
+      );
       setFees(fees.filter((fee) => fee._id !== feeId));
     } catch (error) {
       console.error('Error deleting fee:', error);

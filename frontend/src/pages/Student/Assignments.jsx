@@ -7,7 +7,6 @@ import axios from 'axios';
 // import { SidebarContainer } from '../../components/Temp/TempStudentDashboard';
 import StudentLayout from '../../components/Student/StudentLayout';
 
-
 // Styled components
 const Container = styled.div`
   padding: 20px;
@@ -130,7 +129,9 @@ const Assignments = () => {
 
   const fetchAssignments = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/assignments');
+      const response = await axios.get(
+        'https://schoolbridge-project-server.onrender.com/api/assignments',
+      );
       setAssignments(response.data);
     } catch (error) {
       console.error('Error fetching assignments:', error);
@@ -173,89 +174,89 @@ const Assignments = () => {
 
   return (
     <>
-    <StudentLayout>
-      {/* <Header /> */}
-      <Container>
-        {/* <SidebarContainer>
+      <StudentLayout>
+        {/* <Header /> */}
+        <Container>
+          {/* <SidebarContainer>
           <StudentDashboard />
         </SidebarContainer> */}
-        <Title>Assignments</Title>
+          <Title>Assignments</Title>
 
-        <FilterContainer>
-          <SearchInput
-            type="text"
-            placeholder="Search assignments..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <DatePickerWrapper>
-            <label>Start Date:</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+          <FilterContainer>
+            <SearchInput
+              type="text"
+              placeholder="Search assignments..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-          </DatePickerWrapper>
-          <DatePickerWrapper>
-            <label>End Date:</label>
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-            />
-          </DatePickerWrapper>
-        </FilterContainer>
+            <DatePickerWrapper>
+              <label>Start Date:</label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </DatePickerWrapper>
+            <DatePickerWrapper>
+              <label>End Date:</label>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+              />
+            </DatePickerWrapper>
+          </FilterContainer>
 
-        <AssignmentCategory>
-          <h3>Pending</h3>
-          <AssignmentList>
-            {getAssignmentsByStatus('Pending').map((assignment) => (
-              <AssignmentItem key={assignment.id}>
-                <div>
-                  <h4>{assignment.title}</h4>
-                  <DueDate>Due: {assignment.dueDate}</DueDate>
-                </div>
-                <div>
-                  <Status pending>{assignment.status}</Status>
-                  <MarkAsCompleteButton
-                    onClick={() => handleMarkAsComplete(assignment.id)}
-                  >
-                    Mark as Complete
-                  </MarkAsCompleteButton>
-                </div>
-              </AssignmentItem>
-            ))}
-          </AssignmentList>
-        </AssignmentCategory>
+          <AssignmentCategory>
+            <h3>Pending</h3>
+            <AssignmentList>
+              {getAssignmentsByStatus('Pending').map((assignment) => (
+                <AssignmentItem key={assignment.id}>
+                  <div>
+                    <h4>{assignment.title}</h4>
+                    <DueDate>Due: {assignment.dueDate}</DueDate>
+                  </div>
+                  <div>
+                    <Status pending>{assignment.status}</Status>
+                    <MarkAsCompleteButton
+                      onClick={() => handleMarkAsComplete(assignment.id)}
+                    >
+                      Mark as Complete
+                    </MarkAsCompleteButton>
+                  </div>
+                </AssignmentItem>
+              ))}
+            </AssignmentList>
+          </AssignmentCategory>
 
-        <AssignmentCategory>
-          <h3>Submitted</h3>
-          <AssignmentList>
-            {getAssignmentsByStatus('Submitted').map((assignment) => (
-              <AssignmentItem key={assignment.id}>
-                <div>
-                  <h4>{assignment.title}</h4>
-                  <DueDate>Submitted on: {assignment.dueDate}</DueDate>
-                </div>
-                <Status submitted>{assignment.status}</Status>
-              </AssignmentItem>
-            ))}
-          </AssignmentList>
-        </AssignmentCategory>
+          <AssignmentCategory>
+            <h3>Submitted</h3>
+            <AssignmentList>
+              {getAssignmentsByStatus('Submitted').map((assignment) => (
+                <AssignmentItem key={assignment.id}>
+                  <div>
+                    <h4>{assignment.title}</h4>
+                    <DueDate>Submitted on: {assignment.dueDate}</DueDate>
+                  </div>
+                  <Status submitted>{assignment.status}</Status>
+                </AssignmentItem>
+              ))}
+            </AssignmentList>
+          </AssignmentCategory>
 
-        <AssignmentCategory>
-          <h3>Overdue</h3>
-          <AssignmentList>
-            {getAssignmentsByStatus('Overdue').map((assignment) => (
-              <AssignmentItem key={assignment.id}>
-                <div>
-                  <h4>{assignment.title}</h4>
-                  <DueDate>Due: {assignment.dueDate}</DueDate>
-                </div>
-                <Status overdue>{assignment.status}</Status>
-              </AssignmentItem>
-            ))}
-          </AssignmentList>
-        </AssignmentCategory>
-      </Container>
+          <AssignmentCategory>
+            <h3>Overdue</h3>
+            <AssignmentList>
+              {getAssignmentsByStatus('Overdue').map((assignment) => (
+                <AssignmentItem key={assignment.id}>
+                  <div>
+                    <h4>{assignment.title}</h4>
+                    <DueDate>Due: {assignment.dueDate}</DueDate>
+                  </div>
+                  <Status overdue>{assignment.status}</Status>
+                </AssignmentItem>
+              ))}
+            </AssignmentList>
+          </AssignmentCategory>
+        </Container>
       </StudentLayout>
     </>
   );

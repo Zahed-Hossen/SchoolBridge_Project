@@ -6,8 +6,8 @@ import TeacherLayout from '../../components/Teacher/TeacherLayout';
 const Container = styled.div`
   padding: 20px;
   font-family: 'Nunito', sans-serif;
-  background-color: #E6F7F9;
-  color: #2C3E50;
+  background-color: #e6f7f9;
+  color: #2c3e50;
 `;
 
 const Title = styled.h1`
@@ -71,7 +71,7 @@ const AssignmentHomework = () => {
     const fetchAssignments = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/teacher/assignments',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/assignments',
         );
         setAssignments(response.data);
       } catch (error) {
@@ -95,20 +95,25 @@ const AssignmentHomework = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `http://localhost:5000/api/teacher/assignments/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/teacher/assignments/${editingId}`,
           form,
         );
         setAssignments((prevAssignments) =>
           prevAssignments.map((assignment) =>
-            assignment._id === editingId ? { ...assignment, ...form } : assignment
-          )
+            assignment._id === editingId
+              ? { ...assignment, ...form }
+              : assignment,
+          ),
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/teacher/assignments',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/assignments',
           form,
         );
-        setAssignments((prevAssignments) => [...prevAssignments, response.data]);
+        setAssignments((prevAssignments) => [
+          ...prevAssignments,
+          response.data,
+        ]);
       }
       setForm({ title: '', description: '', dueDate: '' });
       setIsEditing(false);
@@ -119,7 +124,11 @@ const AssignmentHomework = () => {
   };
 
   const handleEdit = (assignment) => {
-    setForm({ title: assignment.title, description: assignment.description, dueDate: assignment.dueDate });
+    setForm({
+      title: assignment.title,
+      description: assignment.description,
+      dueDate: assignment.dueDate,
+    });
     setIsEditing(true);
     setEditingId(assignment._id);
   };
@@ -127,9 +136,11 @@ const AssignmentHomework = () => {
   const handleDelete = async (assignmentId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/teacher/assignments/${assignmentId}`,
+        `https://schoolbridge-project-server.onrender.com/api/teacher/assignments/${assignmentId}`,
       );
-      setAssignments(assignments.filter((assignment) => assignment._id !== assignmentId));
+      setAssignments(
+        assignments.filter((assignment) => assignment._id !== assignmentId),
+      );
     } catch (error) {
       console.error('Error deleting assignment:', error);
     }
@@ -137,47 +148,53 @@ const AssignmentHomework = () => {
 
   return (
     <>
-    <TeacherLayout>
-    <Container>
-      <Title>Assignment Homework</Title>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={form.title}
-          onChange={handleChange}
-          required
-        />
-        <Textarea
-          name="description"
-          placeholder="Description"
-          value={form.description}
-          onChange={handleChange}
-          required
-        />
-        <Input
-          type="date"
-          name="dueDate"
-          value={form.dueDate}
-          onChange={handleChange}
-          required
-        />
-        <Button type="submit">{isEditing ? 'Update' : 'Add'} Assignment</Button>
-      </Form>
-      <AssignmentList>
-        {assignments.map((assignment) => (
-          <AssignmentItem key={assignment._id}>
-            <h3>{assignment.title}</h3>
-            <p>{assignment.description}</p>
-            <p>Due Date: {new Date(assignment.dueDate).toLocaleDateString()}</p>
-            <Button onClick={() => handleEdit(assignment)}>Edit</Button>
-            <Button onClick={() => handleDelete(assignment._id)}>Delete</Button>
-          </AssignmentItem>
-        ))}
-      </AssignmentList>
-    </Container>
-    </TeacherLayout>
+      <TeacherLayout>
+        <Container>
+          <Title>Assignment Homework</Title>
+          <Form onSubmit={handleSubmit}>
+            <Input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={form.title}
+              onChange={handleChange}
+              required
+            />
+            <Textarea
+              name="description"
+              placeholder="Description"
+              value={form.description}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              type="date"
+              name="dueDate"
+              value={form.dueDate}
+              onChange={handleChange}
+              required
+            />
+            <Button type="submit">
+              {isEditing ? 'Update' : 'Add'} Assignment
+            </Button>
+          </Form>
+          <AssignmentList>
+            {assignments.map((assignment) => (
+              <AssignmentItem key={assignment._id}>
+                <h3>{assignment.title}</h3>
+                <p>{assignment.description}</p>
+                <p>
+                  Due Date: {new Date(assignment.dueDate).toLocaleDateString()}
+                </p>
+                <Button onClick={() => handleEdit(assignment)}>Edit</Button>
+                <Button onClick={() => handleDelete(assignment._id)}>
+                  Delete
+                </Button>
+              </AssignmentItem>
+            ))}
+          </AssignmentList>
+        </Container>
+      </TeacherLayout>
     </>
   );
 };

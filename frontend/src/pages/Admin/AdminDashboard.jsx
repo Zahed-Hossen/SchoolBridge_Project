@@ -3,13 +3,30 @@ import styled from 'styled-components';
 import AdminLayout from '../../components/Admin/AdminLayout';
 import Footer from '../../components/Admin/Footer';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -96,9 +113,9 @@ const AdminDashboard = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/events',
+          'https://schoolbridge-project-server.onrender.com/api/admin/events',
         );
-        const formattedEvents = response.data.map(event => ({
+        const formattedEvents = response.data.map((event) => ({
           title: event.name,
           start: new Date(event.date),
           end: new Date(event.date),
@@ -135,80 +152,81 @@ const AdminDashboard = () => {
   };
 
   return (
-  <>
-    <AdminLayout>
-      <DashboardContainer>
-        <h1>Admin Dashboard</h1>
-        <Stats>
-          <StatCard>
-            <i className="fas fa-users"></i>
-            <p>Users</p>
-            <p className="number">1.2K</p>
-          </StatCard>
-          <StatCard>
-            <i className="fas fa-hourglass-half"></i>
-            <p>Pending</p>
-            <p className="number">300</p>
-          </StatCard>
-          <StatCard>
-            <i className="fas fa-dollar-sign"></i>
-            <p>Fees</p>
-            <p className="number">1.5K</p>
-          </StatCard>
-          <StatCard>
-            <i className="fas fa-calendar-alt"></i>
-            <p>Events</p>
-            <p className="number">200</p>
-          </StatCard>
-        </Stats>
-        <FinancialOverview>
-          <h2>Financial Overview</h2>
-          <Line data={data} options={options} />
-        </FinancialOverview>
-        <UpcomingEvents>
-          <h2>Upcoming Events</h2>
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-          />
-        </UpcomingEvents>
-        <RecentActivities>
-          <h2>Recent Activities</h2>
-          <Activity>
-            <ActivityIcon className="fas fa-user-plus"></ActivityIcon>
-            <ActivityContent>
-              <ActivityTitle>New Registration</ActivityTitle>
-              <ActivityDescription>John Doe registered for Grade 10</ActivityDescription>
-            </ActivityContent>
-          </Activity>
-          <Activity>
-            <ActivityIcon className="fas fa-bell"></ActivityIcon>
-            <ActivityContent>
-              <ActivityTitle>Fee Reminder</ActivityTitle>
-              <ActivityDescription>Reminder sent for pending fees</ActivityDescription>
-            </ActivityContent>
-          </Activity>
-          <Activity>
-            <ActivityIcon className="fas fa-clock"></ActivityIcon>
-            <ActivityContent>
-              <ActivityTitle>Exam Schedule</ActivityTitle>
-              <ActivityDescription>Math exam scheduled for 15th Oct</ActivityDescription>
-            </ActivityContent>
-          </Activity>
-        </RecentActivities>
-      </DashboardContainer>
-    </AdminLayout>
-    <Footer />
-  </>
+    <>
+      <AdminLayout>
+        <DashboardContainer>
+          <h1>Admin Dashboard</h1>
+          <Stats>
+            <StatCard>
+              <i className="fas fa-users"></i>
+              <p>Users</p>
+              <p className="number">1.2K</p>
+            </StatCard>
+            <StatCard>
+              <i className="fas fa-hourglass-half"></i>
+              <p>Pending</p>
+              <p className="number">300</p>
+            </StatCard>
+            <StatCard>
+              <i className="fas fa-dollar-sign"></i>
+              <p>Fees</p>
+              <p className="number">1.5K</p>
+            </StatCard>
+            <StatCard>
+              <i className="fas fa-calendar-alt"></i>
+              <p>Events</p>
+              <p className="number">200</p>
+            </StatCard>
+          </Stats>
+          <FinancialOverview>
+            <h2>Financial Overview</h2>
+            <Line data={data} options={options} />
+          </FinancialOverview>
+          <UpcomingEvents>
+            <h2>Upcoming Events</h2>
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: 500 }}
+            />
+          </UpcomingEvents>
+          <RecentActivities>
+            <h2>Recent Activities</h2>
+            <Activity>
+              <ActivityIcon className="fas fa-user-plus"></ActivityIcon>
+              <ActivityContent>
+                <ActivityTitle>New Registration</ActivityTitle>
+                <ActivityDescription>
+                  John Doe registered for Grade 10
+                </ActivityDescription>
+              </ActivityContent>
+            </Activity>
+            <Activity>
+              <ActivityIcon className="fas fa-bell"></ActivityIcon>
+              <ActivityContent>
+                <ActivityTitle>Fee Reminder</ActivityTitle>
+                <ActivityDescription>
+                  Reminder sent for pending fees
+                </ActivityDescription>
+              </ActivityContent>
+            </Activity>
+            <Activity>
+              <ActivityIcon className="fas fa-clock"></ActivityIcon>
+              <ActivityContent>
+                <ActivityTitle>Exam Schedule</ActivityTitle>
+                <ActivityDescription>
+                  Math exam scheduled for 15th Oct
+                </ActivityDescription>
+              </ActivityContent>
+            </Activity>
+          </RecentActivities>
+        </DashboardContainer>
+      </AdminLayout>
+      <Footer />
+    </>
   );
 };
 
 export default AdminDashboard;
-
-
-
-
-

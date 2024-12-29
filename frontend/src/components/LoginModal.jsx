@@ -64,13 +64,16 @@ const LoginModal = ({ isOpen, onClose }) => {
     if (validateForm()) {
       const loginData = { email, password, role };
       try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/auth/login',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
           },
-          body: JSON.stringify(loginData),
-        });
+        );
 
         const result = await response.json();
         if (response.ok) {
@@ -154,31 +157,6 @@ LoginModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 export default LoginModal;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';

@@ -13,7 +13,7 @@ const NotificationBell = styled.div`
   position: relative;
 
   &:after {
-    content: "${(props) => props.unreadCount || ''}";
+    content: '${(props) => props.unreadCount || ''}';
     position: absolute;
     top: -5px;
     right: -5px;
@@ -58,7 +58,7 @@ const NotificationsDropdown = () => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/notifications',
+          'https://schoolbridge-project-server.onrender.com/api/notifications',
         );
         setNotifications(response.data);
         setUnreadCount(response.data.filter((n) => !n.read).length);
@@ -74,11 +74,14 @@ const NotificationsDropdown = () => {
 
   const handleMarkAsRead = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/notifications/${id}`, {
-        read: true,
-      });
+      await axios.put(
+        `https://schoolbridge-project-server.onrender.com/api/notifications/${id}`,
+        {
+          read: true,
+        },
+      );
       setNotifications((prev) =>
-        prev.map((n) => (n._id === id ? { ...n, read: true } : n))
+        prev.map((n) => (n._id === id ? { ...n, read: true } : n)),
       );
       setUnreadCount((prev) => prev - 1);
     } catch (error) {

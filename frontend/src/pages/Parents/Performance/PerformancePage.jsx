@@ -10,7 +10,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ParentLayout from '../../../components/Parent/ParentLayout';
 
-
 const PerformanceContainer = styled.div`
   padding: 20px;
 `;
@@ -46,7 +45,7 @@ const PerformancePage = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/performance/${childId}`,
+          `https://schoolbridge-project-server.onrender.com/api/performance/${childId}`,
         );
         setPerformanceData(response.data.performanceScores); // Radar chart data
         setAchievements(response.data.achievements); // Achievements data
@@ -61,38 +60,37 @@ const PerformancePage = () => {
     fetchPerformanceData();
   }, [childId]);
 
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
       <ParentLayout>
-      <PerformanceContainer>
-        <SectionTitle>Performance Overview</SectionTitle>
-        <OverviewCard>
-          <p>
-            <strong>Academic Performance:</strong> Excellent
-          </p>
-          <p>
-            <strong>Behavioral Rating:</strong> Good
-          </p>
-          <p>
-            <strong>Achievements:</strong> 3 awards this term
-          </p>
-        </OverviewCard>
-        <SectionTitle>Performance Analysis</SectionTitle>
-        <Card>
-          <PerformanceRadarChart data={performanceData} />
-        </Card>
-        {achievements ? (
-          <AchievementsBadges achievements={achievements} />
-        ) : (
-          <p>No achievements yet.</p>
-        )}
-        <PerformanceComparison />
-        <ParentFeedback />
-      </PerformanceContainer>
+        <PerformanceContainer>
+          <SectionTitle>Performance Overview</SectionTitle>
+          <OverviewCard>
+            <p>
+              <strong>Academic Performance:</strong> Excellent
+            </p>
+            <p>
+              <strong>Behavioral Rating:</strong> Good
+            </p>
+            <p>
+              <strong>Achievements:</strong> 3 awards this term
+            </p>
+          </OverviewCard>
+          <SectionTitle>Performance Analysis</SectionTitle>
+          <Card>
+            <PerformanceRadarChart data={performanceData} />
+          </Card>
+          {achievements ? (
+            <AchievementsBadges achievements={achievements} />
+          ) : (
+            <p>No achievements yet.</p>
+          )}
+          <PerformanceComparison />
+          <ParentFeedback />
+        </PerformanceContainer>
       </ParentLayout>
     </>
   );

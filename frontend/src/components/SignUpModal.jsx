@@ -18,7 +18,6 @@ import {
   SecondaryButton,
 } from './ModalStyles';
 
-
 const SignUpModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   // const { login } = useAuth();
@@ -37,53 +36,62 @@ const SignUpModal = ({ isOpen, onClose }) => {
     if (!email) newErrors.email = 'Email is required';
     if (!phone) newErrors.phone = 'Phone is required';
     if (!password) newErrors.password = 'Password is required';
-    if (!confirmPassword) newErrors.confirmPassword = 'Confirm Password is required';
-    if (password !== confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
-    if (!termsAccepted) newErrors.termsAccepted = 'You must accept the terms and conditions';
+    if (!confirmPassword)
+      newErrors.confirmPassword = 'Confirm Password is required';
+    if (password !== confirmPassword)
+      newErrors.confirmPassword = 'Passwords do not match';
+    if (!termsAccepted)
+      newErrors.termsAccepted = 'You must accept the terms and conditions';
     if (!role) newErrors.role = 'Role is required';
-    if (password && password.length < 6) newErrors.password = 'Password must be at least 6 characters';
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Please enter a valid email address';
-    if (phone && !/^\d{11}$/.test(phone)) newErrors.phone = 'Please enter a valid phone number';
+    if (password && password.length < 6)
+      newErrors.password = 'Password must be at least 6 characters';
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      newErrors.email = 'Please enter a valid email address';
+    if (phone && !/^\d{11}$/.test(phone))
+      newErrors.phone = 'Please enter a valid phone number';
     setFeedback(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-const handleSignUpSuccess = (token) => {
-  const decodedToken = jwtDecode(token);
-  const userRole = decodedToken.role;
-  const isVerified = decodedToken.isVerified;
+  const handleSignUpSuccess = (token) => {
+    const decodedToken = jwtDecode(token);
+    const userRole = decodedToken.role;
+    const isVerified = decodedToken.isVerified;
 
-  const roleDashboardPaths = {
-    Teacher: '/teacher/dashboard',
-    Student: '/student/dashboard',
-    Parent: '/parent/dashboard',
-    Admin: '/admin/dashboard',
-  };
+    const roleDashboardPaths = {
+      Teacher: '/teacher/dashboard',
+      Student: '/student/dashboard',
+      Parent: '/parent/dashboard',
+      Admin: '/admin/dashboard',
+    };
 
-  if (!isVerified) {
-    navigate('/verify-email');
-  } else {
-    const dashboardPath = roleDashboardPaths[userRole];
-    if (dashboardPath) {
-      navigate(dashboardPath);
+    if (!isVerified) {
+      navigate('/verify-email');
     } else {
-      console.error('Invalid role or redirection path not defined.');
+      const dashboardPath = roleDashboardPaths[userRole];
+      if (dashboardPath) {
+        navigate(dashboardPath);
+      } else {
+        console.error('Invalid role or redirection path not defined.');
+      }
     }
-  }
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       const signUpData = { fullName, email, phone, password, role };
       try {
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/auth/signup',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(signUpData),
           },
-          body: JSON.stringify(signUpData),
-        });
+        );
 
         const result = await response.json();
         if (response.ok) {
@@ -226,10 +234,3 @@ SignUpModal.propTypes = {
 };
 
 export default SignUpModal;
-
-
-
-
-
-
-

@@ -59,7 +59,7 @@ const TeacherDashboard = () => {
     const fetchClasses = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/teacher/classes',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/classes',
         );
         setClasses(response.data);
       } catch (error) {
@@ -71,7 +71,7 @@ const TeacherDashboard = () => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/teacher/tasks',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/tasks',
         );
         setTasks(response.data);
       } catch (error) {
@@ -83,7 +83,7 @@ const TeacherDashboard = () => {
     const fetchActivities = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/teacher/activities',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/activities',
         );
         setActivities(response.data);
       } catch (error) {

@@ -82,7 +82,6 @@ const UserImage = styled.img`
   margin-right: 10px;
 `;
 
-
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [form, setForm] = useState({ name: '', email: '', role: 'Student' });
@@ -94,7 +93,7 @@ const AdminUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/users',
+          'https://schoolbridge-project-server.onrender.com/api/admin/users',
         );
         setUsers(response.data);
       } catch (error) {
@@ -118,17 +117,17 @@ const AdminUsers = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `http://localhost:5000/api/admin/users/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/admin/users/${editingId}`,
           form,
         );
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
-            user._id === editingId ? { ...user, ...form } : user
-          )
+            user._id === editingId ? { ...user, ...form } : user,
+          ),
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/admin/users',
+          'https://schoolbridge-project-server.onrender.com/api/admin/users',
           form,
         );
         setUsers((prevUsers) => [...prevUsers, response.data]);
@@ -149,7 +148,9 @@ const AdminUsers = () => {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${userId}`);
+      await axios.delete(
+        `https://schoolbridge-project-server.onrender.com/api/admin/users/${userId}`,
+      );
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       console.error('Error deleting user:', error);

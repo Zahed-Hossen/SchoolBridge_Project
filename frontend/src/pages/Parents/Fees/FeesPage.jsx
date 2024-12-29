@@ -83,7 +83,9 @@ const FeesPage = () => {
   useEffect(() => {
     const fetchFeeData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/fees/1'); // Assuming studentId is 1 for demonstration
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/fees/1',
+        ); // Assuming studentId is 1 for demonstration
         const rawResponse = await response.text();
         console.log('Raw response:', rawResponse); // Log the raw response
         const data = JSON.parse(rawResponse);
@@ -111,96 +113,96 @@ const FeesPage = () => {
   return (
     <>
       <ParentLayout>
-      <Container>
-        <FeesContainer>
-          <SectionTitle>Fees Details</SectionTitle>
-          <FilterContainer>
-            <FilterLabel htmlFor="status">Filter by Status:</FilterLabel>
-            <FilterSelect
-              id="status"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="Paid">Paid</option>
-              <option value="Pending">Pending</option>
-              <option value="Partially Paid">Partially Paid</option>
-            </FilterSelect>
-            <FilterLabel htmlFor="month">Month:</FilterLabel>
-            <FilterSelect
-              id="month"
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="01">January</option>
-              <option value="02">February</option>
-              <option value="03">March</option>
-              <option value="04">April</option>
-              <option value="05">May</option>
-              <option value="06">June</option>
-              <option value="07">July</option>
-              <option value="08">August</option>
-              <option value="09">September</option>
-              <option value="10">October</option>
-              <option value="11">November</option>
-              <option value="12">December</option>
-            </FilterSelect>
-            <FilterLabel htmlFor="year">Year:</FilterLabel>
-            <FilterSelect
-              id="year"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              {/* Add more years as needed */}
-            </FilterSelect>
-          </FilterContainer>
-          <Card>
-            <FeeTable>
-              <thead>
-                <tr>
-                  <TableHeader>Fee Name</TableHeader>
-                  <TableHeader>Amount</TableHeader>
-                  <TableHeader>Status</TableHeader>
-                  <TableHeader>Penalty</TableHeader>
-                  <TableHeader>Actions</TableHeader>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(feeData) && feeData.length > 0 ? (
-                  feeData.map((fee, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{fee.name}</TableCell>
-                      <TableCell>${fee.amount}</TableCell>
-                      <TableCell>{fee.status}</TableCell>
-                      <TableCell>${fee.penalty}</TableCell>
-                      <TableCell>
-                        {fee.status !== 'Paid' ? (
-                          <PaymentButton onClick={() => handlePayment(fee)}>
-                            Pay Now
-                          </PaymentButton>
-                        ) : (
-                          <a href={`/receipts/${fee.name}.pdf`} download>
-                            Download Receipt
-                          </a>
-                        )}
-                      </TableCell>
+        <Container>
+          <FeesContainer>
+            <SectionTitle>Fees Details</SectionTitle>
+            <FilterContainer>
+              <FilterLabel htmlFor="status">Filter by Status:</FilterLabel>
+              <FilterSelect
+                id="status"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
+                <option value="">All</option>
+                <option value="Paid">Paid</option>
+                <option value="Pending">Pending</option>
+                <option value="Partially Paid">Partially Paid</option>
+              </FilterSelect>
+              <FilterLabel htmlFor="month">Month:</FilterLabel>
+              <FilterSelect
+                id="month"
+                value={month}
+                onChange={(e) => setMonth(e.target.value)}
+              >
+                <option value="">All</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </FilterSelect>
+              <FilterLabel htmlFor="year">Year:</FilterLabel>
+              <FilterSelect
+                id="year"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              >
+                <option value="">All</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                {/* Add more years as needed */}
+              </FilterSelect>
+            </FilterContainer>
+            <Card>
+              <FeeTable>
+                <thead>
+                  <tr>
+                    <TableHeader>Fee Name</TableHeader>
+                    <TableHeader>Amount</TableHeader>
+                    <TableHeader>Status</TableHeader>
+                    <TableHeader>Penalty</TableHeader>
+                    <TableHeader>Actions</TableHeader>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.isArray(feeData) && feeData.length > 0 ? (
+                    feeData.map((fee, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{fee.name}</TableCell>
+                        <TableCell>${fee.amount}</TableCell>
+                        <TableCell>{fee.status}</TableCell>
+                        <TableCell>${fee.penalty}</TableCell>
+                        <TableCell>
+                          {fee.status !== 'Paid' ? (
+                            <PaymentButton onClick={() => handlePayment(fee)}>
+                              Pay Now
+                            </PaymentButton>
+                          ) : (
+                            <a href={`/receipts/${fee.name}.pdf`} download>
+                              Download Receipt
+                            </a>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan="5">No fees data available</TableCell>
                     </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan="5">No fees data available</TableCell>
-                  </TableRow>
-                )}
-              </tbody>
-            </FeeTable>
-          </Card>
-        </FeesContainer>
-      </Container>
+                  )}
+                </tbody>
+              </FeeTable>
+            </Card>
+          </FeesContainer>
+        </Container>
       </ParentLayout>
     </>
   );

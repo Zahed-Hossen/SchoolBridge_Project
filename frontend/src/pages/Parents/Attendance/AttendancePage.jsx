@@ -5,7 +5,6 @@ import Modal from '../Attendance/Modal.jsx';
 import { SummaryCard, CalendarCard } from '../../../components/CardComponents';
 import ParentLayout from '../../../components/Parent/ParentLayout';
 
-
 const AttendanceContainer = styled.div`
   padding: 20px;
 `;
@@ -76,7 +75,9 @@ const AttendancePage = () => {
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/attendance');
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/attendance',
+        );
         const data = await response.json();
         setAttendanceData(data);
         setFilteredData(
@@ -115,116 +116,103 @@ const AttendancePage = () => {
   return (
     <>
       <ParentLayout>
-      <AttendanceContainer>
-        <Title>Attendance</Title>
-        <FilterContainer>
-          <FilterLabel htmlFor="month">Select Month:</FilterLabel>
-          <CalendarCard>
-            <FilterSelect
-              id="month"
-              value={selectedMonth}
-              onChange={(e) => handleFilter(e.target.value)}
-            >
-              <option value="2024-12">December 2024</option>
-              <option value="2024-11">November 2024</option>
-              <option value="2024-10">October 2024</option>
-              <option value="2024-09">September 2024</option>
-              <option value="2024-10">January 2024</option>
-              <option value="2024-08">August 2024</option>
-              <option value="2024-07">July 2024</option>
-              <option value="2024-06">June 2024</option>
-              <option value="2024-10">February 2024</option>
-              {/* Add more months as needed */}
-            </FilterSelect>
-          </CalendarCard>
-        </FilterContainer>
-        <AttendanceSummary>
-          <SummaryCard>
-            <SummaryItem>
-              <h3>{presentDays}</h3>
-              <p>Days Present</p>
-            </SummaryItem>
-          </SummaryCard>
-          <SummaryCard>
-            <SummaryItem>
-              <h3>{absentDays}</h3>
-              <p>Days Absent</p>
-            </SummaryItem>
-          </SummaryCard>
-          <SummaryCard>
-            <SummaryItem>
-              <h3>{leaveDays}</h3>
-              <p>Days on Leave</p>
-            </SummaryItem>
-          </SummaryCard>
-          <SummaryCard>
-            <SummaryItem>
-              <h3>{attendancePercentage}%</h3>
-              <p>Attendance</p>
-            </SummaryItem>
-          </SummaryCard>
-        </AttendanceSummary>
-        <Calendar>
-          {filteredData.map((day, index) => (
-            <Day
-              key={index}
-              status={day.status}
-              onClick={() => handleDayClick(day)}
-            >
-              {day.date.split('-')[2]}
-            </Day>
-          ))}
-        </Calendar>
+        <AttendanceContainer>
+          <Title>Attendance</Title>
+          <FilterContainer>
+            <FilterLabel htmlFor="month">Select Month:</FilterLabel>
+            <CalendarCard>
+              <FilterSelect
+                id="month"
+                value={selectedMonth}
+                onChange={(e) => handleFilter(e.target.value)}
+              >
+                <option value="2024-12">December 2024</option>
+                <option value="2024-11">November 2024</option>
+                <option value="2024-10">October 2024</option>
+                <option value="2024-09">September 2024</option>
+                <option value="2024-10">January 2024</option>
+                <option value="2024-08">August 2024</option>
+                <option value="2024-07">July 2024</option>
+                <option value="2024-06">June 2024</option>
+                <option value="2024-10">February 2024</option>
+                {/* Add more months as needed */}
+              </FilterSelect>
+            </CalendarCard>
+          </FilterContainer>
+          <AttendanceSummary>
+            <SummaryCard>
+              <SummaryItem>
+                <h3>{presentDays}</h3>
+                <p>Days Present</p>
+              </SummaryItem>
+            </SummaryCard>
+            <SummaryCard>
+              <SummaryItem>
+                <h3>{absentDays}</h3>
+                <p>Days Absent</p>
+              </SummaryItem>
+            </SummaryCard>
+            <SummaryCard>
+              <SummaryItem>
+                <h3>{leaveDays}</h3>
+                <p>Days on Leave</p>
+              </SummaryItem>
+            </SummaryCard>
+            <SummaryCard>
+              <SummaryItem>
+                <h3>{attendancePercentage}%</h3>
+                <p>Attendance</p>
+              </SummaryItem>
+            </SummaryCard>
+          </AttendanceSummary>
+          <Calendar>
+            {filteredData.map((day, index) => (
+              <Day
+                key={index}
+                status={day.status}
+                onClick={() => handleDayClick(day)}
+              >
+                {day.date.split('-')[2]}
+              </Day>
+            ))}
+          </Calendar>
 
-      {modalData && (
-        <Modal show={!!modalData} onClose={closeModal}>
-          <h1>Modal Title</h1>
-          <p>Some modal content.</p>
-          <button onClick={closeModal}>Close</button>
-        </Modal>
-      )}
-      <Modal show={modalData} onClose={closeModal}>
-        {modalData && (
-          <>
-            <h3>Attendance Details</h3>
-            <p>
-              <strong>Date:</strong> {modalData.date}
-            </p>
-            <p>
-              <strong>Status:</strong> {modalData.status}
-            </p>
-            <p>
-              <strong>Hours Attended:</strong>{' '}
-              {modalData.hoursAttended || 'N/A'}
-            </p>
-            <p>
-              <strong>Subjects Missed:</strong>{' '}
-              {modalData.subjectsMissed?.join(', ') || 'N/A'}
-            </p>
-            <button onClick={closeModal}>Close</button>
-          </>
-        )}
-      </Modal>
-      </AttendanceContainer>
+          {modalData && (
+            <Modal show={!!modalData} onClose={closeModal}>
+              <h1>Modal Title</h1>
+              <p>Some modal content.</p>
+              <button onClick={closeModal}>Close</button>
+            </Modal>
+          )}
+          <Modal show={modalData} onClose={closeModal}>
+            {modalData && (
+              <>
+                <h3>Attendance Details</h3>
+                <p>
+                  <strong>Date:</strong> {modalData.date}
+                </p>
+                <p>
+                  <strong>Status:</strong> {modalData.status}
+                </p>
+                <p>
+                  <strong>Hours Attended:</strong>{' '}
+                  {modalData.hoursAttended || 'N/A'}
+                </p>
+                <p>
+                  <strong>Subjects Missed:</strong>{' '}
+                  {modalData.subjectsMissed?.join(', ') || 'N/A'}
+                </p>
+                <button onClick={closeModal}>Close</button>
+              </>
+            )}
+          </Modal>
+        </AttendanceContainer>
       </ParentLayout>
     </>
   );
 };
 
 export default AttendancePage;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { useEffect, useState } from 'react';
 // import styled from 'styled-components';

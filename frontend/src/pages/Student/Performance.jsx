@@ -64,12 +64,11 @@ function StudentPerformance({ userId }) {
   const [grades, setGrades] = useState([]);
   const [chartData, setChartData] = useState(null);
 
-
   useEffect(() => {
     const fetchPerformanceData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/performance/${userId}`,
+          `https://schoolbridge-project-server.onrender.com/api/performance/${userId}`,
         );
         setPerformanceData(response.data);
         setAttendance(response.data.attendance);
@@ -85,7 +84,6 @@ function StudentPerformance({ userId }) {
             },
           ],
         });
-
       } catch (error) {
         console.error('Error fetching performance data:', error);
       }
@@ -97,7 +95,7 @@ function StudentPerformance({ userId }) {
   // Export report as CSV or PDF file (Dummy function)
   const exportReport = async (type) => {
     try {
-      const url = `http://localhost:5000/api/performance/export/${type}/${userId}`;
+      const url = `https://schoolbridge-project-server.onrender.com/api/performance/export/${type}/${userId}`;
       const response = await fetch(url);
       const blob = await response.blob();
 
@@ -110,7 +108,6 @@ function StudentPerformance({ userId }) {
       // console.log(`Exporting report as ${format}`);
     }
   };
-
 
   return (
     <>
@@ -160,7 +157,6 @@ function StudentPerformance({ userId }) {
             )}
           </Section>
 
-
           {/* Benchmark Section */}
           {benchmark && (
             <BenchmarkSection className="benchmark">
@@ -187,17 +183,3 @@ StudentPerformance.propTypes = {
 };
 
 export default StudentPerformance;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
