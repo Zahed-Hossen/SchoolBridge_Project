@@ -38,64 +38,6 @@ router.delete('/users/:id', verifyTokenAndRole(['Admin']), deleteUser);
 router.get('/profile', verifyTokenAndRole(['Admin']), getUserProfile);
 router.put('/profile', verifyTokenAndRole(['Admin']), updateUserProfile);
 
-// Fetch all users
-// router.get('/users', verifyTokenAndRole(['Admin']), async (req, res) => {
-//   try {
-//     const users = await User.find();
-//     res.status(200).json(users);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error. Please try again.' });
-//   }
-// });
-
-// // Add a new user
-// router.post('/users', verifyTokenAndRole(['Admin']), async (req, res) => {
-//   const { name, email, password, role } = req.body;
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const newUser = new User({ name, email, password: hashedPassword, role });
-//     await newUser.save();
-//     res.status(201).json(newUser);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error. Please try again.' });
-//   }
-// });
-
-// // Update a user
-// router.put('/users/:id', verifyTokenAndRole(['Admin']), async (req, res) => {
-//   const { name, email, role, password } = req.body;
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const updatedUser = await User.findByIdAndUpdate(
-//       req.params.id,
-//       { name, email, role, password: hashedPassword },
-//       { new: true }
-//     );
-//     res.status(200).json(updatedUser);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error. Please try again.' });
-//   }
-// });
-
-// // Delete a user
-// router.delete('/users/:id', verifyTokenAndRole(['Admin']), async (req, res) => {
-//   try {
-//     await findByIdAndDelete(req.params.id);
-//     res.status(200).json({ message: 'User deleted successfully.' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error. Please try again.' });
-//   }
-// });
-
-// // Fetch all classes
-// router.get('/classes', verifyTokenAndRole(['Admin']), async (req, res) => {
-//   try {
-//     const classes = await Class.find().populate('teacher').populate('students');
-//     res.status(200).json(classes);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error. Please try again.' });
-//   }
-// });
 // Add a new class
 router.post('/classes', verifyTokenAndRole(['Admin']), newClass);
 
