@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
-import User from '../models/User.js';
+import User from '../models/user.js';
 
 // Fetch all users
 export const getUsers = asyncHandler(async (req, res) => {
@@ -24,7 +24,7 @@ export const updateUser = asyncHandler(async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     req.params.id,
     { fullName, email, role, password: hashedPassword },
-    { new: true }
+    { new: true },
   );
   res.status(200).json(updatedUser);
 });
