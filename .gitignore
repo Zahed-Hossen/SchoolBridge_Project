@@ -25,3 +25,4 @@ docker-compose.yml
 
 # Local Netlify folder
 .netlify
+.github
