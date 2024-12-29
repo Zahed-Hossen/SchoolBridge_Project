@@ -2,6 +2,7 @@ image: node:20
 
 stages:
   - build
+  - deploy
 
 cache:
   paths:
@@ -19,3 +20,27 @@ build:
   artifacts:
     paths:
       - frontend/dist/
+
+deploy_frontend:
+  stage: deploy
+  script:
+    - 'curl -X POST -H "Authorization: Bearer $RENDER_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d ''{"serviceId": "srv-ctoo78q3esus73dbp700"}'' \
+      https://api.render.com/v1/services/srv-ctoo78q3esus73dbp700/deploys'
+  only:
+    - main
+  dependencies:
+    - build
+
+deploy_server:
+  stage: deploy
+  script:
+    - 'curl -X POST -H "Authorization: Bearer $RENDER_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d ''{"serviceId": "srv-ctomvr5svqrc73b9qr9g"}'' \
+      https://api.render.com/v1/services/srv-ctomvr5svqrc73b9qr9g/deploys'
+  only:
+    - main
+  dependencies:
+    - build
