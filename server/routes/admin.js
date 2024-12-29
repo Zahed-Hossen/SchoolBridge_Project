@@ -121,7 +121,7 @@ router.delete('/exams/:id',  deleteExam);
 router.get('/events',  getAllEvents);
 
 // Add a new event
-router.post('/events', verifyTokenAndRole(['Admin']), addNewEvent);
+router.post('/events',  addNewEvent);
 
 // Update an event
 router.put('/events/:id',  updateEvent);

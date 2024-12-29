@@ -49,7 +49,9 @@ const AdminAuthManagement = () => {
     // Fetch users and logs from the backend
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/admin/users');
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/admin/users',
+        );
         const data = await response.json();
         setUsers(data);
       } catch (error) {

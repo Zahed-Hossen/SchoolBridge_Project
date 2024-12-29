@@ -179,8 +179,8 @@ function App() {
 
 export default App;
 
-
-
+//frontend: https://schoolbridge-project-frontend.onrender.com
+//server: https://schoolbridge-project-server.onrender.com
 
 
 
