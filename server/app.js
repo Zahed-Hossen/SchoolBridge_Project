@@ -35,7 +35,7 @@ console.log('PORT:', process.env.PORT);
 
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'https://schoolbridge-project-frontend.onrender.com' }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
