@@ -4,7 +4,7 @@ import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
-  WELCOME_EMAIL_TEMPLATE, // Add welcome email template
+  WELCOME_EMAIL_TEMPLATE, 
 } from './emailTemplates.js';
 
 dotenv.config();

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from '../context/AuthContext';
 import Modal from './Modal';
 import {
   ModalHeader,
@@ -20,7 +19,6 @@ import {
 
 const SignUpModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-  // const { login } = useAuth();
   const [role, setRole] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');

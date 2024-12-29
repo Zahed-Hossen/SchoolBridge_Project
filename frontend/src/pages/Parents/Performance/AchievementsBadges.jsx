@@ -38,7 +38,7 @@ AchievementsBadges.propTypes = {
 };
 
 AchievementsBadges.defaultProps = {
-  achievements: [], // Set a default value
+  achievements: [], 
 };
 
 export default AchievementsBadges;

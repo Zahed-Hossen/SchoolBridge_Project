@@ -1,4 +1,3 @@
-// filepath: /e:/schoolbridge/server/tasks/notification.js
 import cron from "node-cron";
 import nodemailer from "nodemailer";
 import Performance from "../models/Performance.js";
@@ -10,8 +9,8 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER, // Use environment variable
-    pass: process.env.EMAIL_PASS, // Use environment variable
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -26,7 +25,7 @@ cron.schedule("0 9 * * *", async () => {
       // Attendance Warning
       if ((attendance.present / attendance.total) * 100 < 75) {
         transporter.sendMail({
-          from: process.env.EMAIL_USER, // Use environment variable
+          from: process.env.EMAIL_USER,
           to: userId.email,
           subject: "Attendance Warning",
           text: "Your attendance is below 75%. Please improve your attendance.",
@@ -37,7 +36,7 @@ cron.schedule("0 9 * * *", async () => {
       grades.forEach((grade) => {
         if ((grade.score / grade.maxScore) * 100 < 50) {
           transporter.sendMail({
-            from: process.env.EMAIL_USER, // Use environment variable
+            from: process.env.EMAIL_USER, 
             to: userId.email,
             subject: `Low Performance in ${grade.subject}`,
             text: `Your score in ${grade.subject} is below 50%. Please work on improving.`,

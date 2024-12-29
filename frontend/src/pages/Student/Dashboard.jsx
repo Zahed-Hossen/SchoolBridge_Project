@@ -103,12 +103,10 @@ const Dashboard = () => {
     <StudentLayout >
     <DashboardContainer>
 
-      {/* Welcome Section */}
       <WelcomeSection>
         Welcome back, {userName}!
       </WelcomeSection>
 
-      {/* Summary Cards */}
       <SummarySection>
         <SummaryCard>
           <CardTitle>Pending Assignments</CardTitle>
@@ -131,7 +129,6 @@ const Dashboard = () => {
         </SummaryCard>
       </SummarySection>
 
-      {/* Quick Links */}
       <QuickLinks>
         <QuickLinkCard>
           <QuickLinkText>📄 View Assignments</QuickLinkText>

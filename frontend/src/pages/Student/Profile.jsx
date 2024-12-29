@@ -16,7 +16,6 @@ import {
 } from './ProfilePageStyles';
 
 const Profile = () => {
-  // States for user data, passwords, loading, and errors
   const [user, setUser] = useState({
     fullName: '',
     email: '',

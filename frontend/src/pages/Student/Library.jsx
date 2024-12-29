@@ -119,7 +119,7 @@ const CloseButton = styled.button`
 `;
 
 const Library = () => {
-  const [books, setBooks] = useState([]); // State to hold all books
+  const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [categories, setCategories] = useState([]);
@@ -130,8 +130,7 @@ const Library = () => {
     author: '',
     genre: '',
   });
-  const [selectedBook, setSelectedBook] = useState(null); // For Modal
-
+  const [selectedBook, setSelectedBook] = useState(null);
   // Fetch the book data
   useEffect(() => {
     const fetchBooks = async () => {
@@ -146,7 +145,6 @@ const Library = () => {
         setBooks(data);
         setFilteredBooks(data);
 
-        // Extract unique categories, authors, and genres
         const uniqueCategories = [
           ...new Set(data.map((book) => book.category)),
         ];
@@ -163,7 +161,6 @@ const Library = () => {
     fetchBooks();
   }, []);
 
-  // Filter books based on search term and selected filters
   useEffect(() => {
     let filtered = books;
 

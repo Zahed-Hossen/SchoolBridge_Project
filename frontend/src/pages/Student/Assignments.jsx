@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
-// import StudentDashboard from '../../components/Temp/TempStudentDashboard';
-// import { SidebarContainer } from '../../components/Temp/TempStudentDashboard';
 import StudentLayout from '../../components/Student/StudentLayout';
 
 // Styled components
@@ -152,7 +150,7 @@ const Assignments = () => {
     );
   };
 
-  console.log('assignments:', assignments); // Inspect the value of assignments
+  console.log('assignments:', assignments); 
 
   const filteredAssignments = Array.isArray(assignments)
     ? assignments.filter((assignment) => {

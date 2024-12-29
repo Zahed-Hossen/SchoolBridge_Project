@@ -85,9 +85,9 @@ const FeesPage = () => {
       try {
         const response = await fetch(
           'https://schoolbridge-project-server.onrender.com/api/fees/1',
-        ); // Assuming studentId is 1 for demonstration
+        );
         const rawResponse = await response.text();
-        console.log('Raw response:', rawResponse); // Log the raw response
+        console.log('Raw response:', rawResponse);
         const data = JSON.parse(rawResponse);
         setFeeData(data);
       } catch (error) {
@@ -98,11 +98,11 @@ const FeesPage = () => {
     fetchFeeData();
   }, []);
 
-  console.log('feeData:', feeData); // Inspect the value of feeData
+  console.log('feeData:', feeData);
 
   const handlePayment = (fee) => {
     alert(`Payment for ${fee.name} is being processed.`);
-    // Mock payment process
+
     setFeeData((prevData) =>
       prevData.map((item) =>
         item.name === fee.name ? { ...item, status: 'Paid' } : item,

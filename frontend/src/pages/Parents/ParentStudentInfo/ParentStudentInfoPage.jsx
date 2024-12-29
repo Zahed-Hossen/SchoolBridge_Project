@@ -204,7 +204,6 @@ const ParentStudentInfo = () => {
           </header>
           <Title>Parent and Student Information</Title>
 
-          {/* Parent Info Section */}
           <Section>
             <Title>Parent Info</Title>
             <ProfileImage
@@ -236,7 +235,6 @@ const ParentStudentInfo = () => {
             </EditButton>
           </Section>
 
-          {/* Children Info Section */}
           <Section>
             <Title>Children Info</Title>
             <InfoGrid>
@@ -267,7 +265,6 @@ const ParentStudentInfo = () => {
             </InfoGrid>
           </Section>
 
-          {/* Edit Modal */}
           {showModal && (
             <Modal
               data={modalData}

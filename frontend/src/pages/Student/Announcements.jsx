@@ -110,7 +110,7 @@ const Announcements = () => {
   const currentItems = announcements.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(announcements.length / itemsPerPage);
 
-  console.log('currentItems:', currentItems); // Inspect the value of currentItems
+  console.log('currentItems:', currentItems); 
 
   if (isLoading) {
     return <p>Loading announcements...</p>;

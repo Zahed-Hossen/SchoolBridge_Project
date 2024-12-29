@@ -92,7 +92,6 @@ function StudentPerformance({ userId }) {
     fetchPerformanceData();
   }, [userId]);
 
-  // Export report as CSV or PDF file (Dummy function)
   const exportReport = async (type) => {
     try {
       const url = `https://schoolbridge-project-server.onrender.com/api/performance/export/${type}/${userId}`;
@@ -115,13 +114,11 @@ function StudentPerformance({ userId }) {
         <PerformanceContainer>
           <PerformanceHeader>Performance Overview</PerformanceHeader>
 
-          {/* Export Buttons */}
           <ExportButtons>
             <button onClick={() => exportReport('csv')}>Export as CSV</button>
             <button onClick={() => exportReport('pdf')}>Export as PDF</button>
           </ExportButtons>
 
-          {/* Attendance Section */}
           <Section className="attendance">
             <SectionHeader>Attendance</SectionHeader>
             <SectionText>

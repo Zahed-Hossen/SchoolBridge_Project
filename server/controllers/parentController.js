@@ -30,7 +30,7 @@ const parentInfo = {
 };
 
 export const getParentInfo = (req, res) => {
-  res.setHeader('Content-Type', 'application/json'); // Ensure the content type is JSON
+  res.setHeader('Content-Type', 'application/json'); 
   res.json(parentInfo);
 };
 

@@ -62,7 +62,7 @@ export const returnBook = async (req, res) => {
       const overdueDays = Math.ceil(
         (currentDate - book.dueDate) / (1000 * 60 * 60 * 24)
       );
-      penalty = overdueDays * 5; // Example: $5 per overdue day
+      penalty = overdueDays * 5; 
     }
 
     book.status = 'Available';

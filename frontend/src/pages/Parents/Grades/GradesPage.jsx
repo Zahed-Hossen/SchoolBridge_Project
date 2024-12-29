@@ -123,7 +123,7 @@ const GradesPage = () => {
             {selectedSubject && (
               <PerformanceModal
                 subject={selectedSubject}
-                data={selectedGradeData.details} // Ensure this is the correct data structure
+                data={selectedGradeData.details} 
                 onClose={handleCloseModal}
               />
             )}

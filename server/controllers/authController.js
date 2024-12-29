@@ -15,6 +15,7 @@ import {
 // Predefined roles
 const roles = ['Teacher', 'Student', 'Parent', 'Admin'];
 
+
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
@@ -79,10 +80,11 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access  Public
 const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.query;
-  console.log('Received token:', token); // Add this line for debugging
+  console.log('Received token:', token);
   // const { email, code } = req.body;
-  // console.log('Received email:', email); // Add this line for debugging
-  // console.log('Received code:', code); // Add this line for debugging
+  // console.log('Received email:', email);
+  // console.log('Received code:', code);
+  
   try {
     if (!token) {
       return res

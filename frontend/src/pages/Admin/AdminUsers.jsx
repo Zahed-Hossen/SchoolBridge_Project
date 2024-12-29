@@ -269,7 +269,6 @@ const AdminUsers = () => {
             </div>
             <Button>View</Button>
           </Item>
-          {/* Add more financial items as needed */}
         </Section>
       </UserManagementContainer>
     </AdminLayout>

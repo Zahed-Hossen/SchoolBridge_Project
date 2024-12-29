@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-// import Header from '../Header';
 import Modal from '../Attendance/Modal.jsx';
 import { SummaryCard, CalendarCard } from '../../../components/CardComponents';
 import ParentLayout from '../../../components/Parent/ParentLayout';
@@ -135,7 +134,7 @@ const AttendancePage = () => {
                 <option value="2024-07">July 2024</option>
                 <option value="2024-06">June 2024</option>
                 <option value="2024-10">February 2024</option>
-                {/* Add more months as needed */}
+
               </FilterSelect>
             </CalendarCard>
           </FilterContainer>
@@ -213,102 +212,3 @@ const AttendancePage = () => {
 };
 
 export default AttendancePage;
-
-// import { useEffect, useState } from 'react';
-// import styled from 'styled-components';
-// import axios from 'axios';
-// import Header from './Header';
-// import Modal from './Modal';
-// import { SummaryCard, CalendarCard } from '../../components/CardComponents';
-
-// const AttendanceContainer = styled.div`
-//   padding: 20px;
-// `;
-
-// const Title = styled.h2`
-//   color: #0f2f42;
-//   margin-bottom: 15px;
-// `;
-
-// const AttendanceSummary = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   background-color: #f9f9f9;
-//   padding: 15px;
-//   border-radius: 8px;
-//   border: 1px solid #ccc;
-//   margin-bottom: 20px;
-// `;
-
-// const SummaryItem = styled.div`
-//   text-align: center;
-// `;
-
-// const Calendar = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(7, 1fr);
-//   gap: 10px;
-// `;
-
-// const AttendancePage = () => {
-//   const [attendanceData, setAttendanceData] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchAttendance = async () => {
-//       try {
-//         const response = await axios.get('/api/attendance');
-//         console.log(response.data); // Inspect the structure of response.data
-//         if (Array.isArray(response.data)) {
-//           setAttendanceData(response.data);
-//         } else {
-//           throw new Error('Invalid data format');
-//         }
-//       } catch (error) {
-//         console.error('Error fetching attendance data:', error);
-//         setError('Failed to fetch attendance data.');
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchAttendance();
-//   }, []);
-
-//   if (loading) {
-//     return <p>Loading attendance data...</p>;
-//   }
-
-//   if (error) {
-//     return <p>{error}</p>;
-//   }
-
-//   return (
-//     <AttendanceContainer>
-//       <Header />
-//       <Title>Attendance</Title>
-//       <AttendanceSummary>
-//         <SummaryItem>
-//           <h3>Present</h3>
-//           <p>{attendanceData.filter(day => day.status === 'present').length}</p>
-//         </SummaryItem>
-//         <SummaryItem>
-//           <h3>Absent</h3>
-//           <p>{attendanceData.filter(day => day.status === 'absent').length}</p>
-//         </SummaryItem>
-//         <SummaryItem>
-//           <h3>Late</h3>
-//           <p>{attendanceData.filter(day => day.status === 'late').length}</p>
-//         </SummaryItem>
-//       </AttendanceSummary>
-//       <Calendar>
-//         {attendanceData.map((day, index) => (
-//           <CalendarCard key={index} day={day} />
-//         ))}
-//       </Calendar>
-//     </AttendanceContainer>
-//   );
-// };
-
-// export default AttendancePage;
