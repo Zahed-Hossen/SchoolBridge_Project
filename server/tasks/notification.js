@@ -2,7 +2,6 @@
 import cron from "node-cron";
 import nodemailer from "nodemailer";
 import Performance from "../models/Performance.js";
-import User from "../models/User.js";
 import dotenv from "dotenv";
 
 dotenv.config();
