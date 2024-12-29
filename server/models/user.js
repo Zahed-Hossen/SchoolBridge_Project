@@ -1,5 +1,4 @@
 import mongoose, { Schema, model } from "mongoose";
-import bcrypt from "bcryptjs";
 
 const UserSchema = new Schema(
   {
@@ -24,15 +23,15 @@ const UserSchema = new Schema(
     resetPasswordToken: { type: String, default: null },
     resetPasswordExpiresAt: { type: Date, default: null },
 
-    // borrowingHistory: [
-    //   {
-    //     bookId: { type: Schema.Types.ObjectId, ref: 'Book' },
-    //     borrowedDate: { type: Date },
-    //     returnedDate: { type: Date },
-    //   },
-    // ],
-    // bio: { type: String, default: '' },
-    // profilePic: { type: String, default: '' }, // Base64 or URL
+    borrowingHistory: [
+      {
+        bookId: { type: Schema.Types.ObjectId, ref: 'Book' },
+        borrowedDate: { type: Date },
+        returnedDate: { type: Date },
+      },
+    ],
+    bio: { type: String, default: '' },
+    profilePic: { type: String, default: '' }, // Base64 or URL
   },
   { timestamps: true },
 );

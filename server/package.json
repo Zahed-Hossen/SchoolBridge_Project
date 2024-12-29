@@ -7,7 +7,7 @@
     "test": "jest",
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
-    "build": "[my-app] build --output public"
+    "build": "echo \"Error: no build specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
