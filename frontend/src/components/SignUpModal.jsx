@@ -63,16 +63,16 @@ const SignUpModal = ({ isOpen, onClose }) => {
       Admin: '/admin/dashboard',
     };
 
-    if (!isVerified) {
-      navigate('/verify-email');
-    } else {
+    // if (!isVerified) {
+    //   navigate('/verify-email');
+    // } else {
       const dashboardPath = roleDashboardPaths[userRole];
       if (dashboardPath) {
         navigate(dashboardPath);
       } else {
         console.error('Invalid role or redirection path not defined.');
       }
-    }
+    // }
   };
 
   const handleSubmit = async (e) => {
