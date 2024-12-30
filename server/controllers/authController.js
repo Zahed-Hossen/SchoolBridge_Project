@@ -3,6 +3,7 @@ import bcryptjs from 'bcryptjs';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import User from '../models/user.js';
+import OTPModel from '../models/OTPModel.js';
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
 
 import {
@@ -14,6 +15,9 @@ import {
 
 // Predefined roles
 const roles = ['Teacher', 'Student', 'Parent', 'Admin'];
+
+
+
 
 
 // @desc    Register a new user
@@ -75,6 +79,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+
 // @desc    Verify email
 // @route   GET /api/auth/verify-email
 // @access  Public
@@ -84,7 +91,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
   // const { email, code } = req.body;
   // console.log('Received email:', email);
   // console.log('Received code:', code);
-  
+
   try {
     if (!token) {
       return res
@@ -123,106 +130,130 @@ const verifyEmail = asyncHandler(async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
+
+
+
 // @desc    Verify OTP
 // @route   POST /api/auth/verify-otp
 // @access  Public
-const verifyOtp = asyncHandler(async (req, res) => {
+// const verifyOtp = asyncHandler(async (req, res) => {
+//   const { email, otp } = req.body;
+//   try {
+//     const user = await User.findOne({ email });
+
+//     if (!user) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: 'User not found' });
+//     }
+
+//     if (
+//       user.verificationToken !== otp ||
+//       user.verificationTokenExpiresAt < Date.now()
+//     ) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: 'Invalid or expired OTP' });
+//     }
+
+//     user.isVerified = true;
+//     user.verificationToken = undefined;
+//     user.verificationTokenExpiresAt = undefined;
+//     await user.save();
+
+//     await sendWelcomeEmail(user.email, user.fullName);
+//     await user.deleteOne({ email });
+//     res
+//       .status(200)
+//       .json({ success: true, message: 'OTP verified successfully' });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// });
+// File: controllers/authController.js
+
+
+
+
+const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
+
   try {
-    const user = await User.findOne({ email });
+    // Find OTP record
+    const otpRecord = await OTPModel.findOne({ email });
 
-    if (!user) {
+    if (!otpRecord) {
       return res
         .status(400)
-        .json({ success: false, message: 'User not found' });
+        .json({ success: false, message: 'Invalid email.' });
     }
 
-    if (
-      user.verificationToken !== otp ||
-      user.verificationTokenExpiresAt < Date.now()
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid or expired OTP' });
+    // Check if OTP matches and is not expired
+    if (otpRecord.otp !== otp || otpRecord.expiresAt < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired OTP. Please try again.',
+      });
     }
 
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationTokenExpiresAt = undefined;
-    await user.save();
+    // Mark the user as verified (or authenticated)
+    const user = await UserModel.findOneAndUpdate(
+      { email },
+      { isVerified: true },
+      { new: true },
+    );
 
     await sendWelcomeEmail(user.email, user.fullName);
+    await OTPModel.deleteOne({ email });
 
-    res
-      .status(200)
-      .json({ success: true, message: 'OTP verified successfully' });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(200).json({
+      success: true,
+      message: 'OTP verified successfully!',
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: 'Server error. Please try again later.',
+    });
   }
-});
+};
+
+
 
 const OTPRequest = async (req, res) => {
   const { email } = req.body;
 
-  if (!email) {
-    return res.status(400).json({ error: 'Email is required' });
-  }
-
   try {
-    // Generate OTP
-    const otp = speakeasy.totp({
-      secret: process.env.OTP_SECRET || 'mysecret', // Secret key
-      digits: 6, // Length of the OTP
-      step: 300, // Validity in seconds (5 minutes)
+    const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Save OTP in database with expiry
+    const expiresAt = Date.now() + 10 * 60 * 1000; // Expires in 10 minutes
+    await OTPModel.findOneAndUpdate(
+      { email },
+      { otp: generatedOTP, expiresAt },
+      { upsert: true },
+    );
+
+    await sendVerificationEmail(User.email, verificationToken);
+
+    res.status(200).json({
+      success: true,
+      message: 'OTP sent successfully!',
     });
-
-    // Store OTP in the database
-    const expiresAt = new Date(Date.now() + 300000); // 5 minutes from now
-    await otp.create({ email, otp, expiresAt });
-
-    // Send OTP via email
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Your OTP Code',
-      text: `Your OTP code is ${otp}. It will expire in 5 minutes.`,
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send OTP. Please try again later.',
     });
-
-    res.status(200).json({ message: 'OTP sent successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to send OTP' });
   }
 };
 
-const OTPVerification = async (req, res) => {
-  const { email, otp } = req.body;
 
-  if (!email || !otp) {
-    return res.status(400).json({ error: 'Email and OTP are required' });
-  }
 
-  try {
-    // Find OTP in the database
-    const otpRecord = await otp.findOne({ email, otp });
-
-    if (!otpRecord) {
-      return res.status(400).json({ error: 'Invalid OTP' });
-    }
-
-    // Check if OTP is expired
-    if (otpRecord.expiresAt < new Date()) {
-      return res.status(400).json({ error: 'OTP expired' });
-    }
-
-    // OTP is valid
-    await otp.deleteOne({ _id: otpRecord._id }); // Delete OTP after verification
-    res.status(200).json({ message: 'OTP verified successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to verify OTP' });
-  }
-};
 
 // @desc    Authenticate user & get token
 // @route   POST /api/auth/login
@@ -282,10 +313,15 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 });
 
+
+
 const logout = async (req, res) => {
   res.clearCookie('token');
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
+
+
+
 
 // @desc    Handle password reset request
 // @route   POST /api/auth/password-reset
@@ -330,6 +366,8 @@ const passwordReset = asyncHandler(async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 });
+
+
 
 // @desc    Reset password using token
 // @route   POST /api/auth/reset-password/:token
@@ -378,6 +416,8 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 });
 
+
+
 // @desc    Authenticate user with existing credentials
 // @route   POST /api/auth/authenticate
 // @access  Public
@@ -407,5 +447,5 @@ export {
   verifyOtp,
   logout,
   OTPRequest,
-  OTPVerification,
+  // OTPVerification,
 };

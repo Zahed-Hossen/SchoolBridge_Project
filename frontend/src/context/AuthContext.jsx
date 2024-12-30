@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 const AuthContext = createContext();
@@ -6,19 +6,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
-
-  useEffect(() => {
-    if (token) {
-      fetch('/api/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => setUser(data))
-        .catch((error) => console.error('Error fetching user data:', error));
-    }
-  }, [token]);
 
   const login = (token, userData) => {
     setToken(token);
@@ -33,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -44,3 +31,24 @@ AuthProvider.propTypes = {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+export default AuthContext;
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if (token) {
+  //     fetch('/api/user', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => setUser(data))
+  //       .catch((error) => console.error('Error fetching user data:', error));
+  //   }
+  // }, [token]);

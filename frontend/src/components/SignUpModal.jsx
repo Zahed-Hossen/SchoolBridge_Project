@@ -54,7 +54,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
   const handleSignUpSuccess = (token) => {
     const decodedToken = jwtDecode(token);
     const userRole = decodedToken.role;
-    const isVerified = decodedToken.isVerified;
+    // const isVerified = decodedToken.isVerified;
 
     const roleDashboardPaths = {
       Teacher: '/teacher/dashboard',

@@ -7,9 +7,9 @@ import {
   logout,
   passwordReset,
   resetPassword,
-  verifyOtp,
+  // verifyOtp,
   OTPRequest,
-  OTPVerification
+  // OTPVerification
 } from '../controllers/authController.js';
 const router = Router();
 
@@ -20,11 +20,11 @@ router.post('/signup', registerUser);
 router.post('/login', loginUser);
 router.post('/verify-email', verifyEmail);
 router.post('/logout', logout);
-router.post('/verify-otp', verifyOtp);
 router.post('/forgot-password', passwordReset);
 router.post('/reset-password/:token', resetPassword);
+// router.post('/verify-otp', verifyOtp);
 router.post( '/send-otp', OTPRequest);
-router.post('/verify-otp', OTPVerification);
+// router.post('/otp-verification', OTPVerification);
 
 
 export default router;

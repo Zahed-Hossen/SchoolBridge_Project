@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 //Authentication
 import Login from './components/LoginModal';
 import SignUp from './components/SignUpModal';
-import VerifyEmail from './pages/OtpV';
+import VerifyEmail from './components/OtpVerification';
 
 // Student Role Section
 import Dashboard from './pages/Student/Dashboard';
@@ -19,7 +19,6 @@ import StudentPerformance from './pages/Student/Performance';
 import Profile from './pages/Student/Profile';
 import AdminAuthPage from './pages/Admin/AdminAuthPage';
 
-
 // Parent Role Section
 import DashboardParent from './pages/Parents/Dashboard';
 import ParentStudentInfo from './pages/Parents/ParentStudentInfo/ParentStudentInfoPage';
@@ -29,7 +28,6 @@ import GradesPage from './pages/Parents/Grades/GradesPage';
 import AttendancePage from './pages/Parents/Attendance/AttendancePage';
 import PerformancePage from './pages/Parents/Performance/PerformancePage';
 
-
 // Admin Role Section
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminUsers from './pages/Admin/AdminUsers';
@@ -38,7 +36,6 @@ import AdminExams from './pages/Admin/AdminExams';
 import AdminEvents from './pages/Admin/AdminEvents';
 import AdminFinances from './pages/Admin/AdminFinances';
 import AdminSettings from './pages/Admin/AdminSettings';
-
 
 // Teacher Role Section
 import TeacherDashboard from './pages/Teacher/TeacherDashboard';
@@ -51,7 +48,6 @@ import TeacherGradebook from './pages/Teacher/TeacherGradebook';
 import TeacherResources from './pages/Teacher/TeacherResources';
 import TeacherSchedule from './pages/Teacher/TeacherSchedule';
 
-
 // Other Pages
 import AuthPage from './pages/Auth/AuthPage';
 import FeaturesPage from './pages/Features/FeaturePage';
@@ -59,7 +55,6 @@ import AboutPage from './pages/AboutUs/AboutPage';
 import ContactUsPage from './pages/ContactUs/ContactUsPage';
 import PricingPage from './pages/Pricing/PricingPage';
 import Home from './pages/LandingPage/Home';
-
 
 function App() {
   const [userId, setUserId] = useState(null);
@@ -96,8 +91,14 @@ function App() {
           <Route path="/pricing" element={<PricingPage />} />
 
           {/* Authentication Routes */}
-          <Route path="/login" element={<Login isOpen={true} onClose={() => {}} />} />
-          <Route path="/signup" element={<SignUp isOpen={true} onClose={()   => {}} />} />
+          <Route
+            path="/login"
+            element={<Login isOpen={true} onClose={() => {}} />}
+          />
+          <Route
+            path="/signup"
+            element={<SignUp isOpen={true} onClose={() => {}} />}
+          />
           <Route path="/verify-email" element={<VerifyEmail />} />
 
           {/* Student Role Routes */}
@@ -175,19 +176,14 @@ function App() {
       </Router>
     </AuthProvider>
   );
-};
+}
 
 export default App;
 
+
+
 //frontend: https://schoolbridge-project-frontend.onrender.com
 //server: https://schoolbridge-project-server.onrender.com
-
-
-
-
-
-
-
 
 
 
@@ -209,7 +205,6 @@ export default App;
 // import AttendancePage from './pages/Parents/Attendance/AttendancePage.jsx';
 // import PerformancePage from './pages/Parents/Performance/PerformancePage';
 
-
 // // Students Role Section
 // import StudentDashboard from './pages/Student/StudentDashboard';
 // import Dashboard from './pages/Student/Dashboard';
@@ -221,7 +216,6 @@ export default App;
 // import Performance from './pages/Student/Performance';
 // import Profile from './pages/Student/Profile';
 
-
 // // Admin Role Section
 // import Classes from './pages/Admin/Classes';
 // import Exam from './pages/Admin/Exam';
@@ -231,7 +225,6 @@ export default App;
 // import SettingsProfile from './pages/Admin/SettingsProfile';
 // import Announcement from './pages/Admin/Announcement';
 
-
 // // Other Pages
 // import AuthPage from './pages/Auth/AuthPage.jsx';
 // import FeaturesPage from './pages/Features/FeaturePage.jsx';
@@ -239,7 +232,6 @@ export default App;
 // import ContactUsPage from './pages/ContactUs/ContactUsPage.jsx';
 // import PricingPage from './pages/Pricing/PricingPage.jsx';
 // import ErrorBoundary from './components/ErrorBoundary';
-
 
 // const App = () => {
 //   return (
@@ -465,6 +457,5 @@ export default App;
 //     </AuthProvider>
 //   );
 // };
-
 
 // export default App;
