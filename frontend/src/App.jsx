@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 //Authentication
 import Login from './components/LoginModal';
 import SignUp from './components/SignUpModal';
-import VerifyEmail from './pages/Auth/VerifyEmail';
+import VerifyEmail from './pages/OtpV';
 
 // Student Role Section
 import Dashboard from './pages/Student/Dashboard';
