@@ -45,7 +45,10 @@ const PerformancePage = () => {
 
       try {
         const response = await axios.get(
-          `https://schoolbridge-project-server.onrender.com/api/performance/${childId}`,
+          `http://localhost:5000/api/performance/${childId}`,
+          {
+            withCredentials: true,
+          },
         );
         setPerformanceData(response.data.performanceScores); // Radar chart data
         setAchievements(response.data.achievements); // Achievements data

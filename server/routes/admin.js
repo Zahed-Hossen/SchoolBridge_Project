@@ -26,6 +26,7 @@ import {
   updateFees,
   deleteFees,
 } from '../controllers/adminController.js';
+import { protect, authorize } from '../middleware/authMiddleware.js';
 const router = Router();
 
 // User routes
@@ -38,52 +39,28 @@ router.delete('/users/:id', verifyTokenAndRole(['Admin']), deleteUser);
 router.get('/profile', verifyTokenAndRole(['Admin']), getUserProfile);
 router.put('/profile', verifyTokenAndRole(['Admin']), updateUserProfile);
 
-// Add a new class
+// Class routes
 router.post('/classes', verifyTokenAndRole(['Admin']), newClass);
+router.put('/classes/:id', verifyTokenAndRole(['Admin']), updateClass);
+router.delete('/classes/:id', verifyTokenAndRole(['Admin']), deleteClass);
 
-// Update a class
-router.put('/classes/:id',  updateClass);
+// Exam routes
+router.get('/exams', verifyTokenAndRole(['Admin']), getExams);
+router.post('/exams', verifyTokenAndRole(['Admin']), addNewExams);
+router.put('/exams/:id', verifyTokenAndRole(['Admin']), updateExams);
+router.delete('/exams/:id', verifyTokenAndRole(['Admin']), deleteExam);
 
-// Delete a class
-router.delete( '/classes/:id',  deleteClass);
+// Event routes
+router.get('/events', verifyTokenAndRole(['Admin']), getAllEvents);
+router.post('/events', verifyTokenAndRole(['Admin']), addNewEvent);
+router.put('/events/:id', verifyTokenAndRole(['Admin']), updateEvent);
+router.delete('/events/:id', verifyTokenAndRole(['Admin']), deleteEvent);
 
-// Fetch all exams
-router.get('/exams',  getExams);
-
-// Add a new exam
-router.post('/exams',  addNewExams);
-
-// Update an exam
-router.put('/exams/:id',  updateExams);
-
-// Delete an exam
-router.delete('/exams/:id',  deleteExam);
-
-// Fetch all events
-router.get('/events',  getAllEvents);
-
-// Add a new event
-router.post('/events',  addNewEvent);
-
-// Update an event
-router.put('/events/:id',  updateEvent);
-
-// Delete an event
-router.delete( '/events/:id',  deleteEvent);
-
-// Fetch all fees
-router.get('/fees',  getAllFees);
-
-// Add a new fee
-router.post('/fees',  addNewFees);
-
-// Update a fee
-router.put('/fees/:id', updateFees);
-
-// Delete a fee
-router.delete('/fees/:id', deleteFees);
-
+// Fee routes
+router.get('/fees', verifyTokenAndRole(['Admin']), getAllFees);
+router.post('/fees', verifyTokenAndRole(['Admin']), addNewFees);
+router.put('/fees/:id', verifyTokenAndRole(['Admin']), updateFees);
+router.delete('/fees/:id', verifyTokenAndRole(['Admin']), deleteFees);
 
 export default router;
 
-//verifyTokenAndRole(['Admin']),

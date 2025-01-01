@@ -4,8 +4,14 @@ import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
-  WELCOME_EMAIL_TEMPLATE, 
+  WELCOME_EMAIL_TEMPLATE,
 } from './emailTemplates.js';
+
+import twilio from 'twilio';
+
+const client = twilio(process.env.TWILIO_API_KEY_SID, process.env.TWILIO_API_KEY_SECRET, {
+  accountSid: process.env.TWILIO_ACCOUNT_SID,
+});
 
 dotenv.config();
 
@@ -26,6 +32,8 @@ transporter.verify((error, success) => {
   }
 });
 
+
+
 export const sendVerificationEmail = async (email, verificationToken) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -45,6 +53,27 @@ export const sendVerificationEmail = async (email, verificationToken) => {
     throw new Error(`Error sending verification email: ${error}`);
   }
 };
+
+
+
+ const formatPhoneNumber = (phoneNumber) => {
+
+  if (!phoneNumber.startsWith('+')) {
+    return `+880${phoneNumber.slice(1)}`;
+  }
+  return phoneNumber;
+};
+
+export const sendSMS = async (phoneNumber, message) => {
+  const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+  await client.messages.create({
+    body: message,
+    from: process.env.TWILIO_PHONE_NUMBER,
+    to: formattedPhoneNumber,
+  });
+};
+
+
 
 export const sendWelcomeEmail = async (email, name) => {
   const mailOptions = {

@@ -136,7 +136,10 @@ const Library = () => {
     const fetchBooks = async () => {
       try {
         const response = await fetch(
-          'https://schoolbridge-project-server.onrender.com/api/library/books',
+          'http://localhost:5000/api/library/books',
+          {
+            withCredentials: true,
+          },
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

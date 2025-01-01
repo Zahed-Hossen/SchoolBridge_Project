@@ -36,9 +36,9 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/profile',
-        );
+        const response = await axios.get('http://localhost:5000/api/profile', {
+          withCredentials: true,
+        });
         setUser(response.data);
         setLoading(false);
       } catch {
@@ -70,8 +70,14 @@ const Profile = () => {
     try {
       setLoading(true);
       await axios.put(
-        'https://schoolbridge-project-server.onrender.com/api/profile',
+        'http://localhost:5000/api/profile',
         user,
+        {
+          withCredentials: true,
+        },
+        {
+          withCredentials: true,
+        },
       );
       setEditMode(false);
       alert('Profile updated successfully!');
@@ -91,9 +97,12 @@ const Profile = () => {
     try {
       setLoading(true);
       await axios.put(
-        'https://schoolbridge-project-server.onrender.com/api/profile/password',
+        'http://localhost:5000/api/profile/password',
         {
           newPassword,
+        },
+        {
+          withCredentials: true,
         },
       );
       alert('Password updated successfully!');

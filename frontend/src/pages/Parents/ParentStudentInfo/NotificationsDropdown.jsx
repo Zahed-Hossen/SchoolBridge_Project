@@ -58,7 +58,10 @@ const NotificationsDropdown = () => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/notifications',
+          'http://localhost:5000/api/notifications',
+          {
+            withCredentials: true,
+          },
         );
         setNotifications(response.data);
         setUnreadCount(response.data.filter((n) => !n.read).length);
@@ -75,7 +78,10 @@ const NotificationsDropdown = () => {
   const handleMarkAsRead = async (id) => {
     try {
       await axios.put(
-        `https://schoolbridge-project-server.onrender.com/api/notifications/${id}`,
+        `http://localhost:5000/api/notifications/${id}`,
+        {
+          withCredentials: true,
+        },
         {
           read: true,
         },

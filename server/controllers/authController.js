@@ -4,6 +4,9 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import User from '../models/user.js';
 import OTPModel from '../models/OTPModel.js';
+import jwt from 'jsonwebtoken';
+// import { sendEmail } from '../utils/email.js';
+// import { sendSMS } from '../utils/sms.js';
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
 
 import {
@@ -11,14 +14,11 @@ import {
   sendPasswordResetSuccessEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
+  sendSMS,
 } from '../config/emails.js';
 
 // Predefined roles
 const roles = ['Teacher', 'Student', 'Parent', 'Admin'];
-
-
-
-
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
@@ -79,18 +79,13 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
 // @desc    Verify email
 // @route   GET /api/auth/verify-email
 // @access  Public
 const verifyEmail = asyncHandler(async (req, res) => {
-  const { token } = req.query;
+  const { token, verificationCode } = req.body;
   console.log('Received token:', token);
-  // const { email, code } = req.body;
-  // console.log('Received email:', email);
-  // console.log('Received code:', code);
+  console.log('Received verification code:', verificationCode);
 
   try {
     if (!token) {
@@ -98,9 +93,9 @@ const verifyEmail = asyncHandler(async (req, res) => {
         .status(400)
         .json({ error: true, message: 'Invalid or missing token.' });
     }
-
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({
-      verificationToken: token,
+      verificationToken: verificationCode,
       verificationTokenExpiresAt: { $gt: Date.now() },
     });
 
@@ -130,7 +125,6 @@ const verifyEmail = asyncHandler(async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
-
 
 
 
@@ -175,56 +169,83 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
 
 
+// const verifyOTP = async (req, res) => {
+//   const { email, otp } = req.body;
 
-const verifyOtp = async (req, res) => {
-  const { email, otp } = req.body;
+//   const otpRecord = await OTPModel.findOne({ email });
 
-  try {
-    // Find OTP record
-    const otpRecord = await OTPModel.findOne({ email });
+//   if (!otpRecord) {
+//     return res.status(400).json({ message: 'OTP not found' });
+//   }
 
-    if (!otpRecord) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid email.' });
-    }
+//   if (otpRecord.expiresAt < Date.now()) {
+//     return res.status(400).json({ message: 'OTP has expired' });
+//   }
 
-    // Check if OTP matches and is not expired
-    if (otpRecord.otp !== otp || otpRecord.expiresAt < Date.now()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid or expired OTP. Please try again.',
-      });
-    }
+//   if (otpRecord.otp !== otp) {
+//     return res.status(400).json({ message: 'Invalid OTP' });
+//   }
 
-    // Mark the user as verified (or authenticated)
-    const user = await UserModel.findOneAndUpdate(
-      { email },
-      { isVerified: true },
-      { new: true },
-    );
+//   await User.findOneAndUpdate({ email }, { isVerified: true });
+//   await OTPModel.deleteOne({ email });
 
-    await sendWelcomeEmail(user.email, user.fullName);
-    await OTPModel.deleteOne({ email });
+//   res.status(200).json({ message: 'OTP verified successfully' });
+// };
 
-    res.status(200).json({
-      success: true,
-      message: 'OTP verified successfully!',
-      user,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      success: false,
-      message: 'Server error. Please try again later.',
-    });
-  }
-};
+// export { verifyOTP };
 
+
+
+
+
+// const verifyOtp = async (req, res) => {
+//   const { email, otp } = req.body;
+
+//   try {
+//     // Find OTP record
+//     const otpRecord = await OTPModel.findOne({ email }) || await OTPModel.findOne({ phone });
+
+//     if (!otpRecord) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: 'Invalid email or phone number' });
+//     }
+
+//     // Check if OTP matches and is not expired
+//     if (otpRecord.otp !== otp || otpRecord.expiresAt < Date.now()) {
+//       return res.status(400).json({
+//         success: false,
+//         message: 'Invalid or expired OTP. Please try again.',
+//       });
+//     }
+
+//     // Mark the user as verified (or authenticated)
+//     const user = await User.findOneAndUpdate(
+//       { email  },
+//       { isVerified: true },
+//       { new: true },
+//     );
+
+//     await sendWelcomeEmail(user.email, user.fullName);
+//     await OTPModel.deleteOne({ email });
+
+//     res.status(200).json({
+//       success: true,
+//       message: 'OTP verified successfully!',
+//       user,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({
+//       success: false,
+//       message: 'Server error. Please try again later.',
+//     });
+//   }
+// };
 
 
 const OTPRequest = async (req, res) => {
-  const { email } = req.body;
+  const { email, phone } = req.body;
 
   try {
     const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
@@ -232,16 +253,16 @@ const OTPRequest = async (req, res) => {
     // Save OTP in database with expiry
     const expiresAt = Date.now() + 10 * 60 * 1000; // Expires in 10 minutes
     await OTPModel.findOneAndUpdate(
-      { email },
+      { email, phone },
       { otp: generatedOTP, expiresAt },
       { upsert: true },
     );
 
-    await sendVerificationEmail(User.email, verificationToken);
+    await sendVerificationEmail(User.email, generateOTP);
 
     res.status(200).json({
       success: true,
-      message: 'OTP sent successfully!',
+      message: 'OTP resent successfully!',
     });
   } catch (err) {
     console.error(err);
@@ -249,6 +270,40 @@ const OTPRequest = async (req, res) => {
       success: false,
       message: 'Failed to send OTP. Please try again later.',
     });
+  }
+};
+
+
+
+const generateOTP = async (contact, method) => {
+  const otp = crypto.randomBytes(3).toString('hex');
+  const expiresAt = Date.now() + 10 * 60 * 1000;
+
+  await OTPModel.findOneAndUpdate(
+    { email: contact },
+    { otp, expiresAt },
+    { upsert: true }
+  );
+
+  const message = `Your OTP is ${otp}. It will expire in 10 minutes.`;
+
+  if (method === 'email') {
+    await sendVerificationEmail(contact, otp);
+  } else if (method === 'sms') {
+    await sendSMS(contact, message);
+  }
+
+  return otp;
+};
+
+const resendOTP = async (req, res) => {
+  const { contact, method } = req.body;
+
+  try {
+    await generateOTP(contact, method);
+    res.status(200).json({ message: 'OTP resent successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -288,7 +343,7 @@ const loginUser = asyncHandler(async (req, res) => {
     return res.status(401).json({ message: 'Invalid password.' });
   }
 
-  const token = generateTokenAndSetCookie(res, user._id, user.role);
+  const token = generateTokenAndSetCookie(res, user._id, user.role, user.isVerified);
 
   user.lastLogin = new Date();
   await user.save();
@@ -306,6 +361,7 @@ const loginUser = asyncHandler(async (req, res) => {
     success: true,
     message: 'Logged in successfully',
     token,
+    redirectPath,
     user: {
       ...user._doc,
       password: undefined,
@@ -314,13 +370,13 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
-
-const logout = async (req, res) => {
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Public
+const logout = asyncHandler(async (req, res) => {
   res.clearCookie('token');
   res.status(200).json({ success: true, message: 'Logged out successfully' });
-};
-
-
+});
 
 
 // @desc    Handle password reset request
@@ -344,7 +400,7 @@ const passwordReset = asyncHandler(async (req, res) => {
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetPasswordExpiresAt = Date.now() + 1 * 60 * 60 * 1000;
     // our
-    const resetLink = `https://schoolbridge-project-frontend.onrender.com/reset-password?token=${resetToken}`;
+    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
     // Save token and expiration to the user's account
     user.resetPasswordToken = resetToken;
@@ -355,19 +411,15 @@ const passwordReset = asyncHandler(async (req, res) => {
     // send email
     await sendPasswordResetRequestEmail(user.email, resetLink);
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Password reset link sent to your email',
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Password reset link sent to your email',
+    });
   } catch (error) {
     console.log('Error in forgotPassword ', error);
     res.status(400).json({ success: false, message: error.message });
   }
 });
-
-
 
 // @desc    Reset password using token
 // @route   POST /api/auth/reset-password/:token
@@ -416,8 +468,6 @@ const resetPassword = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 // @desc    Authenticate user with existing credentials
 // @route   POST /api/auth/authenticate
 // @access  Public
@@ -444,8 +494,10 @@ export {
   passwordReset,
   resetPassword,
   verifyEmail,
-  verifyOtp,
+  // verifyOtp,
   logout,
   OTPRequest,
+  generateOTP,
+  resendOTP,
   // OTPVerification,
 };

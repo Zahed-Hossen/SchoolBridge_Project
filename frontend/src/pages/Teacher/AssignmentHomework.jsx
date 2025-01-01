@@ -71,7 +71,10 @@ const AssignmentHomework = () => {
     const fetchAssignments = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/assignments',
+          'http://localhost:5000/api/teacher/assignments',
+          {
+            withCredentials: true,
+          },
         );
         setAssignments(response.data);
       } catch (error) {
@@ -95,8 +98,11 @@ const AssignmentHomework = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `https://schoolbridge-project-server.onrender.com/api/teacher/assignments/${editingId}`,
+          `http://localhost:5000/api/teacher/assignments/${editingId}`,
           form,
+          {
+            withCredentials: true,
+          },
         );
         setAssignments((prevAssignments) =>
           prevAssignments.map((assignment) =>
@@ -107,8 +113,11 @@ const AssignmentHomework = () => {
         );
       } else {
         const response = await axios.post(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/assignments',
+          'http://localhost:5000/api/teacher/assignments',
           form,
+          {
+            withCredentials: true,
+          },
         );
         setAssignments((prevAssignments) => [
           ...prevAssignments,
@@ -136,7 +145,10 @@ const AssignmentHomework = () => {
   const handleDelete = async (assignmentId) => {
     try {
       await axios.delete(
-        `https://schoolbridge-project-server.onrender.com/api/teacher/assignments/${assignmentId}`,
+        `http://localhost:5000/api/teacher/assignments/${assignmentId}`,
+        {
+          withCredentials: true,
+        },
       );
       setAssignments(
         assignments.filter((assignment) => assignment._id !== assignmentId),

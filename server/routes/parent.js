@@ -5,12 +5,13 @@ import {
   getGradesByChildId,
   getPerformanceByChildId,
 } from '../controllers/parentController.js';
+import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
 
 // Get Parent Info
-router.get('/info', getParentInfo);
+router.get('/info', verifyTokenAndRole(['Parent']), getParentInfo);
 // Get Grades by Child ID
-router.get('/grades/:childId', getGradesByChildId );
+router.get('/grades/:childId', verifyTokenAndRole(['Parent']), getGradesByChildId );
 // Get Performance by Child ID
-router.get('/performance/:childId', getPerformanceByChildId );
+router.get('/performance/:childId', verifyTokenAndRole(['Parent']), getPerformanceByChildId );
 
 export default router;

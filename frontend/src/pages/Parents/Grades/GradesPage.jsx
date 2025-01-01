@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-// import Header from '../Header';
 import GradesTable from './GradesTable';
 import PerformanceModal from './PerformanceModal';
 import CompareGrades from './CompareGrades';
 import Card from '../../../components/Card.jsx';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ParentLayout from '../../../components/Parent/ParentLayout';
 
@@ -39,7 +38,8 @@ const Label = styled.label`
 `;
 
 const GradesPage = () => {
-  const { childId } = useParams();
+  const childId = 'dummyChildId123';
+  // const { childId } = useParams();
   const [gradesData, setGradesData] = useState([]); // Initialize as an empty array
   const [selectedSubject, setSelectedSubject] = useState('All Subjects');
   const [loading, setLoading] = useState(true);
@@ -49,7 +49,10 @@ const GradesPage = () => {
     const fetchGrades = async () => {
       try {
         const response = await axios.get(
-          `https://schoolbridge-project-server.onrender.com/api/grades/${childId}`,
+          `http://localhost:5000/api/grade/grades/${childId}`,
+          {
+            withCredentials: true,
+          },
         );
         setGradesData(response.data);
       } catch (error) {
@@ -123,7 +126,7 @@ const GradesPage = () => {
             {selectedSubject && (
               <PerformanceModal
                 subject={selectedSubject}
-                data={selectedGradeData.details} 
+                data={selectedGradeData.details}
                 onClose={handleCloseModal}
               />
             )}

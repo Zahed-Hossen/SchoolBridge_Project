@@ -58,17 +58,20 @@ const ChartContainer = styled.div`
 `;
 
 function StudentPerformance({ userId }) {
-  const [performanceData, setPerformanceData] = useState(null);
+  const [setPerformanceData] = useState(null);
   const [benchmark, setBenchmark] = useState(null);
   const [attendance, setAttendance] = useState({ present: 0, total: 0 });
-  const [grades, setGrades] = useState([]);
+  const [setGrades] = useState([]);
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     const fetchPerformanceData = async () => {
       try {
         const response = await axios.get(
-          `https://schoolbridge-project-server.onrender.com/api/performance/${userId}`,
+          `http://localhost:5000/api/performance/${userId}`,
+          {
+            withCredentials: true,
+          },
         );
         setPerformanceData(response.data);
         setAttendance(response.data.attendance);
@@ -90,11 +93,11 @@ function StudentPerformance({ userId }) {
     };
 
     fetchPerformanceData();
-  }, [userId]);
+  }, [userId, setGrades, setPerformanceData]);
 
   const exportReport = async (type) => {
     try {
-      const url = `https://schoolbridge-project-server.onrender.com/api/performance/export/${type}/${userId}`;
+      const url = `http://localhost:5000/api/performance/export/${type}/${userId}`;
       const response = await fetch(url);
       const blob = await response.blob();
 

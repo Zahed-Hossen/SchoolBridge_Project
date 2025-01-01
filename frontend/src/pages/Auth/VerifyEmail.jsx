@@ -13,7 +13,7 @@ const VerifyEmail = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/auth/verify-email',
+        'http://localhost:5000/api/auth/verify-email',
         { email, code },
       );
       const { user } = response.data;

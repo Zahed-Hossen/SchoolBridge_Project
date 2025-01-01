@@ -75,7 +75,10 @@ const TeacherGradebook = () => {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/students',
+          'http://localhost:5000/api/teacher/students',
+          {
+            withCredentials: true,
+          },
         );
         setStudents(response.data);
       } catch (error) {
@@ -87,7 +90,10 @@ const TeacherGradebook = () => {
     const fetchGrades = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/grades',
+          'http://localhost:5000/api/teacher/grades',
+          {
+            withCredentials: true,
+          },
         );
         setGrades(response.data);
       } catch (error) {
@@ -111,8 +117,11 @@ const TeacherGradebook = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/teacher/grades',
+        'http://localhost:5000/api/teacher/grades',
         form,
+        {
+          withCredentials: true,
+        },
       );
       setGrades((prevGrades) => [...prevGrades, response.data]);
       setForm({ student: '', subject: '', grade: '', comments: '' });

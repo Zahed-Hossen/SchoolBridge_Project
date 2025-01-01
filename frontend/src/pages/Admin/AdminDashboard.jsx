@@ -113,7 +113,10 @@ const AdminDashboard = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/admin/events',
+          'http://localhost:5000/api/admin/events',
+          {
+            withCredentials: true,
+          },
         );
         const formattedEvents = response.data.map((event) => ({
           title: event.name,

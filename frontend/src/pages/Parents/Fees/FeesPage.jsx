@@ -83,9 +83,9 @@ const FeesPage = () => {
   useEffect(() => {
     const fetchFeeData = async () => {
       try {
-        const response = await fetch(
-          'https://schoolbridge-project-server.onrender.com/api/fees/1',
-        );
+        const response = await fetch('http://localhost:5000/api/fees/1', {
+          withCredentials: true,
+        });
         const rawResponse = await response.text();
         console.log('Raw response:', rawResponse);
         const data = JSON.parse(rawResponse);

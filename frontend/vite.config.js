@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000, // Development server port
     proxy: {
       '/api': {
-        target: 'https://schoolbridge-project-server.onrender.com', // Your backend server address
+        target: 'http://localhost:5000/', // backend server address
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

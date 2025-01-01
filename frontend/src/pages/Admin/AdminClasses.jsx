@@ -65,7 +65,10 @@ const AdminClasses = () => {
     const fetchClasses = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/admin/classes',
+          'http://localhost:5000/api/admin/classes',
+          {
+            withCredentials: true,
+          },
         );
         setClasses(response.data);
       } catch (error) {
@@ -78,9 +81,10 @@ const AdminClasses = () => {
 
   const handleDelete = async (classId) => {
     try {
-      await axios.delete(
-        `https://schoolbridge-project-server.onrender.com/api/admin/classes/${classId}`,
-      );
+      await axios.delete(`http://localhost:5000/api/admin/classes/${classId}`),
+        {
+          withCredentials: true,
+        };
       setClasses(classes.filter((cls) => cls._id !== classId));
     } catch (error) {
       console.error('Error deleting class:', error);
@@ -100,8 +104,11 @@ const AdminClasses = () => {
     try {
       if (editingClass) {
         await axios.put(
-          `https://schoolbridge-project-server.onrender.com/api/admin/classes/${editingClass._id}`,
+          `http://localhost:5000/api/admin/classes/${editingClass._id}`,
           form,
+          {
+            withCredentials: true,
+          },
         );
         setClasses(
           classes.map((cls) =>
@@ -110,8 +117,11 @@ const AdminClasses = () => {
         );
       } else {
         const response = await axios.post(
-          'https://schoolbridge-project-server.onrender.com/api/admin/classes',
+          'http://localhost:5000/api/admin/classes',
           form,
+          {
+            withCredentials: true,
+          },
         );
         setClasses([...classes, response.data]);
       }

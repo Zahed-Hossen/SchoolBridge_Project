@@ -64,7 +64,10 @@ const AttendanceManagement = () => {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/students',
+          'http://localhost:5000/api/teacher/students',
+          {
+            withCredentials: true,
+          },
         );
         setStudents(response.data);
       } catch (error) {
@@ -76,7 +79,10 @@ const AttendanceManagement = () => {
     const fetchAttendance = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/attendance',
+          'http://localhost:5000/api/teacher/attendance',
+          {
+            withCredentials: true,
+          },
         );
         setAttendance(response.data);
       } catch (error) {
@@ -92,7 +98,10 @@ const AttendanceManagement = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/teacher/attendance',
+        'http://localhost:5000/api/teacher/attendance',
+        {
+          withCredentials: true,
+        },
         {
           studentId: selectedStudent,
           status,

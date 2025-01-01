@@ -17,13 +17,13 @@ router.get('/:childId', verifyTokenAndRole(['Parent']), getPerformanceDataChild)
 // Fetch student performance data
 router.get("/student/:id", verifyTokenAndRole(['Student']), getPerformanceDataStudent);
 // Export Performance Data as CSV
-router.get("/export/csv/:id", exportPerformanceDataCSV );
+router.get("/export/csv/:id", verifyTokenAndRole(['Student']), exportPerformanceDataCSV );
 
 // Export Performance Data as PDF
-router.get("/export/pdf/:id", exportPerformanceAsPDF );
+router.get("/export/pdf/:id", verifyTokenAndRole(['Student']), exportPerformanceAsPDF );
 
 // Fetch class benchmark data
-router.get("/benchmark/:id", getBenchmarkData );
+router.get('/benchmark/:id', verifyTokenAndRole(['Student']), getBenchmarkData);
 
 export default router;
 

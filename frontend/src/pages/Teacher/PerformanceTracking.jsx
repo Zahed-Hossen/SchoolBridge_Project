@@ -63,7 +63,10 @@ const PerformanceTracking = () => {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/students',
+          'http://localhost:5000/api/teacher/students',
+          {
+            withCredentials: true,
+          },
         );
         setStudents(response.data);
       } catch (error) {
@@ -78,7 +81,10 @@ const PerformanceTracking = () => {
     e.preventDefault();
     try {
       const response = await axios.get(
-        `https://schoolbridge-project-server.onrender.com/api/teacher/performance/${selectedStudent}`,
+        `http://localhost:5000/api/teacher/performance/${selectedStudent}`,
+        {
+          withCredentials: true,
+        },
       );
       setPerformanceData(response.data);
     } catch (error) {

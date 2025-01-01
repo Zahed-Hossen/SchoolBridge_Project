@@ -160,7 +160,7 @@ export const WELCOME_EMAIL_TEMPLATE = `
       <p>Dear {name},</p>
       <p>Thank you for joining our service. We are excited to have you on board!</p>
       <p>We hope you have a great experience with us. If you have any questions or need assistance, feel free to reach out to our support team.</p>
-      <p>Best regards,<br>Your App Team</p>
+      <p>Best regards,<br>Your SchoolBridge Team</p>
     </div>
     <div class="footer">
       <p>This is an automated message, please do not reply to this email.</p>

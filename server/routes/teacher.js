@@ -56,45 +56,44 @@ router.put(' /assignments/:id', verifyTokenAndRole(['Teacher']),updateAssignment
 // Delete an assignment
 router.delete( '/assignments/:id', verifyTokenAndRole(['Teacher']),deleteAssignment );
 // Fetch all tasks
-router.get('/tasks',  getAllTasks );
+router.get('/tasks', verifyTokenAndRole(['Teacher']), getAllTasks);
 // Fetch all activities
-router.get('/activities',  getAllActivities );
+router.get('/activities', verifyTokenAndRole(['Teacher']), getAllActivities);
 // Fetch all students
-router.get('/students',  getAllStudents );
+router.get('/students', verifyTokenAndRole(['Teacher']), getAllStudents);
 // Fetch all attendance records
-router.get('/attendance',  getAllAttendanceRecords );
+router.get('/attendance', verifyTokenAndRole(['Teacher']), getAllAttendanceRecords );
 // Mark attendance
-router.post( '/attendance', markAttendance );
+router.post('/attendance', verifyTokenAndRole(['Teacher']), markAttendance);
 // Fetch all classes
-router.get('/classes', getAllClasses );
+router.get('/classes', verifyTokenAndRole(['Teacher']), getAllClasses);
 // Add a new class
-router.post('/classes',  addNewClass );
+router.post('/classes', verifyTokenAndRole(['Teacher']), addNewClass);
 // Update a class
-router.put( '/classes/:id', updateClass );
+router.put('/classes/:id', verifyTokenAndRole(['Teacher']), updateClass);
 // Delete a class
-router.delete( '/classes/:id',  deleteClass );
+router.delete('/classes/:id', verifyTokenAndRole(['Teacher']), deleteClass);
 // Fetch performance data for a student
-router.get( '/performance/:studentId',  getPerformanceData );
+router.get( '/performance/:studentId', verifyTokenAndRole(['Teacher']), getPerformanceData );
 // Fetch all messages
-router.get('/messages', getAllMessages );
+router.get('/messages', verifyTokenAndRole(['Teacher']), getAllMessages);
 // Send a message
-router.post('/messages',  sendMessage );
+router.post('/messages', verifyTokenAndRole(['Teacher']), sendMessage);
 // Fetch all grades
-router.get('/grades',  getAllGrades );
+router.get('/grades', verifyTokenAndRole(['Teacher']), getAllGrades);
 // Add a new grade
-router.post('/grades', addNewGrade );
+router.post('/grades', verifyTokenAndRole(['Teacher']), addNewGrade);
 // Fetch all schedule events
-router.get('/schedule',  getAllScheduleEvents);
+router.get('/schedule', verifyTokenAndRole(['Teacher']), getAllScheduleEvents);
 // Add a new schedule event
-router.post('/schedule',  addNewScheduleEvent );
+router.post('/schedule', verifyTokenAndRole(['Teacher']), addNewScheduleEvent);
 // Fetch all resources
-router.get('/resources',  getAllResources);
-
+router.get('/resources', verifyTokenAndRole(['Teacher']), getAllResources);
 // Add a new resource
-router.post('/resources',  upload.single('file'), addNewResource);
-
+router.post('/resources', verifyTokenAndRole(['Teacher']), upload.single('file'), addNewResource);
 // Delete a resource
 router.delete('/resources/:id', verifyTokenAndRole(['Teacher']), deleteResource);
 
+
 export default router;
-// verifyTokenAndRole(['Teacher']),
+

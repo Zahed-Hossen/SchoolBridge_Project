@@ -74,9 +74,9 @@ const AttendancePage = () => {
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const response = await fetch(
-          'https://schoolbridge-project-server.onrender.com/api/attendance',
-        );
+        const response = await fetch('http://localhost:5000/api/attendance', {
+          withCredentials: true,
+        });
         const data = await response.json();
         setAttendanceData(data);
         setFilteredData(
@@ -134,7 +134,6 @@ const AttendancePage = () => {
                 <option value="2024-07">July 2024</option>
                 <option value="2024-06">June 2024</option>
                 <option value="2024-10">February 2024</option>
-
               </FilterSelect>
             </CalendarCard>
           </FilterContainer>

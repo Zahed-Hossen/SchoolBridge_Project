@@ -115,7 +115,10 @@ const AdminAuthPage = () => {
   const handleReset = async () => {
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/admin/reset',
+        'http://localhost:5000/api/admin/reset',
+        {
+          withCredentials: true,
+        },
       );
       console.log('Reset successful:', response.data);
       alert('System reset successfully');
@@ -128,7 +131,10 @@ const AdminAuthPage = () => {
   const handleAudit = async () => {
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/admin/audit',
+        'http://localhost:5000/api/admin/audit',
+        {
+          withCredentials: true,
+        },
       );
       console.log('Audit successful:', response.data);
       alert('Audit completed successfully');
@@ -142,9 +148,9 @@ const AdminAuthPage = () => {
     try {
       // logout logic goes here (e.g., clear tokens, redirect to login page)
       localStorage.removeItem('authToken');
-      navigate(
-        'https://schoolbridge-project-server.onrender.com/api/auth/signin',
-      );
+      navigate('http://localhost:5000/api/auth/signin', {
+        withCredentials: true,
+      });
       console.log('Logout successful');
     } catch (error) {
       console.error('Error logging out:', error);

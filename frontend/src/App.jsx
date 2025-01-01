@@ -180,13 +180,8 @@ function App() {
 
 export default App;
 
-
-
 //frontend: https://schoolbridge-project-frontend.onrender.com
 //server: https://schoolbridge-project-server.onrender.com
-
-
-
 
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { AuthProvider } from './context/AuthContext.jsx';
