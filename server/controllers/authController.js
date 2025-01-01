@@ -400,7 +400,7 @@ const passwordReset = asyncHandler(async (req, res) => {
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetPasswordExpiresAt = Date.now() + 1 * 60 * 60 * 1000;
     // our
-    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
+    const resetLink = `https://schoolbridge-project-frontend.onrender.com/reset-password?token=${resetToken}`;
 
     // Save token and expiration to the user's account
     user.resetPasswordToken = resetToken;
