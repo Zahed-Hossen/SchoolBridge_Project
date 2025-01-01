@@ -27,7 +27,7 @@ const Attendance = () => {
   const fetchAttendanceData = useCallback(async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/attendance',
+        'https://schoolbridge-project-server.onrender.com/api/attendance',
         {
           withCredentials: true,
         },

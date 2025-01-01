@@ -64,7 +64,7 @@ const ClassManagement = () => {
     const fetchClasses = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/teacher/classes',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/classes',
           {
             withCredentials: true,
           },
@@ -91,7 +91,7 @@ const ClassManagement = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `http://localhost:5000/api/teacher/classes/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/teacher/classes/${editingId}`,
           form,
           {
             withCredentials: true,
@@ -104,7 +104,7 @@ const ClassManagement = () => {
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/teacher/classes',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/classes',
           form,
           {
             withCredentials: true,
@@ -133,7 +133,7 @@ const ClassManagement = () => {
   const handleDelete = async (classId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/teacher/classes/${classId}`,
+        `https://schoolbridge-project-server.onrender.com/api/teacher/classes/${classId}`,
         {
           withCredentials: true,
         },

@@ -58,7 +58,7 @@ const NotificationsDropdown = () => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/notifications',
+          'https://schoolbridge-project-server.onrender.com/api/notifications',
           {
             withCredentials: true,
           },
@@ -78,7 +78,7 @@ const NotificationsDropdown = () => {
   const handleMarkAsRead = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/notifications/${id}`,
+        `https://schoolbridge-project-server.onrender.com/api/notifications/${id}`,
         {
           withCredentials: true,
         },

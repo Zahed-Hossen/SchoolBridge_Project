@@ -49,7 +49,7 @@ const AdminSettings = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/profile',
+          'https://schoolbridge-project-server.onrender.com/api/admin/profile',
           {
             withCredentials: true,
           },
@@ -74,9 +74,13 @@ const AdminSettings = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:5000/api/admin/profile', profile, {
-        withCredentials: true,
-      });
+      await axios.put(
+        'https://schoolbridge-project-server.onrender.com/api/admin/profile',
+        profile,
+        {
+          withCredentials: true,
+        },
+      );
       alert('Profile updated successfully');
     } catch (error) {
       console.error('Error updating profile:', error);

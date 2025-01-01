@@ -45,7 +45,7 @@ const PerformancePage = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/performance/${childId}`,
+          `https://schoolbridge-project-server.onrender.com/api/performance/${childId}`,
           {
             withCredentials: true,
           },

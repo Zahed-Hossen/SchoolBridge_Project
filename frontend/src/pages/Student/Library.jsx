@@ -136,7 +136,7 @@ const Library = () => {
     const fetchBooks = async () => {
       try {
         const response = await fetch(
-          'http://localhost:5000/api/library/books',
+          'https://schoolbridge-project-server.onrender.com/api/library/books',
           {
             withCredentials: true,
           },

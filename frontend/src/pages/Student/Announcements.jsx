@@ -80,7 +80,7 @@ const Announcements = () => {
   const fetchAnnouncements = useCallback(async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/announcements',
+        'https://schoolbridge-project-server.onrender.com/api/announcements',
         {
           withCredentials: true,
         },

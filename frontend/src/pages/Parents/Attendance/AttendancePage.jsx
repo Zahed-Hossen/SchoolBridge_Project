@@ -74,9 +74,12 @@ const AttendancePage = () => {
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/attendance', {
-          withCredentials: true,
-        });
+        const response = await fetch(
+          'https://schoolbridge-project-server.onrender.com/api/attendance',
+          {
+            withCredentials: true,
+          },
+        );
         const data = await response.json();
         setAttendanceData(data);
         setFilteredData(

@@ -74,7 +74,7 @@ const Achievements = ({ childId }) => {
     const fetchAchievements = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/achievements?childId=${childId}`,
+          `https://schoolbridge-project-server.onrender.com/api/achievements?childId=${childId}`,
           {
             withCredentials: true,
           },
