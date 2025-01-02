@@ -9,7 +9,9 @@ const verifyTokenAndRole = (roles) => {
 
     if (!token) {
       console.log('No token provided');
-      return res.status(401).json({ error: true, message: 'Access denied. No token provided.' });
+      return res
+        .status(401)
+        .json({ error: true, message: 'Access denied. No token provided.' });
     }
 
     try {
@@ -20,12 +22,19 @@ const verifyTokenAndRole = (roles) => {
       const user = await User.findById(req.user.id);
       if (!user) {
         console.log('User not found');
-        return res.status(404).json({ error: true, message: 'User not found.' });
+        return res
+          .status(404)
+          .json({ error: true, message: 'User not found.' });
       }
 
       if (!roles.includes(user.role)) {
         console.log('Insufficient permissions');
-        return res.status(403).json({ error: true, message: 'Access denied. Insufficient permissions.' });
+        return res
+          .status(403)
+          .json({
+            error: true,
+            message: 'Access denied. Insufficient permissions.',
+          });
       }
 
       next(); // Pass control to the next middleware or route handler

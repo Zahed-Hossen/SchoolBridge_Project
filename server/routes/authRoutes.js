@@ -16,23 +16,22 @@ import {
   // OTPVerification
 } from '../controllers/authController.js';
 import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
-
-
+import { refreshToken } from '../controllers/refreshToken.js';
 const router = Router();
 
-
 router.get('/check-auth', verifyTokenAndRole, checkAuth);
-router.post('/signup',  registerUser);
+router.post('/signup', registerUser);
 router.post('/login', loginUser);
 router.post('/verify-email', verifyEmail);
 router.post('/logout', logout);
 router.post('/forgot-password', passwordReset);
 router.post('/reset-password/:token', resetPassword);
 // router.post('/verify-otp', verifyOtp);
-router.post( '/send-otp', OTPRequest);
+router.post('/send-otp', OTPRequest);
 // router.post('/otp-verification', OTPVerification);
 router.post('/generate-otp', generateOTP);
 // router.post('/verify-otp', verifyOtp);
 router.post('/resend-otp', resendOTP);
+router.post('/refresh-token', refreshToken);
 
 export default router;

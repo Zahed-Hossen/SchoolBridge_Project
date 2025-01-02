@@ -16,3 +16,35 @@ export const generateTokenAndSetCookie = (res, id, role, isVerified) => {
 
   return token;
 };
+
+
+
+
+
+
+
+
+// import { generateAccessToken, generateRefreshToken } from './generateTokens.js';
+
+// export const generateTokenAndSetCookie = (res, id, role, isVerified) => {
+//   const accessToken = generateAccessToken(id, role, isVerified);
+//   const refreshToken = generateRefreshToken(id);
+
+//   // Set access token as a cookie
+//   res.cookie('accessToken', accessToken, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === 'production',
+//     sameSite: 'strict',
+//     maxAge: 15 * 60 * 1000, // 15 minutes
+//   });
+
+//   // Set refresh token as a cookie
+//   res.cookie('refreshToken', refreshToken, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === 'production',
+//     sameSite: 'strict',
+//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//   });
+
+//   return { accessToken, refreshToken };
+// };
