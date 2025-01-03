@@ -384,7 +384,9 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'User created successfully',
-      accessToken, refreshToken,
+      accessToken,
+      refreshToken,
+      verificationCode: verificationToken,
       user: {
         ...user._doc,
         password: undefined,
