@@ -344,12 +344,6 @@ const roles = ['Teacher', 'Student', 'Parent', 'Admin'];
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
-
-
-
-// @desc    Register a new user
-// @route   POST /api/auth/signup
-// @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   const { role, fullName, email, phone, password } = req.body;
   try {
@@ -372,16 +366,16 @@ const registerUser = asyncHandler(async (req, res) => {
       100000 + Math.random() * 900000,
     ).toString();
 
-    const user = await User.create({
-      role,
-      fullName,
-      email,
-      phone,
-      password: hashedPassword,
-      isVerified: false,
-      verificationToken,
-      verificationTokenExpiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
-    });
+  const user = await User.create({
+    role,
+    fullName,
+    email,
+    phone,
+    password: hashedPassword,
+    isVerified: false,
+    verificationToken,
+    verificationTokenExpiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
+  });
 
     // Generate token and set as cookie
     const { accessToken, refreshToken } = generateTokenAndSetCookie(res, user);
@@ -390,9 +384,8 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'User created successfully',
-      accessToken,
-      refreshToken,
-      verificationCode: verificationToken, // Include verification code in response
+      accessToken, refreshToken,
+      verificationCode: verificationToken,
       user: {
         ...user._doc,
         password: undefined,
@@ -403,8 +396,89 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+// @desc    Authenticate user & get token
+// @route   POST /api/auth/login
+// @access  Public
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password, role } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
+
+  if (user.role !== role) {
+    return res.status(403).json({
+      message: 'Role mismatch. Please select the correct role.',
+    });
+  }
+
+  if (!user.isVerified) {
+    return res.status(403).json({
+      message: 'Please verify your email before logging in.',
+    });
+  }
+
+  console.log('Stored hashed password:', user.password);
+  console.log('Plain password:', password);
+  const isMatch = await bcrypt.compare(password, user.password);
+  console.log('Password match result:', isMatch);
+
+  if (!isMatch) {
+    return res.status(401).json({ message: 'Invalid password.' });
+  }
+
+  const { accessToken, refreshToken } = generateTokenAndSetCookie(res, user);
+
+  user.lastLogin = new Date();
+  await user.save();
+
+  const roleDashboardPaths = {
+    Teacher: '/teacher/dashboard',
+    Student: '/student/dashboard',
+    Parent: '/parent/dashboard',
+    Admin: '/admin/dashboard',
+  };
+
+  const redirectPath = roleDashboardPaths[user.role];
+
+  res.status(200).json({
+    success: true,
+    message: 'Logged in successfully',
+    accessToken,
+    refreshToken,
+    redirectPath,
+    user: {
+      ...user._doc,
+      password: undefined,
+    },
+  });
+});
+
+
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Public
+const logout = asyncHandler(async (req, res) => {
+  try {
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+    res
+      .status(200)
+      .json({ success: true, message: 'Logged out successfully.' });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: 'Server error. Please try again.' });
+  }
+});
+
+
 // @desc    Verify email
-// @route   POST /api/auth/verify-email
+// @route   GET /api/auth/verify-email
 // @access  Public
 const verifyEmail = asyncHandler(async (req, res) => {
   const { token, verificationCode } = req.body;
@@ -418,16 +492,17 @@ const verifyEmail = asyncHandler(async (req, res) => {
         .json({ error: true, message: 'Invalid or missing token.' });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findOne({
-      verificationToken: verificationCode,
-      verificationTokenExpiresAt: { $gt: Date.now() },
-    });
+        const user = await User.findOne({
+          verificationToken: verificationCode,
+          verificationTokenExpiresAt: { $gt: Date.now() },
+        });
 
     if (!user) {
       return res
         .status(400)
         .json({ error: true, message: 'Invalid token or user not found.' });
     }
+
 
     user.isVerified = true;
     user.verificationToken = undefined;
@@ -449,8 +524,6 @@ const verifyEmail = asyncHandler(async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
-
-export { registerUser, verifyEmail };
 
 const OTPRequest = async (req, res) => {
   const { email, phone } = req.body;
