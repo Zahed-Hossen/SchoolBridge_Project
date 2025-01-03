@@ -372,7 +372,9 @@ const SignUpModal = ({ isOpen, onClose }) => {
         if (response.status >= 200 && response.status < 300) {
           const result = response.data;
           toast.success('User registered successfully! Please check your email to verify your account.');
-          navigate('/verify-email', { state: { email, verificationCode: result.verificationCode } });
+          navigate('/verify-email', {
+            state: { email, verificationCode: result.verificationCode }
+          });
           onClose();
           setFullName('');
           setEmail('');
