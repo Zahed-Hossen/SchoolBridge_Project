@@ -11,10 +11,12 @@ import {
   Icon,
   Card,
 } from './AboutPageStyles';
+
 import meeting from '../../assets/image/meeting.avif';
 import gossiping from '../../assets/image/gossiping.avif';
 import interaction from '../../assets/image/interaction.webp';
 import teamWork from '../../assets/image/teamWork.webp';
+
 const About = () => {
   return (
     <AboutContainer>
