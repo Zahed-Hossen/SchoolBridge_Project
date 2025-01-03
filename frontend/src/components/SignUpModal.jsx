@@ -86,6 +86,9 @@ const SignUpModal = ({ isOpen, onClose }) => {
         const response = await axios.post(
           'https://schoolbridge-project-server.onrender.com/api/auth/signup',
           formData,
+          {
+            withCredentials: true,
+          }
         );
 
         if (response.status >= 200 && response.status < 300) {
