@@ -33,6 +33,7 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
 } from 'react-icons/fa';
+
 import meeting from '../../assets/image/meeting.avif';
 import interaction from '../../assets/image/interaction.webp';
 import teamWork from '../../assets/image/teamWork.webp';
