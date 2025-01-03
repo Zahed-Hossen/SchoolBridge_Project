@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom'; // import axios from 'axios';
 import api from '../services/api';
+import Modal from './Modal';
 
 import {
-  Modal,
   ModalHeader,
   ModalTitle,
   CloseButton,
