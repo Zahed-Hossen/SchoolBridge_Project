@@ -35,7 +35,7 @@ import {
 } from 'react-icons/fa';
 
 import meeting from '../../assets/image/meeting.avif';
-import interaction from '../../assets/image/interaction.webp';
+// import interaction from '../../assets/image/interaction.webp';
 import teamWork from '../../assets/image/teamWork.webp';
 
 const Pricing = () => {
@@ -51,7 +51,7 @@ const Pricing = () => {
         </InfoIcon>
       </Header>
       <MainImage
-        src={interaction}
+        src={meeting}
         alt="A busy classroom with students and teachers interacting"
       />
       <SectionTitle>Flexible Pricing for Every School Needs</SectionTitle>
