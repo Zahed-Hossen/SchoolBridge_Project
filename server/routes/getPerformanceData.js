@@ -4,9 +4,9 @@ import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
 const router = Router();
 
 // Endpoint to get performance data
-router.get('/performance', verifyTokenAndRole(['Parent', 'Teacher', 'Admin']), getPerformanceData);
+router.get('/performance',  getPerformanceData);
 
 // Endpoint to submit feedback
-router.post('/feedback', verifyTokenAndRole(['Parent', 'Teacher', 'Admin']), submitFeedback);
+router.post('/feedback',  submitFeedback);
 
 export default router;

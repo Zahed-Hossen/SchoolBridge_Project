@@ -11,18 +11,18 @@ import {
 const router = express.Router();
 
 // Get Achievements by Child ID
-router.get('/', verifyTokenAndRole(['Parent', 'Teacher', 'Admin']), getAchievements);
+router.get('/',  getAchievements);
 
 // Get Achievement by ID
-router.get('/:id', verifyTokenAndRole(['Parent', 'Teacher', 'Admin']), getAchievementById);
+router.get('/:id',  getAchievementById);
 
 // Add New Achievement
-router.post('/', verifyTokenAndRole(['Teacher', 'Admin']), addAchievement);
+router.post('/',  addAchievement);
 
 // Update Achievement
-router.put('/:id', verifyTokenAndRole(['Teacher', 'Admin']), updateAchievement);
+router.put('/:id', updateAchievement);
 
 // Delete Achievement
-router.delete('/:id', verifyTokenAndRole(['Teacher', 'Admin']), deleteAchievement);
+router.delete('/:id', deleteAchievement);
 
 export default router;

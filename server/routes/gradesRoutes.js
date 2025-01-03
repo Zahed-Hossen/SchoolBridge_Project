@@ -5,6 +5,6 @@ import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
 const router = express.Router();
 
 // Get Grades by Child ID
-router.get('/grades/:childId', verifyTokenAndRole(['Parent', 'Teacher', 'Admin']), getGradesByChildId);
+router.get('/grades/:childId',  getGradesByChildId);
 
 export default router;

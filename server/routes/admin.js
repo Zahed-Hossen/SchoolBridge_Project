@@ -36,30 +36,30 @@ router.put('/users/:id', verifyTokenAndRole(['Admin']), updateUser);
 router.delete('/users/:id', verifyTokenAndRole(['Admin']), deleteUser);
 
 // Admin profile routes
-router.get('/profile', verifyTokenAndRole(['Admin']), getUserProfile);
-router.put('/profile', verifyTokenAndRole(['Admin']), updateUserProfile);
+router.get('/profile', getUserProfile);
+router.put('/profile', updateUserProfile);
 
 // Class routes
-router.post('/classes', verifyTokenAndRole(['Admin']), newClass);
-router.put('/classes/:id', verifyTokenAndRole(['Admin']), updateClass);
-router.delete('/classes/:id', verifyTokenAndRole(['Admin']), deleteClass);
+router.post('/classes',  newClass);
+router.put('/classes/:id', updateClass);
+router.delete('/classes/:id',  deleteClass);
 
 // Exam routes
-router.get('/exams', verifyTokenAndRole(['Admin']), getExams);
-router.post('/exams', verifyTokenAndRole(['Admin']), addNewExams);
-router.put('/exams/:id', verifyTokenAndRole(['Admin']), updateExams);
-router.delete('/exams/:id', verifyTokenAndRole(['Admin']), deleteExam);
+router.get('/exams',  getExams);
+router.post('/exams',  addNewExams);
+router.put('/exams/:id', updateExams);
+router.delete('/exams/:id',  deleteExam);
 
 // Event routes
-router.get('/events', verifyTokenAndRole(['Admin']), getAllEvents);
-router.post('/events', verifyTokenAndRole(['Admin']), addNewEvent);
-router.put('/events/:id', verifyTokenAndRole(['Admin']), updateEvent);
-router.delete('/events/:id', verifyTokenAndRole(['Admin']), deleteEvent);
+router.get('/events',  getAllEvents);
+router.post('/events',  addNewEvent);
+router.put('/events/:id',  updateEvent);
+router.delete('/events/:id',  deleteEvent);
 
 // Fee routes
-router.get('/fees', verifyTokenAndRole(['Admin']), getAllFees);
-router.post('/fees', verifyTokenAndRole(['Admin']), addNewFees);
-router.put('/fees/:id', verifyTokenAndRole(['Admin']), updateFees);
-router.delete('/fees/:id', verifyTokenAndRole(['Admin']), deleteFees);
+router.get('/fees',  getAllFees);
+router.post('/fees',  addNewFees);
+router.put('/fees/:id',  updateFees);
+router.delete('/fees/:id',  deleteFees);
 
 export default router;

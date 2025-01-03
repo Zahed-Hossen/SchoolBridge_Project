@@ -4,6 +4,6 @@ import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
 const router = Router();
 
 // Get fees for a specific student with optional status and date filters
-router.get('/fees/:studentId', verifyTokenAndRole(['Parent',  'Admin']), getFeesByStudent);
+router.get('/fees/:studentId',  getFeesByStudent);
 
 export default router;

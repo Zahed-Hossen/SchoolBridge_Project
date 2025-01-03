@@ -2,8 +2,9 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom'; // import axios from 'axios';
-import api from '../services/api';
+// import api from '../services/api';
 import Modal from './Modal';
+import axios from 'axios';
 
 import {
   ModalHeader,
@@ -41,7 +42,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   const handleLoginSuccess = (accessToken, refreshToken) => {
     localStorage.setItem('authToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
-    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     const decodedToken = jwtDecode(accessToken);
     const userRole = decodedToken.role;
 
@@ -65,7 +66,10 @@ const LoginModal = ({ isOpen, onClose }) => {
     if (validateForm()) {
       const loginData = { email, password, role };
       try {
-        const response = await api.post('/auth/login', loginData);
+        const response = await axios.post(
+          'https://schoolbridge-project-server.onrender.com/api/auth/login',
+          loginData,
+        );
 
         // const result = await response.json();
         if (response.status >= 200 && response.status < 300) {

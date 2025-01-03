@@ -12,18 +12,18 @@ import {
 
 
 // Fetch performance data for a child
-router.get('/:childId', verifyTokenAndRole(['Parent']), getPerformanceDataChild);
+router.get('/:childId', getPerformanceDataChild);
 
 // Fetch student performance data
-router.get("/student/:id", verifyTokenAndRole(['Student']), getPerformanceDataStudent);
+router.get("/student/:id", getPerformanceDataStudent);
 // Export Performance Data as CSV
-router.get("/export/csv/:id", verifyTokenAndRole(['Student']), exportPerformanceDataCSV );
+router.get("/export/csv/:id", exportPerformanceDataCSV );
 
 // Export Performance Data as PDF
-router.get("/export/pdf/:id", verifyTokenAndRole(['Student']), exportPerformanceAsPDF );
+router.get("/export/pdf/:id",  exportPerformanceAsPDF );
 
 // Fetch class benchmark data
-router.get('/benchmark/:id', verifyTokenAndRole(['Student']), getBenchmarkData);
+router.get('/benchmark/:id', getBenchmarkData);
 
 export default router;
 

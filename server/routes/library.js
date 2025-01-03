@@ -10,12 +10,12 @@ import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
 const router = express.Router();
 
 // Fetch all books
-router.get('/books', verifyTokenAndRole(['Student', 'Teacher']), getAllBooks);
+router.get('/books', getAllBooks);
 
 // Borrow a book
-router.put('/books/borrow/:id', verifyTokenAndRole(['Student', 'Teacher']), borrowBook);
+router.put('/books/borrow/:id',  borrowBook);
 
 // Return a book
-router.put('/books/return/:id', verifyTokenAndRole(['Student', 'Teacher']), returnBook);
+router.put('/books/return/:id',  returnBook);
 
 export default router;

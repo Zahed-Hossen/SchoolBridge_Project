@@ -8,11 +8,7 @@ export const refreshToken = (req, res) => {
   jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => {
     if (err) return res.status(403).json({ message: 'Invalid refresh token' });
 
-    const accessToken = generateAccessToken(
-      user.id,
-      user.role,
-      user.isVerified,
-    );
+    const accessToken = generateAccessToken(user);
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

@@ -8,8 +8,8 @@ import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
 const router = express.Router();
 
 // Get Notifications
-router.get('/', verifyTokenAndRole(['Parent', 'Teacher', 'Admin', 'Student']), getAllNotifications);
+router.get('/',  getAllNotifications);
 // Mark Notification as Read
-router.put('/:id', verifyTokenAndRole(['Parent', 'Teacher', 'Admin', 'Student']), notificationController);
+router.put('/:id',  notificationController);
 
 export default router;

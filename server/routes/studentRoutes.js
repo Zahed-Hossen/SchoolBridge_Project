@@ -21,14 +21,14 @@ const router = Router();
  * @desc    Get user profile
  * @access  Private (Student)
  */
-router.get('/profile', verifyTokenAndRole(['Student']), getUserProfile);
+router.get('/profile',  getUserProfile);
 
 /**
  * @route   PUT /api/profile
  * @desc    Update user profile
  * @access  Private (Student)
  */
-router.put('/profile', verifyTokenAndRole(['Student']), updateUserProfile);
+router.put('/profile',  updateUserProfile);
 
 /**
  * @route   PUT /api/profile/password
@@ -37,7 +37,7 @@ router.put('/profile', verifyTokenAndRole(['Student']), updateUserProfile);
  */
 router.put(
   '/profile/password',
-  verifyTokenAndRole(['Student']),
+
   updateUserPassword,
 );
 
@@ -49,7 +49,7 @@ router.put(
  */
 router.get(
   '/performance/:userId',
-  verifyTokenAndRole(['Student']),
+
   getPerformanceDataStudent,
 );
 
@@ -60,12 +60,12 @@ router.get(
  */
 router.get(
   '/performance/export/:type/:userId',
-  verifyTokenAndRole(['Student']),
+
   exportPerformanceDataCSV,
 );
 router.get(
   '/performance/export/pdf/:userId',
-  verifyTokenAndRole(['Student']),
+
   exportPerformanceAsPDF,
 );
 
@@ -75,7 +75,7 @@ router.get(
  * @desc    Get all books
  * @access  Private (Student)
  */
-router.get('/library/books', verifyTokenAndRole(['Student']), getAllBooks);
+router.get('/library/books', getAllBooks);
 
 // Attendance routes
 /**
@@ -85,7 +85,7 @@ router.get('/library/books', verifyTokenAndRole(['Student']), getAllBooks);
  */
 router.get(
   '/attendance/:studentId',
-  verifyTokenAndRole(['Student']),
+
   getAttendanceByStudent,
 );
 
@@ -95,7 +95,7 @@ router.get(
  * @desc    Get all assignments
  * @access  Private (Student)
  */
-router.get('/assignments', verifyTokenAndRole(['Student']), getAssignments);
+router.get('/assignments',  getAssignments);
 
 // Announcement routes
 /**
@@ -105,7 +105,7 @@ router.get('/assignments', verifyTokenAndRole(['Student']), getAssignments);
  */
 router.get(
   '/announcements',
-  verifyTokenAndRole(['Student']),
+  
   getAllAnnouncements,
 );
 

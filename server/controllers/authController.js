@@ -366,19 +366,16 @@ const registerUser = asyncHandler(async (req, res) => {
       100000 + Math.random() * 900000,
     ).toString();
 
-    const user = new User({
-      role,
-      fullName,
-      email,
-      phone,
-      password: hashedPassword,
-      isVerified: false,
-      verificationToken,
-      verificationTokenExpiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
-    });
-
-    // Save the user document to the database
-    await user.save();
+  const user = await User.create({
+    role,
+    fullName,
+    email,
+    phone,
+    password: hashedPassword,
+    isVerified: false,
+    verificationToken,
+    verificationTokenExpiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
+  });
 
     // Generate token and set as cookie
     const { accessToken, refreshToken } = generateTokenAndSetCookie(res, user);
@@ -466,25 +463,11 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access  Public
 const logout = asyncHandler(async (req, res) => {
   try {
-    // Get the user ID from the token
-    const userId = req.user.id;
-
-    // Delete the user's database collection
-    await User.findByIdAndDelete(userId);
-
-    // Clear cookies
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
-    res.clearCookie('role'); // Assuming you have a role cookie
-
-    // Redirect to signup section
     res
       .status(200)
-      .json({
-        success: true,
-        message: 'Logged out successfully. Redirecting to signup...',
-        // redirectTo: '/signup',
-      });
+      .json({ success: true, message: 'Logged out successfully.' });
   } catch (error) {
     res
       .status(500)
@@ -508,22 +491,17 @@ const verifyEmail = asyncHandler(async (req, res) => {
         .json({ error: true, message: 'Invalid or missing token.' });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
-
-    // Query the database directly using the string ID
-    const user = await User.findById(new ObjectId(userId));
+        const user = await User.findOne({
+          verificationToken: verificationCode,
+          verificationTokenExpiresAt: { $gt: Date.now() },
+        });
 
     if (!user) {
       return res
         .status(400)
         .json({ error: true, message: 'Invalid token or user not found.' });
     }
-    // Verify the verification code
-    if (user.verificationToken !== verificationCode || user.verificationTokenExpiresAt <= Date.now()) {
-      return res
-        .status(400)
-        .json({ error: true, message: 'Invalid or expired verification code.' });
-    }
+
 
     user.isVerified = true;
     user.verificationToken = undefined;
@@ -615,19 +593,11 @@ const resendOTP = async (req, res) => {
 // @desc    Get user ID from token
 // @route   GET /api/auth/user-id
 // @access  Private
+// @desc    Get user ID from token
+// @route   GET /api/auth/user-id
+// @access  Private
 const getUserId = asyncHandler(async (req, res) => {
-  const { token } = req.cookies;
-
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized. No token provided.' });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    res.status(200).json({ userId: decoded.id });
-  } catch (error) {
-    res.status(401).json({ message: 'Token invalid' });
-  }
+  res.status(200).json({ userId: req.user.id });
 });
 
 // @desc    Handle password reset request
