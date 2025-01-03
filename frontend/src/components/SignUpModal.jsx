@@ -114,7 +114,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (validateForm()) {
       const formData = { fullName, email, phone, password, role };
-      console.log('Request Body:', JSON.stringify(formData, null, 2)); // Log the request body
+      console.log('Request Body:', JSON.stringify(formData, null, 2));
       try {
         const response = await axios.post(
           'https://schoolbridge-project-server.onrender.com/api/auth/signup',
@@ -147,8 +147,12 @@ const SignUpModal = ({ isOpen, onClose }) => {
         console.log('Error details:', JSON.stringify(error, null, 2)); // Log error as JSON
         console.log('Error type:', typeof error); // Check error's type
         if (error && error.response) {
-          console.log('Response data:', error.response.data); // Check the response data if available
-          console.log('Response status:', error.response.status); // Try accessing status safely
+          console.log(
+            'Response data:',
+            JSON.stringify(error.response.data, null, 2),
+          ); // Format JSON for readability
+          console.log('Response status:', error.response.status);
+          console.log('Response headers:', error.response.headers); // Add headers for more context
           toast.error(
             error.response.data.message ||
               'Invalid signup information. Please try again.',
@@ -158,6 +162,10 @@ const SignUpModal = ({ isOpen, onClose }) => {
           toast.error('No response from server. Please try again later.');
         } else {
           console.error('Error setting up request:', error.message);
+          console.error(
+            'Request config:',
+            JSON.stringify(error.config, null, 2),
+          ); // Show request configuration
           toast.error('An unexpected error occurred. Please try again later.');
         }
       }
