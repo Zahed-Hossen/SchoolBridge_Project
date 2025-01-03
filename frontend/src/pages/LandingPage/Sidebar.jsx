@@ -89,7 +89,7 @@ const Navbar = () => {
             <SidebarIcon>
               <BsPerson />
             </SidebarIcon>
-            <MobileMenuNavLink href="#">Company</MobileMenuNavLink>
+            <MobileMenuNavLink href="#">About</MobileMenuNavLink>
             <DropdownMenu>
               <DropdownItem>
                 <NavLink as={Link} to="/about-us">
@@ -119,7 +119,7 @@ const Navbar = () => {
             <SidebarIcon>
               <BsGraphDown />
             </SidebarIcon>
-            <MobileMenuNavLink href="#">Company</MobileMenuNavLink>
+            <MobileMenuNavLink href="#">Pricing</MobileMenuNavLink>
             <DropdownMenu>
               <DropdownItem>
                 <NavLink as={Link} to="/about-us">
@@ -148,7 +148,7 @@ const Navbar = () => {
             <SidebarIcon>
               <BsQuestionSquare />
             </SidebarIcon>
-            <MobileMenuNavLink href="#">Company</MobileMenuNavLink>
+            <MobileMenuNavLink href="#">Contact</MobileMenuNavLink>
             <DropdownMenu>
               <DropdownItem>
                 <NavLink as={Link} to="/about-us">
