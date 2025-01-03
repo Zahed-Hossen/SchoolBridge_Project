@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-// import { jwtDecode } from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-// import api from '../services/api';
 
 import Modal from './Modal';
 import {
@@ -116,23 +114,21 @@ const SignUpModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (validateForm()) {
       const formData = { fullName, email, phone, password, role };
-      console.log('Request Body:', formData);
+      console.log('Request Body:', JSON.stringify(formData, null, 2)); // Log the request body
       try {
-         const response = await axios.post(
-           'https://schoolbridge-project-server.onrender.com/api/auth/signup',
-           formData,
-         );
+        const response = await axios.post(
+          'https://schoolbridge-project-server.onrender.com/api/auth/signup',
+          formData,
+        );
 
         if (response.status >= 200 && response.status < 300) {
           const result = response.data;
           toast.success(
             'User registered successfully! Please check your email to verify your account.',
           );
-          alert('Sign Up Successful!');
-          navigate(`/verify-email?token=${result.accessToken}`);
-          //  navigate('/verify-email', {
-          //    state: { email, verificationCode: result.verificationCode },
-          //  });
+          navigate('/verify-email', {
+            state: { email, verificationCode: result.user.verificationToken },
+          });
           onClose();
           setFullName('');
           setEmail('');
@@ -142,8 +138,9 @@ const SignUpModal = ({ isOpen, onClose }) => {
           setRole('');
           setTermsAccepted(false);
         } else {
-          alert('Sign Up failed. Please try again.');
-          toast.error(response.data.message);
+          toast.error(
+            response.data.message || 'Sign Up failed. Please try again.',
+          );
         }
       } catch (error) {
         console.error('Error signing up:', error);
@@ -152,6 +149,10 @@ const SignUpModal = ({ isOpen, onClose }) => {
         if (error && error.response) {
           console.log('Response data:', error.response.data); // Check the response data if available
           console.log('Response status:', error.response.status); // Try accessing status safely
+          toast.error(
+            error.response.data.message ||
+              'Invalid signup information. Please try again.',
+          );
         } else if (error.request) {
           console.error('No response received:', error.request);
           toast.error('No response from server. Please try again later.');
@@ -162,6 +163,8 @@ const SignUpModal = ({ isOpen, onClose }) => {
       }
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
