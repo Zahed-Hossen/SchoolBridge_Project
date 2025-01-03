@@ -57,41 +57,54 @@ import ContactUsPage from './pages/ContactUs/ContactUsPage';
 import PricingPage from './pages/Pricing/PricingPage';
 import Home from './pages/LandingPage/Home';
 
+
 function App() {
   const [userId, setUserId] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/auth/user-id',
-        );
-        const fetchedUserId = response.data.userId;
-        setUserId(fetchedUserId);
-        localStorage.setItem('userId', fetchedUserId);
-      } catch (error) {
-        console.error('Error fetching user ID:', error);
-        // Handle the error, e.g., redirect to login page or show an error message
-      } finally {
-        setLoading(false);
-      }
-      // const testUserId = '1234567890abcdef';
-      // setUserId(testUserId);
-    };
-
-    const storedUserId = localStorage.getItem('userId');
-    if (storedUserId) {
-      setUserId(storedUserId);
-      setLoading(false);
-    } else {
-      fetchUserId();
-    }
+    const testUserId = '1234567890abcdef'; // Example userId
+    setUserId(testUserId);
   }, []);
 
-  if (loading) {
-    return <p>Loading user data...</p>; // or an error message
+  if (userId === null) {
+    return <p>Loading user data...</p>;
   }
+
+  // function App() {
+  //   const [userId, setUserId] = useState(null);
+  //   const [loading, setLoading] = useState(true);
+
+  //   useEffect(() => {
+  //     const fetchUserId = async () => {
+  //       try {
+  //         const response = await axios.get(
+  //           'https://schoolbridge-project-server.onrender.com/api/auth/user-id',
+  //         );
+  //         const fetchedUserId = response.data.userId;
+  //         setUserId(fetchedUserId);
+  //         localStorage.setItem('userId', fetchedUserId);
+  //       } catch (error) {
+  //         console.error('Error fetching user ID:', error);
+  //         // Handle the error, e.g., redirect to login page or show an error message
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //       // const testUserId = '1234567890abcdef';
+  //       // setUserId(testUserId);
+  //     };
+
+  //     const storedUserId = localStorage.getItem('userId');
+  //     if (storedUserId) {
+  //       setUserId(storedUserId);
+  //       setLoading(false);
+  //     } else {
+  //       fetchUserId();
+  //     }
+  //   }, []);
+
+  //   if (loading) {
+  //     return <p>Loading user data...</p>; // or an error message
+  //   }
 
   return (
     <AuthProvider>
