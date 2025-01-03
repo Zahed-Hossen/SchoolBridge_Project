@@ -69,7 +69,7 @@ const VerifyEmail = () => {
     const token = new URLSearchParams(location.search).get('token');
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/verify-email',
+        'https://schoolbridge-project-server.onrender.com/api/auth/verify-email',
         { token, verificationCode },
         {
           headers: {
@@ -111,14 +111,6 @@ const VerifyEmail = () => {
 };
 
 export default VerifyEmail;
-
-
-
-
-
-
-
-
 
 // import { useContext, useState } from 'react';
 // import styled from 'styled-components';

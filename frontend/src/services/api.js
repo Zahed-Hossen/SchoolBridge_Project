@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 
 // Axios instance
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://schoolbridge-project-server.onrender.com/api',
   withCredentials: true,
 });
 
@@ -34,7 +34,7 @@ api.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refreshToken');
         const response = await axios.post(
-          'http://localhost:5000/api/auth/refresh-token',
+          'https://schoolbridge-project-server.onrender.com/api/auth/refresh-token',
           { refreshToken },
           { withCredentials: true },
         );
