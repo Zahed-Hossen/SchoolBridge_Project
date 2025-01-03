@@ -23,12 +23,11 @@
 
 
 
-
 import { generateAccessToken, generateRefreshToken } from './generateTokens.js';
 
-export const generateTokenAndSetCookie = (res, id, role, isVerified) => {
-  const accessToken = generateAccessToken(id, role, isVerified);
-  const refreshToken = generateRefreshToken(id);
+export const generateTokenAndSetCookie = (res, user) => {
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
 
   // Set access token as a cookie
   res.cookie('accessToken', accessToken, {

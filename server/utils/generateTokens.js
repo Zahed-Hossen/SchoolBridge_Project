@@ -17,19 +17,26 @@
 //   return token;
 // };
 
-
-
-
 import jwt from 'jsonwebtoken';
 
-export const generateAccessToken = (id, role, isVerified) => {
-  return jwt.sign({ id, role, isVerified }, process.env.JWT_SECRET, {
-    expiresIn: '15m', // Short-lived access token
-  });
+export const generateAccessToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id.toString(), // Convert ObjectId to string
+      role: user.role,
+      isVerified: user.isVerified,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '15m' }, // Short-lived access token
+  );
 };
 
-export const generateRefreshToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, {
-    expiresIn: '7d', // Long-lived refresh token
-  });
+export const generateRefreshToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id.toString(), // Convert ObjectId to string
+    },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: '7d' }, // Long-lived refresh token
+  );
 };

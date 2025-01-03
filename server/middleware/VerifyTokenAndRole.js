@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import mongoose from 'mongoose';
+const ObjectId = mongoose.Types.ObjectId;
 
 const verifyTokenAndRole = (roles) => {
   return async (req, res, next) => {
@@ -19,7 +21,10 @@ const verifyTokenAndRole = (roles) => {
       req.user = decoded;
       console.log('Decoded token:', decoded);
 
-      const user = await User.findById(req.user.id);
+      // Convert the string ID to an ObjectId
+      const userId = new ObjectId(req.user.id);
+
+      const user = await User.findById(userId);
       if (!user) {
         console.log('User not found');
         return res
@@ -29,12 +34,10 @@ const verifyTokenAndRole = (roles) => {
 
       if (!roles.includes(user.role)) {
         console.log('Insufficient permissions');
-        return res
-          .status(403)
-          .json({
-            error: true,
-            message: 'Access denied. Insufficient permissions.',
-          });
+        return res.status(403).json({
+          error: true,
+          message: 'Access denied. Insufficient permissions.',
+        });
       }
 
       next(); // Pass control to the next middleware or route handler

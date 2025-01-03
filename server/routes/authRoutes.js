@@ -9,11 +9,11 @@ import {
   resetPassword,
   generateOTP,
   resendOTP,
-  getUserId,
   // OTPRequest,
   // OTPVerification
   // verifyOtp,
   OTPRequest,
+  getUserId,
   // OTPVerification
 } from '../controllers/authController.js';
 import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
@@ -21,7 +21,7 @@ import { protect } from '../middleware/authMiddleware.js';
 import { refreshToken } from '../controllers/refreshToken.js';
 const router = Router();
 
-router.get('/check-auth', verifyTokenAndRole(['Parent', 'Teacher', 'Admin', 'Student']), checkAuth);
+router.get('/check-auth', verifyTokenAndRole, checkAuth);
 router.post('/signup', registerUser);
 router.post('/login', loginUser);
 router.post('/verify-email', verifyEmail);

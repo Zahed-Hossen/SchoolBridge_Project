@@ -1,18 +1,19 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const assignmentSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
+const assignmentSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    dueDate: { type: Date, required: true },
+    classId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Class',
+      required: true,
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  dueDate: {
-    type: Date,
-    required: true,
-  },
-});
+  { timestamps: true },
+);
 
-export default model('Assignment', assignmentSchema);
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+
+export default Assignment;

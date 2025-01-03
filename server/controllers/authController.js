@@ -341,7 +341,9 @@ const roles = ['Teacher', 'Student', 'Parent', 'Admin'];
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
-
+// @desc    Register a new user
+// @route   POST /api/auth/register
+// @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   const { role, fullName, email, phone, password } = req.body;
   try {
@@ -543,7 +545,6 @@ const verifyEmail = asyncHandler(async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
-
 
 const OTPRequest = async (req, res) => {
   const { email, phone } = req.body;

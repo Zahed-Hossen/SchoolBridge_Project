@@ -8,7 +8,6 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 import connectDB from './config/db.js';
-import testRoutes from './routes/testRoute.js';
 import achievementsRoutes from './routes/achievements.js';
 import adminRoutes from './routes/admin.js';
 import attendanceRoutes from './routes/attendanceRoutes.js';
@@ -23,6 +22,7 @@ import getPerformanceData from './routes/getPerformanceData.js';
 import gradeRoutes from './routes/gradesRoutes.js';
 import parentRoutes from './routes/parent.js';
 import teacherRoutes from './routes/teacher.js';
+import studentRoutes from './routes/studentRoutes.js';
 
 config();
 const app = express();
@@ -34,7 +34,7 @@ console.log('PORT:', process.env.PORT);
 // Middleware
 app.use(
   cors({
-    origin: 'https://schoolbridge-project-frontend.onrender.com',
+    origin: 'http://localhost:3000',
     credentials: true,
   }),
 );
@@ -44,24 +44,26 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
+  connectDB();
+  console.log('Server is running on port: ', PORT);
 });
 
 // Routes
-app.use('/api/test', testRoutes);
 app.use('/api/achievements', achievementsRoutes);
-app.use('/api/admin', adminRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/fees', feesRoutes);
-app.use('/api/auth', authRoutes);
 app.use('/api/protected', protectedRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/library', libraryRoutes);
 app.use('/api/performance', performanceRoutes);
 app.use('/api/getPerformanceData', getPerformanceData);
 app.use('/api/grade', gradeRoutes);
+
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/parent', parentRoutes);
 app.use('/api/teacher', teacherRoutes);
+app.use('/api/student', studentRoutes);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -26,7 +26,7 @@ import {
   updateFees,
   deleteFees,
 } from '../controllers/adminController.js';
-import { protect, authorize } from '../middleware/authMiddleware.js';
+
 const router = Router();
 
 // User routes
@@ -63,4 +63,3 @@ router.put('/fees/:id', verifyTokenAndRole(['Admin']), updateFees);
 router.delete('/fees/:id', verifyTokenAndRole(['Admin']), deleteFees);
 
 export default router;
-

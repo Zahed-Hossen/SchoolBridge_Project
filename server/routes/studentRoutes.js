@@ -35,7 +35,11 @@ router.put('/profile', verifyTokenAndRole(['Student']), updateUserProfile);
  * @desc    Update user password
  * @access  Private (Student)
  */
-router.put('/profile/password', verifyTokenAndRole(['Student']), updateUserPassword);
+router.put(
+  '/profile/password',
+  verifyTokenAndRole(['Student']),
+  updateUserPassword,
+);
 
 // Performance routes
 /**
@@ -43,15 +47,27 @@ router.put('/profile/password', verifyTokenAndRole(['Student']), updateUserPassw
  * @desc    Get user performance
  * @access  Private (Student)
  */
-router.get('/performance/:userId', verifyTokenAndRole(['Student']), getPerformanceDataStudent);
+router.get(
+  '/performance/:userId',
+  verifyTokenAndRole(['Student']),
+  getPerformanceDataStudent,
+);
 
 /**
  * @route   GET /api/performance/export/:type/:userId
  * @desc    Export user performance
  * @access  Private (Student)
  */
-router.get('/performance/export/:type/:userId', verifyTokenAndRole(['Student']),exportPerformanceDataCSV);
-router.get('/performance/export/pdf/:userId', verifyTokenAndRole(['Student']), exportPerformanceAsPDF);
+router.get(
+  '/performance/export/:type/:userId',
+  verifyTokenAndRole(['Student']),
+  exportPerformanceDataCSV,
+);
+router.get(
+  '/performance/export/pdf/:userId',
+  verifyTokenAndRole(['Student']),
+  exportPerformanceAsPDF,
+);
 
 // Library routes
 /**
@@ -67,7 +83,11 @@ router.get('/library/books', verifyTokenAndRole(['Student']), getAllBooks);
  * @desc    Get attendance data
  * @access  Private (Student)
  */
-router.get('/attendance/:studentId', verifyTokenAndRole(['Student']), getAttendanceByStudent);
+router.get(
+  '/attendance/:studentId',
+  verifyTokenAndRole(['Student']),
+  getAttendanceByStudent,
+);
 
 // Assignment routes
 /**
@@ -83,6 +103,10 @@ router.get('/assignments', verifyTokenAndRole(['Student']), getAssignments);
  * @desc    Get all announcements
  * @access  Private (Student)
  */
-router.get('/announcements', verifyTokenAndRole(['Student']), getAllAnnouncements);
+router.get(
+  '/announcements',
+  verifyTokenAndRole(['Student']),
+  getAllAnnouncements,
+);
 
 export default router;
