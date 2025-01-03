@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -62,7 +61,7 @@ function App() {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const testUserId = '1234567890abcdef'; // Example userId
+    const testUserId = '1234567890abcdef';
     setUserId(testUserId);
   }, []);
 

@@ -40,7 +40,7 @@ api.interceptors.response.use(
         );
         const { accessToken } = response.data;
         localStorage.setItem('authToken', accessToken);
-        api.defaults.headers.common[
+        axios.defaults.headers.common[
           'Authorization'
         ] = `Bearer ${accessToken}`;
         return api(originalRequest);

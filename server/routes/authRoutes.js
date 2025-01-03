@@ -18,7 +18,7 @@ import {
 } from '../controllers/authController.js';
 import verifyTokenAndRole from '../middleware/VerifyTokenAndRole.js';
 import { protect } from '../middleware/authMiddleware.js';
-// import { refreshToken } from '../controllers/refreshToken.js';
+import { refreshToken } from '../controllers/refreshToken.js';
 const router = Router();
 
 router.get('/check-auth', verifyTokenAndRole(['Parent', 'Teacher', 'Admin', 'Student']), checkAuth);
@@ -34,7 +34,7 @@ router.post('/send-otp', OTPRequest);
 router.post('/generate-otp', generateOTP);
 // router.post('/verify-otp', verifyOtp);
 router.post('/resend-otp', resendOTP);
-// router.post('/refresh-token', refreshToken);
+router.post('/refresh-token', refreshToken);
 router.get('/user-id', protect, getUserId);
 
 export default router;

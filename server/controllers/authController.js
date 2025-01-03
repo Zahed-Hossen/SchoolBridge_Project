@@ -5,6 +5,8 @@ import crypto from 'crypto';
 import User from '../models/user.js';
 import OTPModel from '../models/OTPModel.js';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+const ObjectId = mongoose.Types.ObjectId;
 // import { sendEmail } from '../utils/email.js';
 // import { sendSMS } from '../utils/sms.js';
 import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
@@ -20,113 +22,203 @@ import {
 // Predefined roles
 const roles = ['Teacher', 'Student', 'Parent', 'Admin'];
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
-const registerUser = asyncHandler(async (req, res) => {
-  const { role, fullName, email, phone, password } = req.body;
-  try {
-    if (!role || !fullName || !email || !phone || !password) {
-      return res
-        .status(400)
-        .json({ error: true, message: 'All fields are required.' });
-    }
-
-    const userExists = await User.findOne({ email });
-
-    if (userExists) {
-      return res
-        .status(400)
-        .json({ error: true, message: 'Email is already registered.' });
-    }
-
-    const hashedPassword = await bcryptjs.hash(password, 10);
-    const verificationToken = Math.floor(
-      100000 + Math.random() * 900000,
-    ).toString();
-
-    const user = await User.create({
-      role,
-      fullName,
-      email,
-      phone,
-      password: hashedPassword,
-      isVerified: false,
-      verificationToken,
-      verificationTokenExpiresAt: Date.now() + 5 * 60 * 1000, // 24 hours
-    });
-
-    // Generate token and set as cookie
-    const token = generateTokenAndSetCookie(
-      res,
-      user._id,
-      user.role,
-      user.isVerified,
-    );
-    await sendVerificationEmail(user.email, verificationToken);
-
-    res.status(201).json({
-      success: true,
-      message: 'User created successfully',
-      token,
-      user: {
-        ...user._doc,
-        password: undefined,
-      },
-    });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-});
-
-// @desc    Verify email
-// @route   GET /api/auth/verify-email
-// @access  Public
-const verifyEmail = asyncHandler(async (req, res) => {
-  const { token, verificationCode } = req.body;
-  console.log('Received token:', token);
-  console.log('Received verification code:', verificationCode);
-
-  try {
-    if (!token) {
-      return res
-        .status(400)
-        .json({ error: true, message: 'Invalid or missing token.' });
-    }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findOne({
-      verificationToken: verificationCode,
-      verificationTokenExpiresAt: { $gt: Date.now() },
-    });
-
-    if (!user) {
-      return res
-        .status(400)
-        .json({ error: true, message: 'Invalid token or user not found.' });
-    }
-
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationTokenExpiresAt = undefined;
-    await user.save();
-
-    await sendWelcomeEmail(user.email, user.fullName);
-
-    res.status(200).json({
-      success: true,
-      message: 'Email verified successfully',
-      user: {
-        ...user._doc,
-        password: undefined,
-      },
-    });
-  } catch (error) {
-    console.log('error in verifyEmail ', error);
-    res.status(500).json({ success: false, message: 'Server error' });
-  }
-});
 
 
+// // @desc    Register a new user
+// // @route   POST /api/auth/register
+// // @access  Public
+// const registerUser = asyncHandler(async (req, res) => {
+//   const { role, fullName, email, phone, password } = req.body;
+//   try {
+//     if (!role || !fullName || !email || !phone || !password) {
+//       return res
+//         .status(400)
+//         .json({ error: true, message: 'All fields are required.' });
+//     }
+
+//     const userExists = await User.findOne({ email });
+
+//     if (userExists) {
+//       return res
+//         .status(400)
+//         .json({ error: true, message: 'Email is already registered.' });
+//     }
+
+//     const hashedPassword = await bcryptjs.hash(password, 10);
+//     const verificationToken = Math.floor(
+//       100000 + Math.random() * 900000,
+//     ).toString();
+
+//     const user = await User.create({
+//       role,
+//       fullName,
+//       email,
+//       phone,
+//       password: hashedPassword,
+//       isVerified: false,
+//       verificationToken,
+//       verificationTokenExpiresAt: Date.now() + 5 * 60 * 1000, // 24 hours
+//     });
+
+//     // Generate token and set as cookie
+//     const token = generateTokenAndSetCookie(
+//       res,
+//       user._id,
+//       user.role,
+//       user.isVerified,
+//     );
+//     await sendVerificationEmail(user.email, verificationToken);
+
+//     res.status(201).json({
+//       success: true,
+//       message: 'User created successfully',
+//       token,
+//       user: {
+//         ...user._doc,
+//         password: undefined,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(400).json({ success: false, message: error.message });
+//   }
+// });
+
+// // @desc    Verify email
+// // @route   GET /api/auth/verify-email
+// // @access  Public
+// const verifyEmail = asyncHandler(async (req, res) => {
+//   const { token, verificationCode } = req.body;
+//   console.log('Received token:', token);
+//   console.log('Received verification code:', verificationCode);
+
+//   try {
+//     if (!token) {
+//       return res
+//         .status(400)
+//         .json({ error: true, message: 'Invalid or missing token.' });
+//     }
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const user = await User.findOne({
+//       verificationToken: verificationCode,
+//       verificationTokenExpiresAt: { $gt: Date.now() },
+//     });
+
+//     if (!user) {
+//       return res
+//         .status(400)
+//         .json({ error: true, message: 'Invalid token or user not found.' });
+//     }
+
+//     user.isVerified = true;
+//     user.verificationToken = undefined;
+//     user.verificationTokenExpiresAt = undefined;
+//     await user.save();
+
+//     await sendWelcomeEmail(user.email, user.fullName);
+
+//     res.status(200).json({
+//       success: true,
+//       message: 'Email verified successfully',
+//       user: {
+//         ...user._doc,
+//         password: undefined,
+//       },
+//     });
+//   } catch (error) {
+//     console.log('error in verifyEmail ', error);
+//     res.status(500).json({ success: false, message: 'Server error' });
+//   }
+// });
+
+
+// // @desc    Authenticate user & get token
+// // @route   POST /api/auth/login
+// // @access  Public
+// const loginUser = asyncHandler(async (req, res) => {
+//   const { email, password, role } = req.body;
+
+//   const user = await User.findOne({ email });
+
+//   if (!user) {
+//     return res.status(404).json({ message: 'User not found.' });
+//   }
+
+//   if (user.role !== role) {
+//     return res.status(403).json({
+//       message: 'Role mismatch. Please select the correct role.',
+//     });
+//   }
+
+//   if (!user.isVerified) {
+//     return res.status(403).json({
+//       message: 'Please verify your email before logging in.',
+//     });
+//   }
+
+//   console.log('Stored hashed password:', user.password);
+//   console.log('Plain password:', password);
+//   const isMatch = await bcrypt.compare(password, user.password);
+//   console.log('Password match result:', isMatch);
+
+//   if (!isMatch) {
+//     return res.status(401).json({ message: 'Invalid password.' });
+//   }
+
+//   const token = generateTokenAndSetCookie(res, user._id, user.role, user.isVerified);
+
+//   user.lastLogin = new Date();
+//   await user.save();
+
+//   const roleDashboardPaths = {
+//     Teacher: '/teacher/dashboard',
+//     Student: '/student/dashboard',
+//     Parent: '/parent/dashboard',
+//     Admin: '/admin/dashboard',
+//   };
+
+//   const redirectPath = roleDashboardPaths[user.role];
+
+//   res.status(200).json({
+//     success: true,
+//     message: 'Logged in successfully',
+//     token,
+//     redirectPath,
+//     user: {
+//       ...user._doc,
+//       password: undefined,
+//     },
+//   });
+// });
+
+
+// // @desc    Logout user
+// // @route   POST /api/auth/logout
+// // @access  Public
+// const logout = asyncHandler(async (req, res) => {
+//   try {
+//     // Get the user ID from the token
+//     const userId = req.user.id;
+
+//     // Delete the user's database collection
+//     await User.findByIdAndDelete(userId);
+
+//     // Clear cookies
+//     res.clearCookie('accessToken');
+//     res.clearCookie('refreshToken');
+//     res.clearCookie('role'); // Assuming you have a role cookie
+
+//     // Redirect to signup section
+//     res.status(200).json({
+//       success: true,
+//       message: 'Logged out successfully. Redirecting to signup...',
+//       // redirectTo: '/signup',
+//     });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ success: false, message: 'Server error. Please try again.' });
+//   }
+// });
 
 // @desc    Verify OTP
 // @route   POST /api/auth/verify-otp
@@ -244,6 +336,215 @@ const verifyEmail = asyncHandler(async (req, res) => {
 // };
 
 
+
+
+// @desc    Register a new user
+// @route   POST /api/auth/register
+// @access  Public
+
+const registerUser = asyncHandler(async (req, res) => {
+  const { role, fullName, email, phone, password } = req.body;
+  try {
+    if (!role || !fullName || !email || !phone || !password) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'All fields are required.' });
+    }
+
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'Email is already registered.' });
+    }
+
+    const hashedPassword = await bcryptjs.hash(password, 10);
+    const verificationToken = Math.floor(
+      100000 + Math.random() * 900000,
+    ).toString();
+
+    const user = new User({
+      role,
+      fullName,
+      email,
+      phone,
+      password: hashedPassword,
+      isVerified: false,
+      verificationToken,
+      verificationTokenExpiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
+    });
+
+    // Save the user document to the database
+    await user.save();
+
+    // Generate token and set as cookie
+    const { accessToken, refreshToken } = generateTokenAndSetCookie(res, user);
+    await sendVerificationEmail(user.email, verificationToken);
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      accessToken, refreshToken,
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+});
+
+
+
+// @desc    Authenticate user & get token
+// @route   POST /api/auth/login
+// @access  Public
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password, role } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
+
+  if (user.role !== role) {
+    return res.status(403).json({
+      message: 'Role mismatch. Please select the correct role.',
+    });
+  }
+
+  if (!user.isVerified) {
+    return res.status(403).json({
+      message: 'Please verify your email before logging in.',
+    });
+  }
+
+  console.log('Stored hashed password:', user.password);
+  console.log('Plain password:', password);
+  const isMatch = await bcrypt.compare(password, user.password);
+  console.log('Password match result:', isMatch);
+
+  if (!isMatch) {
+    return res.status(401).json({ message: 'Invalid password.' });
+  }
+
+  const { accessToken, refreshToken } = generateTokenAndSetCookie(res, user);
+
+  user.lastLogin = new Date();
+  await user.save();
+
+  const roleDashboardPaths = {
+    Teacher: '/teacher/dashboard',
+    Student: '/student/dashboard',
+    Parent: '/parent/dashboard',
+    Admin: '/admin/dashboard',
+  };
+
+  const redirectPath = roleDashboardPaths[user.role];
+
+  res.status(200).json({
+    success: true,
+    message: 'Logged in successfully',
+    accessToken,
+    refreshToken,
+    redirectPath,
+    user: {
+      ...user._doc,
+      password: undefined,
+    },
+  });
+});
+
+
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Public
+const logout = asyncHandler(async (req, res) => {
+  try {
+    // Get the user ID from the token
+    const userId = req.user.id;
+
+    // Delete the user's database collection
+    await User.findByIdAndDelete(userId);
+
+    // Clear cookies
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+    res.clearCookie('role'); // Assuming you have a role cookie
+
+    // Redirect to signup section
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Logged out successfully. Redirecting to signup...',
+        // redirectTo: '/signup',
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: 'Server error. Please try again.' });
+  }
+});
+
+
+// @desc    Verify email
+// @route   GET /api/auth/verify-email
+// @access  Public
+const verifyEmail = asyncHandler(async (req, res) => {
+  const { token, verificationCode } = req.body;
+  console.log('Received token:', token);
+  console.log('Received verification code:', verificationCode);
+
+  try {
+    if (!token) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'Invalid or missing token.' });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+    // Query the database directly using the string ID
+    const user = await User.findById(new ObjectId(userId));
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'Invalid token or user not found.' });
+    }
+    // Verify the verification code
+    if (user.verificationToken !== verificationCode || user.verificationTokenExpiresAt <= Date.now()) {
+      return res
+        .status(400)
+        .json({ error: true, message: 'Invalid or expired verification code.' });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpiresAt = undefined;
+    await user.save();
+
+    await sendWelcomeEmail(user.email, user.fullName);
+
+    res.status(200).json({
+      success: true,
+      message: 'Email verified successfully',
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.error('Error in verifyEmail:', error); // LOG THE ERROR!
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+
 const OTPRequest = async (req, res) => {
   const { email, phone } = req.body;
 
@@ -309,95 +610,6 @@ const resendOTP = async (req, res) => {
 
 
 
-
-// @desc    Authenticate user & get token
-// @route   POST /api/auth/login
-// @access  Public
-const loginUser = asyncHandler(async (req, res) => {
-  const { email, password, role } = req.body;
-
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(404).json({ message: 'User not found.' });
-  }
-
-  if (user.role !== role) {
-    return res.status(403).json({
-      message: 'Role mismatch. Please select the correct role.',
-    });
-  }
-
-  if (!user.isVerified) {
-    return res.status(403).json({
-      message: 'Please verify your email before logging in.',
-    });
-  }
-
-  console.log('Stored hashed password:', user.password);
-  console.log('Plain password:', password);
-  const isMatch = await bcrypt.compare(password, user.password);
-  console.log('Password match result:', isMatch);
-
-  if (!isMatch) {
-    return res.status(401).json({ message: 'Invalid password.' });
-  }
-
-  const token = generateTokenAndSetCookie(res, user._id, user.role, user.isVerified);
-
-  user.lastLogin = new Date();
-  await user.save();
-
-  const roleDashboardPaths = {
-    Teacher: '/teacher/dashboard',
-    Student: '/student/dashboard',
-    Parent: '/parent/dashboard',
-    Admin: '/admin/dashboard',
-  };
-
-  const redirectPath = roleDashboardPaths[user.role];
-
-  res.status(200).json({
-    success: true,
-    message: 'Logged in successfully',
-    token,
-    redirectPath,
-    user: {
-      ...user._doc,
-      password: undefined,
-    },
-  });
-});
-
-
-// @desc    Logout user
-// @route   POST /api/auth/logout
-// @access  Public
-const logout = asyncHandler(async (req, res) => {
-  try {
-    // Get the user ID from the token
-    const userId = req.user.id;
-
-    // Delete the user's database collection
-    await User.findByIdAndDelete(userId);
-
-    // Clear cookies
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
-    res.clearCookie('role'); // Assuming you have a role cookie
-
-    // Redirect to signup section
-    res.status(200).json({
-      success: true,
-      message: 'Logged out successfully. Redirecting to signup...',
-      // redirectTo: '/signup',
-    });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: 'Server error. Please try again.' });
-  }
-});
 
 // @desc    Get user ID from token
 // @route   GET /api/auth/user-id
