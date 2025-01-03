@@ -116,6 +116,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (validateForm()) {
       const formData = { fullName, email, phone, password, role };
+      console.log('Request Body:', formData);
       try {
         const response = await api.post('/auth/signup', formData);
 
@@ -140,38 +141,17 @@ const SignUpModal = ({ isOpen, onClose }) => {
         }
       } catch (error) {
         console.error('Error signing up:', error);
-
-        if (error.response) {
-          console.error('Error response data:', error.response.data); // Log the full data object
-          console.error('Error response status:', error.response.status);
-          console.error('Error response headers:', error.response.headers);
-
-          // Display a more specific error message to the user
-          let errorMessage = 'Registration failed. Please try again.';
-
-          if (error.response.data && error.response.data.message) {
-            errorMessage = error.response.data.message;
-          } else if (
-            error.response.data &&
-            typeof error.response.data === 'string'
-          ) {
-            errorMessage = error.response.data; // Handle cases where the error is a simple string
-          } else if (error.response.data && error.response.data.error) {
-            errorMessage = error.response.data.error; // Handle cases where the error is in an "error" field
-          } else if (error.response.status === 400) {
-            errorMessage = 'Invalid data provided. Please check your inputs.'; // Provide a default message for 400 errors
-          }
-
-          alert(errorMessage); // Optionally, use an alert
-          toast.error(errorMessage);
+        console.log('Error details:', JSON.stringify(error, null, 2)); // Log error as JSON
+        console.log('Error type:', typeof error); // Check error's type
+        if (error && error.response) {
+          console.log('Response data:', error.response.data); // Check the response data if available
+          console.log('Response status:', error.response.status); // Try accessing status safely
         } else if (error.request) {
-          // The request was made but no response was received
           console.error('No response received:', error.request);
           toast.error('No response from server. Please try again later.');
         } else {
-          // Something happened in setting up the request that triggered an Error
           console.error('Error setting up request:', error.message);
-          toast.error('An unexpected error occurred.');
+          toast.error('An unexpected error occurred. Please try again later.');
         }
       }
     }
