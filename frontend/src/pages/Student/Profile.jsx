@@ -37,7 +37,7 @@ const Profile = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          'http://localhost:5000/api/profile',
+          'https://schoolbridge-project-server.onrender.com/api/profile',
           {
             withCredentials: true,
           },
@@ -73,7 +73,7 @@ const Profile = () => {
     try {
       setLoading(true);
       await axios.put(
-        'http://localhost:5000/api/profile',
+        'https://schoolbridge-project-server.onrender.com/api/profile',
         user,
         {
           withCredentials: true,
@@ -100,7 +100,7 @@ const Profile = () => {
     try {
       setLoading(true);
       await axios.put(
-        'http://localhost:5000/api/profile/password',
+        'https://schoolbridge-project-server.onrender.com/api/profile/password',
         {
           newPassword,
         },

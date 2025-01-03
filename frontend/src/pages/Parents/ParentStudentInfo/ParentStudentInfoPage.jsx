@@ -98,7 +98,7 @@ const ParentStudentInfo = () => {
     const fetchParentData = async () => {
       try {
         const response = await fetch(
-          'http://localhost:5000/api/parent/info',
+          'https://schoolbridge-project-server.onrender.com/api/parent/info',
           {
             withCredentials: true,
           },
@@ -141,7 +141,7 @@ const ParentStudentInfo = () => {
   const handleModalSubmit = async (updatedData) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/${updatedData.type}/update`,
+        `https://schoolbridge-project-server.onrender.com/api/${updatedData.type}/update`,
         {
           withCredentials: true,
         },
@@ -175,13 +175,13 @@ const ParentStudentInfo = () => {
 
   const handleViewPerformance = (childId) => {
     navigate(
-      `http://localhost:5000/performance/${childId}`,
+      `https://schoolbridge-project-server.onrender.com/performance/${childId}`,
     );
   };
 
   const handleViewGrades = (childId) => {
     navigate(
-      `http://localhost:5000/grades/${childId}`,
+      `https://schoolbridge-project-server.onrender.com/grades/${childId}`,
     );
   };
 

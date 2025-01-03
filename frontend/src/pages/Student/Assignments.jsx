@@ -128,7 +128,7 @@ const Assignments = () => {
   const fetchAssignments = useCallback(async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/assignments',
+        'https://schoolbridge-project-server.onrender.com/api/assignments',
         {
           withCredentials: true,
         },

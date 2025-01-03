@@ -251,7 +251,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/logout',
+        'https://schoolbridge-project-server.onrender.com/api/auth/logout',
       );
       if (response.data.success) {
         // Clear local storage or any other client-side state

@@ -49,7 +49,7 @@ const GradesPage = () => {
     const fetchGrades = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/grade/grades/${childId}`,
+          `https://schoolbridge-project-server.onrender.com/api/grade/grades/${childId}`,
           {
             withCredentials: true,
           },

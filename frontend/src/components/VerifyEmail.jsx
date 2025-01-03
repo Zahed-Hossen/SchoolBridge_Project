@@ -10,7 +10,7 @@ const VerifyEmail = () => {
   const handleVerifyOTP = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/verify-otp',
+        'https://schoolbridge-project-server.onrender.com/api/auth/verify-otp',
         { email: localStorage.getItem('email'), otp },
       );
       setMessage(response.data.message);

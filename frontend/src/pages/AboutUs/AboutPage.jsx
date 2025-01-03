@@ -14,7 +14,7 @@ import {
 
 import meeting from '../../assets/image/meeting.avif';
 import gossiping from '../../assets/image/gossiping.avif';
-import interaction from '../../assets/image/interaction.webp';
+// import interaction from '../../assets/image/interaction.webp';
 import teamWork from '../../assets/image/teamWork.webp';
 
 const About = () => {
@@ -52,7 +52,7 @@ const About = () => {
             <p>Students</p>
           </div>
           <div>
-            <img src={interaction} alt="Teacher writing on a whiteboard" />
+            <img src={teamWork} alt="Teacher writing on a whiteboard" />
             <p>Teachers</p>
           </div>
           <div>
@@ -84,7 +84,7 @@ const About = () => {
             <p>Parents</p>
           </div>
           <div>
-            <img src={interaction} alt="Students collaborating on a project" />
+            <img src={teamWork} alt="Students collaborating on a project" />
             <p>Students</p>
           </div>
           <div>
@@ -109,7 +109,7 @@ const About = () => {
             <p>Photos</p>
           </div>
           <div>
-            <img src={interaction} alt="Team members discussing roles" />
+            <img src={teamWork} alt="Team members discussing roles" />
             <p>Roles</p>
           </div>
           <div>
@@ -134,7 +134,7 @@ const About = () => {
             <p>Parent: Updated and engaged</p>
           </div>
           <div>
-            <img src={interaction} alt="Student in a classroom" />
+            <img src={teamWork} alt="Student in a classroom" />
             <p>Student: Easy access to assignments</p>
           </div>
         </Grid>

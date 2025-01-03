@@ -69,7 +69,7 @@ const VerifyEmail = () => {
     const token = new URLSearchParams(location.search).get('token');
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/verify-email',
+        'https://schoolbridge-project-server.onrender.com/api/auth/verify-email',
         { token, verificationCode },
         {
           headers: {
@@ -243,7 +243,7 @@ export default VerifyEmail;
 //     };
 //     try {
 //       const response = await axios.post(
-//         'http://localhost:5000/api/auth/verify-otp',
+//         'https://schoolbridge-project-server.onrender.com/api/auth/verify-otp',
 //         data,
 //       );
 //       if (response.data.success) {
@@ -260,7 +260,7 @@ export default VerifyEmail;
 //   const handleResendOTP = async () => {
 //     try {
 //       const response = await axios.post(
-//         'http://localhost:5000/api/auth/send-otp',
+//         'https://schoolbridge-project-server.onrender.com/api/auth/send-otp',
 //         { email },
 //       );
 //       toast.success(response.data.message);

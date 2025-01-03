@@ -84,7 +84,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
       const formData = { fullName, email, phone, password, role };
       try {
         const response = await axios.post(
-          'http://localhost:5000/api/auth/signup',
+          'https://schoolbridge-project-server.onrender.com/api/auth/signup',
           formData,
         );
 

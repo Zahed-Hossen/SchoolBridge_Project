@@ -70,7 +70,7 @@ const AdminFinances = () => {
     const fetchFees = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/admin/fees',
+          'https://schoolbridge-project-server.onrender.com/api/admin/fees',
           {
             withCredentials: true,
           },
@@ -97,7 +97,7 @@ const AdminFinances = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `http://localhost:5000/api/admin/fees/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/admin/fees/${editingId}`,
           form,
           {
             withCredentials: true,
@@ -110,7 +110,7 @@ const AdminFinances = () => {
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/admin/fees',
+          'https://schoolbridge-project-server.onrender.com/api/admin/fees',
           form,
           {
             withCredentials: true,
@@ -135,7 +135,7 @@ const AdminFinances = () => {
   const handleDelete = async (feeId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/admin/fees/${feeId}`,
+        `https://schoolbridge-project-server.onrender.com/api/admin/fees/${feeId}`,
         {
           withCredentials: true,
         },

@@ -71,7 +71,7 @@ const AssignmentHomework = () => {
     const fetchAssignments = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/teacher/assignments',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/assignments',
           {
             withCredentials: true,
           },
@@ -98,7 +98,7 @@ const AssignmentHomework = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `http://localhost:5000/api/teacher/assignments/${editingId}`,
+          `https://schoolbridge-project-server.onrender.com/api/teacher/assignments/${editingId}`,
           form,
           {
             withCredentials: true,
@@ -113,7 +113,7 @@ const AssignmentHomework = () => {
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/teacher/assignments',
+          'https://schoolbridge-project-server.onrender.com/api/teacher/assignments',
           form,
           {
             withCredentials: true,
@@ -145,7 +145,7 @@ const AssignmentHomework = () => {
   const handleDelete = async (assignmentId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/teacher/assignments/${assignmentId}`,
+        `https://schoolbridge-project-server.onrender.com/api/teacher/assignments/${assignmentId}`,
         {
           withCredentials: true,
         },

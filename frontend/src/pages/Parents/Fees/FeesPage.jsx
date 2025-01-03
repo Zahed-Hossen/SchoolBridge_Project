@@ -84,7 +84,7 @@ const FeesPage = () => {
     const fetchFeeData = async () => {
       try {
         const response = await fetch(
-          'http://localhost:5000/api/fees/1',
+          'https://schoolbridge-project-server.onrender.com/api/fees/1',
           {
             withCredentials: true,
           },

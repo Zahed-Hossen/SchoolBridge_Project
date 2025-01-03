@@ -50,7 +50,7 @@ const AdminAuthManagement = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          'http://localhost:5000/api/admin/users',
+          'https://schoolbridge-project-server.onrender.com/api/admin/users',
         );
         const data = await response.json();
         setUsers(data);
@@ -62,7 +62,7 @@ const AdminAuthManagement = () => {
     const fetchLogs = async () => {
       try {
         const response = await fetch(
-          'http://localhost:5000/api/admin/logs',
+          'https://schoolbridge-project-server.onrender.com/api/admin/logs',
         );
         const data = await response.json();
         setLogs(data);
@@ -78,7 +78,7 @@ const AdminAuthManagement = () => {
   const handleApprove = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/users/${userId}/approve`,
+        `https://schoolbridge-project-server.onrender.com/api/admin/users/${userId}/approve`,
         {
           method: 'POST',
         },
@@ -100,7 +100,7 @@ const AdminAuthManagement = () => {
   const handleDeny = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/users/${userId}/deny`,
+        `https://schoolbridge-project-server.onrender.com/api/admin/users/${userId}/deny`,
         {
           method: 'POST',
         },
