@@ -129,10 +129,10 @@ const SignUpModal = ({ isOpen, onClose }) => {
             'User registered successfully! Please check your email to verify your account.',
           );
           alert('Sign Up Successful!');
-          // navigate(`/verify-email?token=${result.accessToken}`);
-           navigate('/verify-email', {
-             state: { email, verificationCode: result.verificationCode },
-           });
+          navigate(`/verify-email?token=${result.accessToken}`);
+          //  navigate('/verify-email', {
+          //    state: { email, verificationCode: result.verificationCode },
+          //  });
           onClose();
           setFullName('');
           setEmail('');
