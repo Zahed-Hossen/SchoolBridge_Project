@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -58,24 +59,37 @@ import Home from './pages/LandingPage/Home';
 
 function App() {
   const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Manually assign a userId for testing purposes
-    const testUserId = '1234567890abcdef'; // Example userId
-    setUserId(testUserId);
+    const fetchUserId = async () => {
+      try {
+        const response = await axios.get(
+          'https://schoolbridge-project-server.onrender.com/api/auth/user-id',
+        );
+        const fetchedUserId = response.data.userId;
+        setUserId(fetchedUserId);
+        localStorage.setItem('userId', fetchedUserId);
+      } catch (error) {
+        console.error('Error fetching user ID:', error);
+        // Handle the error, e.g., redirect to login page or show an error message
+      } finally {
+        setLoading(false);
+      }
+      // const testUserId = '1234567890abcdef';
+      // setUserId(testUserId);
+    };
 
-    // Fetch or get the userId somehow (e.g., from local storage, API, etc.)
-    // const storedUserId = localStorage.getItem('userId'); // Example
-    // if (storedUserId) {
-    //   setUserId(storedUserId);
-    // } else {
-    //   // Handle the case where userId isn't found
-    //   console.error('User ID not found in local storage');
-    //   // You might want to redirect to a login page, set a default userId, or show an error message
-    // }
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+      setLoading(false);
+    } else {
+      fetchUserId();
+    }
   }, []);
 
-  if (userId === null) {
+  if (loading) {
     return <p>Loading user data...</p>; // or an error message
   }
 
@@ -180,8 +194,11 @@ function App() {
 
 export default App;
 
+
 //frontend: https://schoolbridge-project-frontend.onrender.com
 //server: https://schoolbridge-project-server.onrender.com
+
+
 
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { AuthProvider } from './context/AuthContext.jsx';

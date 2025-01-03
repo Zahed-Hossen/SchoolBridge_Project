@@ -75,7 +75,7 @@ const TeacherGradebook = () => {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/students',
+          'http://localhost:5000/api/teacher/students',
           {
             withCredentials: true,
           },
@@ -90,7 +90,7 @@ const TeacherGradebook = () => {
     const fetchGrades = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/grades',
+          'http://localhost:5000/api/teacher/grades',
           {
             withCredentials: true,
           },
@@ -117,7 +117,7 @@ const TeacherGradebook = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/teacher/grades',
+        'http://localhost:5000/api/teacher/grades',
         form,
         {
           withCredentials: true,

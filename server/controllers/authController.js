@@ -374,10 +374,48 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   POST /api/auth/logout
 // @access  Public
 const logout = asyncHandler(async (req, res) => {
-  res.clearCookie('token');
-  res.status(200).json({ success: true, message: 'Logged out successfully' });
+  try {
+    // Get the user ID from the token
+    const userId = req.user.id;
+
+    // Delete the user's database collection
+    await User.findByIdAndDelete(userId);
+
+    // Clear cookies
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+    res.clearCookie('role'); // Assuming you have a role cookie
+
+    // Redirect to signup section
+    res.status(200).json({
+      success: true,
+      message: 'Logged out successfully. Redirecting to signup...',
+      // redirectTo: '/signup',
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: 'Server error. Please try again.' });
+  }
 });
 
+// @desc    Get user ID from token
+// @route   GET /api/auth/user-id
+// @access  Private
+const getUserId = asyncHandler(async (req, res) => {
+  const { token } = req.cookies;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized. No token provided.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ userId: decoded.id });
+  } catch (error) {
+    res.status(401).json({ message: 'Token invalid' });
+  }
+});
 
 // @desc    Handle password reset request
 // @route   POST /api/auth/password-reset
@@ -400,7 +438,7 @@ const passwordReset = asyncHandler(async (req, res) => {
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetPasswordExpiresAt = Date.now() + 1 * 60 * 60 * 1000;
     // our
-    const resetLink = `https://schoolbridge-project-frontend.onrender.com/reset-password?token=${resetToken}`;
+    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
     // Save token and expiration to the user's account
     user.resetPasswordToken = resetToken;
@@ -499,5 +537,6 @@ export {
   OTPRequest,
   generateOTP,
   resendOTP,
+  getUserId,
   // OTPVerification,
 };

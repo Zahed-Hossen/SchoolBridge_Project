@@ -66,7 +66,7 @@ const AdminEvents = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/admin/events',
+          'http://localhost:5000/api/admin/events',
           {
             withCredentials: true,
           },
@@ -95,7 +95,7 @@ const AdminEvents = () => {
       if (isEditing) {
         console.log('Updating event:', form); // Debugging statement
         await axios.put(
-          `https://schoolbridge-project-server.onrender.com/api/admin/events/${editingId}`,
+          `http://localhost:5000/api/admin/events/${editingId}`,
           form,
           {
             withCredentials: true,
@@ -109,7 +109,7 @@ const AdminEvents = () => {
       } else {
         console.log('Adding new event:', form); // Debugging statement
         const response = await axios.post(
-          'https://schoolbridge-project-server.onrender.com/api/admin/events',
+          'http://localhost:5000/api/admin/events',
           form,
           {
             withCredentials: true,
@@ -134,7 +134,7 @@ const AdminEvents = () => {
   const handleDelete = async (eventId) => {
     try {
       await axios.delete(
-        `https://schoolbridge-project-server.onrender.com/api/admin/events/${eventId}`,
+        `http://localhost:5000/api/admin/events/${eventId}`,
       ),
         {
           withCredentials: true,

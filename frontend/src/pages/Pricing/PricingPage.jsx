@@ -25,8 +25,17 @@ import {
   Footer,
   FooterIcons,
   Icon,
-} from "./PricingPageStyles";
-import { FaBars, FaInfoCircle, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+} from './PricingPageStyles';
+import {
+  FaBars,
+  FaInfoCircle,
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from 'react-icons/fa';
+import meeting from '../../assets/image/meeting.avif';
+import interaction from '../../assets/image/interaction.webp';
+import teamWork from '../../assets/image/teamWork.webp';
 
 const Pricing = () => {
   return (
@@ -41,27 +50,22 @@ const Pricing = () => {
         </InfoIcon>
       </Header>
       <MainImage
-        src="https://storage.googleapis.com/a1aa/image/1Y8nj79Q54b4FNFo3NxGb5KyFXRbpjjetuPOwkMzR5Rw169JA.jpg"
+        src={interaction}
         alt="A busy classroom with students and teachers interacting"
       />
       <SectionTitle>Flexible Pricing for Every School Needs</SectionTitle>
       <SectionSubtitle>
-        Choose a plan that fits your school’s size and goals—simple, transparent, and scalable.
+        Choose a plan that fits your school’s size and goals—simple,
+        transparent, and scalable.
       </SectionSubtitle>
       <Plans>
         <PlanCard>
-          <PlanImage
-            src="https://storage.googleapis.com/a1aa/image/IgzXr1xzqQZvHhmlB33Lkduu0eUQZPKjsUMzOciPRb7v169JA.jpg"
-            alt="Starter Plan image"
-          />
+          <PlanImage src={meeting} alt="Starter Plan image" />
           <PlanDescription>Starter Plan</PlanDescription>
           <PlanDescription>Designed for small schools or...</PlanDescription>
         </PlanCard>
         <PlanCard>
-          <PlanImage
-            src="https://storage.googleapis.com/a1aa/image/egmvVEWdiH2jFizuLGToh0gsuDf1dY0lPvd0wVdtOKYnr17TA.jpg"
-            alt="Standard Plan image"
-          />
+          <PlanImage src={teamWork} alt="Standard Plan image" />
           <PlanDescription>Standard Plan</PlanDescription>
           <PlanDescription>Tailored for mids...</PlanDescription>
         </PlanCard>
@@ -73,7 +77,9 @@ const Pricing = () => {
           <Teams>
             <Team>
               <TeamImage
-                src="https://storage.googleapis.com/a1aa/image/7UeSd3G2s0wzKa9z3p38jTZUcSBr8omW0eqPdaoefkCYuWvPB.jpg"
+                src={
+                  'https://storage.googleapis.com/a1aa/image/7UeSd3G2s0wzKa9z3p38jTZUcSBr8omW0eqPdaoefkCYuWvPB.jpg'
+                }
                 alt="USA flag"
               />
               <span>USA</span>
@@ -198,7 +204,9 @@ const Pricing = () => {
       <HelpSection>
         <SectionTitle>Need Help Choosing the Right Plan?</SectionTitle>
         <HelpText>
-          Our team is here to assist you in selecting the best plan for your school. Whether you need more information or a personalized demo, we are ready to help.
+          Our team is here to assist you in selecting the best plan for your
+          school. Whether you need more information or a personalized demo, we
+          are ready to help.
         </HelpText>
         <Buttons>
           <Button className="contact">Contact</Button>

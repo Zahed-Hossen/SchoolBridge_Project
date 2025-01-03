@@ -24,8 +24,17 @@ import {
   Footer,
   FooterIcons,
   Icon,
-} from "./ContactUsPageStyles";
-import { FaBars, FaInfoCircle, FaChevronRight, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+} from './ContactUsPageStyles';
+import {
+  FaBars,
+  FaInfoCircle,
+  FaChevronRight,
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from 'react-icons/fa';
+
+import meeting from '../../assets/image/meeting.avif';
 
 const ContactUs = () => {
   return (
@@ -41,13 +50,16 @@ const ContactUs = () => {
       </Header>
       <ImageContainer>
         <img
-          src="https://storage.googleapis.com/a1aa/image/DyDzamDz4qp6JZfIjGOpD1b4LMqIQUWWmCr9ubqqZ0MGq69JA.jpg"
+          src={meeting}
           alt="A group of people working in an office environment"
         />
       </ImageContainer>
       <SectionTitle>Choose your role for quick support</SectionTitle>
       <SectionDescription>
-        For general inquiries, you can reach us via email at support@schoolbridge.com or call us at +1(123) 456-7890 during business hours (Mon-Fri, 9AM-6PM GMT). For role-specific support, please use the buttons below.
+        For general inquiries, you can reach us via email at
+        support@schoolbridge.com or call us at +1(123) 456-7890 during business
+        hours (Mon-Fri, 9AM-6PM GMT). For role-specific support, please use the
+        buttons below.
       </SectionDescription>
       <ButtonGroup>
         <Button>Parents Support</Button>
@@ -57,7 +69,9 @@ const ContactUs = () => {
       </ButtonGroup>
       <SectionTitle>Inquiry Form</SectionTitle>
       <SectionDescription>
-        Please fill out the form below with your details and a brief description of your issue. Our support team will get back to you as soon as possible. For urgent matters, please include your phone number.
+        Please fill out the form below with your details and a brief description
+        of your issue. Our support team will get back to you as soon as
+        possible. For urgent matters, please include your phone number.
       </SectionDescription>
       <FormGroup>
         <Label htmlFor="role">Role Selection</Label>

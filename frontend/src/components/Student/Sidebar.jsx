@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import {
   FaBars,
   FaTimes,
@@ -66,7 +67,6 @@ const NavItem = styled.li`
     display: block;
   }
 `;
-
 
 // const SearchBar = styled.input`
 //   padding: 5px;
@@ -248,7 +248,26 @@ const Header = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/api/auth/logout',
+      );
+      if (response.data.success) {
+        // Clear local storage or any other client-side state
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('role'); // Assuming you have a role stored in local storage
 
+        // Redirect to signup page
+        window.location.href = '/signup';
+      } else {
+        console.error('Logout failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
   return (
     <HeaderContainer>
       <HamburgerIcon onClick={toggleMobileNav} />
@@ -406,13 +425,13 @@ const Header = () => {
       </Nav>
 
       <SearchBar type="text" placeholder="Search..." />
-      
+
       <ProfileContainer>
         <ProfileButton onClick={toggleSidebar}>
           <FaUser /> Profile
         </ProfileButton>
 
-        <ProfileButton>
+        <ProfileButton onClick={handleLogout}>
           <FaSignOutAlt /> Logout
         </ProfileButton>
       </ProfileContainer>
@@ -453,7 +472,12 @@ const Header = () => {
             </ProfileButton>
           </MobileNavItem>
           <MobileNavItem>
-            <ProfileButton onClick={toggleMobileNav}>
+            <ProfileButton
+              onClick={() => {
+                toggleMobileNav();
+                handleLogout();
+              }}
+            >
               <FaSignOutAlt /> Logout
             </ProfileButton>
           </MobileNavItem>

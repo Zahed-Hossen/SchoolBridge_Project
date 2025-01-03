@@ -66,7 +66,7 @@ const AdminExams = () => {
     const fetchExams = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/admin/exams',
+          'http://localhost:5000/api/admin/exams',
           {
             withCredentials: true,
           },
@@ -94,7 +94,7 @@ const AdminExams = () => {
       if (isEditing) {
         console.log('Updating exam:', form); // Debugging statement
         await axios.put(
-          `https://schoolbridge-project-server.onrender.com/api/admin/exams/${editingId}`,
+          `http://localhost:5000/api/admin/exams/${editingId}`,
           form,
           {
             withCredentials: true,
@@ -107,7 +107,7 @@ const AdminExams = () => {
         );
       } else {
         const response = await axios.post(
-          'https://schoolbridge-project-server.onrender.com/api/admin/exams',
+          'http://localhost:5000/api/admin/exams',
           form,
           {
             withCredentials: true,
@@ -132,7 +132,7 @@ const AdminExams = () => {
   const handleDelete = async (examId) => {
     try {
       await axios.delete(
-        `https://schoolbridge-project-server.onrender.com/api/admin/exams/${examId}`,
+        `http://localhost:5000/api/admin/exams/${examId}`,
         {
           withCredentials: true,
         },

@@ -41,7 +41,7 @@ const ParentFeedback = () => {
 
     try {
       const response = await fetch(
-        'https://schoolbridge-project-server.onrender.com/api/feedback',
+        'http://localhost:5000/api/feedback',
         {
           withCredentials: true,
         },

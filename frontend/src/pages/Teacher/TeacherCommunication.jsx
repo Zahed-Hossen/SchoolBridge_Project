@@ -69,7 +69,7 @@ const TeacherCommunication = () => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/messages',
+          'http://localhost:5000/api/teacher/messages',
           {
             withCredentials: true,
           },
@@ -95,7 +95,7 @@ const TeacherCommunication = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/teacher/messages',
+        'http://localhost:5000/api/teacher/messages',
         form,
         {
           withCredentials: true,

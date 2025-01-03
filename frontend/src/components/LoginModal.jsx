@@ -65,7 +65,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       const loginData = { email, password, role };
       try {
         const response = await axios.post(
-          'https://schoolbridge-project-server.onrender.com/api/auth/login',
+          'http://localhost:5000/api/auth/login',
           loginData,
           {
             withCredentials: true,

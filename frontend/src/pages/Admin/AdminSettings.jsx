@@ -49,7 +49,7 @@ const AdminSettings = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/admin/profile',
+          'http://localhost:5000/api/admin/profile',
           {
             withCredentials: true,
           },
@@ -75,7 +75,7 @@ const AdminSettings = () => {
     e.preventDefault();
     try {
       await axios.put(
-        'https://schoolbridge-project-server.onrender.com/api/admin/profile',
+        'http://localhost:5000/api/admin/profile',
         profile,
         {
           withCredentials: true,

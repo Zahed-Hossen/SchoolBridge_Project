@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { jwtDecode } from 'jwt-decode';
+// import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
 import Modal from './Modal';
 import {
   ModalHeader,
@@ -51,50 +54,47 @@ const SignUpModal = ({ isOpen, onClose }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSignUpSuccess = (token) => {
-    const decodedToken = jwtDecode(token);
-    const userRole = decodedToken.role;
-    // const isVerified = decodedToken.isVerified;
+  // const handleSignUpSuccess = (token) => {
+  //   const decodedToken = jwtDecode(token);
+  //   const userRole = decodedToken.role;
+  //   // const isVerified = decodedToken.isVerified;
 
-    const roleDashboardPaths = {
-      Teacher: '/teacher/dashboard',
-      Student: '/student/dashboard',
-      Parent: '/parent/dashboard',
-      Admin: '/admin/dashboard',
-    };
+  //   const roleDashboardPaths = {
+  //     Teacher: '/teacher/dashboard',
+  //     Student: '/student/dashboard',
+  //     Parent: '/parent/dashboard',
+  //     Admin: '/admin/dashboard',
+  //   };
 
-    // if (!isVerified) {
-    //   navigate('/verify-email');
-    // } else {
-      const dashboardPath = roleDashboardPaths[userRole];
-      if (dashboardPath) {
-        navigate(dashboardPath);
-      } else {
-        console.error('Invalid role or redirection path not defined.');
-      }
-    // }
-  };
+  //   // if (!isVerified) {
+  //   //   navigate('/verify-email');
+  //   // } else {
+  //   const dashboardPath = roleDashboardPaths[userRole];
+  //   if (dashboardPath) {
+  //     navigate(dashboardPath);
+  //   } else {
+  //     console.error('Invalid role or redirection path not defined.');
+  //   }
+  //   // }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      const signUpData = { fullName, email, phone, password, role };
+      const formData = { fullName, email, phone, password, role };
       try {
-        const response = await fetch(
-          'https://schoolbridge-project-server.onrender.com/api/auth/signup',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(signUpData),
-          },
+        const response = await axios.post(
+          'http://localhost:5000/api/auth/signup',
+          formData,
         );
 
-        const result = await response.json();
-        if (response.ok) {
+        if (response.status >= 200 && response.status < 300) {
+          const result = response.data;
+          toast.success(
+            'User registered successfully! Please check your email to verify your account.',
+          );
           alert('Sign Up Successful!');
-          handleSignUpSuccess(result.token);
+          navigate(`/verify-email?token=${result.token}`);
           onClose();
           setFullName('');
           setEmail('');
@@ -104,11 +104,44 @@ const SignUpModal = ({ isOpen, onClose }) => {
           setRole('');
           setTermsAccepted(false);
         } else {
-          alert(result.message || 'Sign Up failed. Please try again.');
+          alert('Sign Up failed. Please try again.');
+          toast.error(response.data.message);
         }
       } catch (error) {
         console.error('Error signing up:', error);
-        alert('An error occurred. Please try again later.');
+
+        if (error.response) {
+          console.error('Error response data:', error.response.data); // Log the full data object
+          console.error('Error response status:', error.response.status);
+          console.error('Error response headers:', error.response.headers);
+
+          // Display a more specific error message to the user
+          let errorMessage = 'Registration failed. Please try again.';
+
+          if (error.response.data && error.response.data.message) {
+            errorMessage = error.response.data.message;
+          } else if (
+            error.response.data &&
+            typeof error.response.data === 'string'
+          ) {
+            errorMessage = error.response.data; // Handle cases where the error is a simple string
+          } else if (error.response.data && error.response.data.error) {
+            errorMessage = error.response.data.error; // Handle cases where the error is in an "error" field
+          } else if (error.response.status === 400) {
+            errorMessage = 'Invalid data provided. Please check your inputs.'; // Provide a default message for 400 errors
+          }
+
+          alert(errorMessage); // Optionally, use an alert
+          toast.error(errorMessage);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error('No response received:', error.request);
+          toast.error('No response from server. Please try again later.');
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error setting up request:', error.message);
+          toast.error('An unexpected error occurred.');
+        }
       }
     }
   };

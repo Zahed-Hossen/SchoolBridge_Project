@@ -75,7 +75,7 @@ const AttendancePage = () => {
     const fetchAttendance = async () => {
       try {
         const response = await fetch(
-          'https://schoolbridge-project-server.onrender.com/api/attendance',
+          'http://localhost:5000/api/attendance',
           {
             withCredentials: true,
           },

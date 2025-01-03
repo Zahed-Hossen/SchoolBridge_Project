@@ -68,7 +68,7 @@ function StudentPerformance({ userId }) {
     const fetchPerformanceData = async () => {
       try {
         const response = await axios.get(
-          `https://schoolbridge-project-server.onrender.com/api/performance/${userId}`,
+          `http://localhost:5000/api/performance/${userId}`,
           {
             withCredentials: true,
           },
@@ -97,7 +97,7 @@ function StudentPerformance({ userId }) {
 
   const exportReport = async (type) => {
     try {
-      const url = `https://schoolbridge-project-server.onrender.com/api/performance/export/${type}/${userId}`;
+      const url = `http://localhost:5000/api/performance/export/${type}/${userId}`;
       const response = await fetch(url);
       const blob = await response.blob();
 

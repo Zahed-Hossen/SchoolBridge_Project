@@ -35,7 +35,7 @@ import {
   FooterContent,
   FooterLinks,
   FooterLink,
-  Button
+  Button,
 } from './FeaturePageStyles';
 
 const FeaturesPage = () => {
@@ -76,16 +76,12 @@ const FeaturesPage = () => {
           <FeatureCard>
             <FeatureIcon className="fas fa-cogs" />
             <FeatureTitle>Feature One</FeatureTitle>
-            <FeatureDescription>
-              Description of feature one.
-            </FeatureDescription>
+            <FeatureDescription>Description of feature one.</FeatureDescription>
           </FeatureCard>
           <FeatureCard>
             <FeatureIcon className="fas fa-chart-line" />
             <FeatureTitle>Feature Two</FeatureTitle>
-            <FeatureDescription>
-              Description of feature two.
-            </FeatureDescription>
+            <FeatureDescription>Description of feature two.</FeatureDescription>
           </FeatureCard>
           <FeatureCard>
             <FeatureIcon className="fas fa-users" />
@@ -133,13 +129,13 @@ const FeaturesPage = () => {
         <FooterContent>
           <Button
             className="btn btn-primary"
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate('/signup')}
           >
             Get Started
           </Button>
           <Button
             className="btn btn-secondary"
-            onClick={() => navigate("/contact")}
+            onClick={() => navigate('/contact')}
           >
             Contact Us
           </Button>

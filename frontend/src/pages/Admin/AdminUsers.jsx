@@ -93,7 +93,7 @@ const AdminUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/admin/users',
+          'http://localhost:5000/api/admin/users',
           {
             withCredentials: true,
           },
@@ -120,7 +120,7 @@ const AdminUsers = () => {
     try {
       if (isEditing) {
         await axios.put(
-          `https://schoolbridge-project-server.onrender.com/api/admin/users/${editingId}`,
+          `http://localhost:5000/api/admin/users/${editingId}`,
           form,
           {
             withCredentials: true,
@@ -133,7 +133,7 @@ const AdminUsers = () => {
         );
       } else {
         const response = await axios.post(
-          'https://schoolbridge-project-server.onrender.com/api/admin/users',
+          'http://localhost:5000/api/admin/users',
           form,
           {
             withCredentials: true,
@@ -158,7 +158,7 @@ const AdminUsers = () => {
   const handleDelete = async (userId) => {
     try {
       await axios.delete(
-        `https://schoolbridge-project-server.onrender.com/api/admin/users/${userId}`,
+        `http://localhost:5000/api/admin/users/${userId}`,
         {
           withCredentials: true,
         },

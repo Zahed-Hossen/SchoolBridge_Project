@@ -67,7 +67,7 @@ const TeacherSchedule = () => {
     const fetchSchedule = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/schedule',
+          'http://localhost:5000/api/teacher/schedule',
           {
             withCredentials: true,
           },
@@ -93,7 +93,7 @@ const TeacherSchedule = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/teacher/schedule',
+        'http://localhost:5000/api/teacher/schedule',
         form,
         {
           withCredentials: true,

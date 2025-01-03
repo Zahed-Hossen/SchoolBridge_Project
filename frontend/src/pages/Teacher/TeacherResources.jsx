@@ -62,7 +62,7 @@ const TeacherResources = () => {
     const fetchResources = async () => {
       try {
         const response = await axios.get(
-          'https://schoolbridge-project-server.onrender.com/api/teacher/resources',
+          'http://localhost:5000/api/teacher/resources',
           {
             withCredentials: true,
           },
@@ -92,7 +92,7 @@ const TeacherResources = () => {
 
     try {
       const response = await axios.post(
-        'https://schoolbridge-project-server.onrender.com/api/teacher/resources',
+        'http://localhost:5000/api/teacher/resources',
         formData,
         {
           withCredentials: true,
@@ -131,7 +131,7 @@ const TeacherResources = () => {
               <ResourceItem key={resource._id}>
                 <h3>{resource.title}</h3>
                 <a
-                  href={`https://schoolbridge-project-server.onrender.com/${resource.filePath}`}
+                  href={`http://localhost:5000/${resource.filePath}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

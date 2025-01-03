@@ -9,59 +9,52 @@ import {
   Footer,
   FooterIcons,
   Icon,
-  Card
+  Card,
 } from './AboutPageStyles';
-
+import meeting from '../../assets/image/meeting.avif';
+import gossiping from '../../assets/image/gossiping.avif';
+import interaction from '../../assets/image/interaction.webp';
+import teamWork from '../../assets/image/teamWork.webp';
 const About = () => {
   return (
     <AboutContainer>
       <Section>
         <h1>About SchoolBridge</h1>
         <Card>
-        <ImageContainer>
-          <img
-            src="https://storage.googleapis.com/a1aa/image/ELtqxYdDGxJNH9clBeWg9G8weacvdeT4jkymHAhUzyWZzp3nA.jpg"
-            alt="Group of students and teachers in a classroom"
-          />
-          <Caption>
-            <h3>About SchoolBridge</h3>
-            <p>Transforming Education</p>
-          </Caption>
-        </ImageContainer>
+          <ImageContainer>
+            <img
+              src={meeting}
+              alt="Group of students and teachers in a classroom"
+            />
+            <Caption>
+              <h3>About SchoolBridge</h3>
+              <p>Transforming Education</p>
+            </Caption>
+          </ImageContainer>
         </Card>
       </Section>
       <Section>
         <h2>Mission & Vision</h2>
         <p>
-          Mission: Provide seamless tools to simplify school operations and elevate education. Vision: Worldwide most trusted platform connecting schools through technology.
+          Mission: Provide seamless tools to simplify school operations and
+          elevate education. Vision: Worldwide most trusted platform connecting
+          schools through technology.
         </p>
         <Grid>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/NHSlpcBfkwX6dS22peA07yaiUO2poWVRO5Qed678M1SLzp3nA.jpg"
-              alt="Parents interacting with children"
-            />
+            <img src={gossiping} alt="Gossiping" width={200} />
             <p>Parents</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/zRiche6gS9WeEU4jea1zUXeniVj1FyUNfnoH84VaohD1MneeJA.jpg"
-              alt="Students in a classroom"
-            />
+            <img src={teamWork} alt="Students in a classroom" />
             <p>Students</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/TsVINj0wZe0jYK9nfsVe4sSoYWiOSFD98QsfPBbxl8v5mTvPB.jpg"
-              alt="Teacher writing on a whiteboard"
-            />
+            <img src={interaction} alt="Teacher writing on a whiteboard" />
             <p>Teachers</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/t37edBEeFcgaDk0InwCUGh4t1Id7UH68Z2nq0rxq4Bgq507TA.jpg"
-              alt="Admins working in an office"
-            />
+            <img src={teamWork} alt="Admins working in an office" />
             <p>Admins</p>
           </div>
         </Grid>
@@ -80,35 +73,24 @@ const About = () => {
       <Section>
         <h2>Values</h2>
         <p>
-          Innovation: Reimagining edtech. Collaboration: Co-creating solutions. Transparency: Open communication. Empathy: User-focused design.
+          Innovation: Reimagining edtech. Collaboration: Co-creating solutions.
+          Transparency: Open communication. Empathy: User-focused design.
         </p>
         <Grid>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/hKfu3d3DK0XAXCrK4oAnJzOvCXrZE7NSD233jPmvxaxxc69JA.jpg"
-              alt="Parents discussing with teachers"
-            />
+            <img src={teamWork} alt="Parents discussing with teachers" />
             <p>Parents</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/3HKZHQpE4yZoDJp9C5Bl2ijRYr9JHSqc9eap1EI81Hx3c69JA.jpg"
-              alt="Students collaborating on a project"
-            />
+            <img src={interaction} alt="Students collaborating on a project" />
             <p>Students</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/2lxdAbaR3MYGG96GEiEvfeuM5mTylG50WOt7oJEAMeWazp3nA.jpg"
-              alt="Teachers in a meeting"
-            />
+            <img src={teamWork} alt="Teachers in a meeting" />
             <p>Teachers</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/iM04v5AwzP78Mpi3vYla5UpIP0peM8pwE7CS30EvXb04c69JA.jpg"
-              alt="Admins working together"
-            />
+            <img src={teamWork} alt="Admins working together" />
             <p>Admins</p>
           </div>
         </Grid>
@@ -116,35 +98,24 @@ const About = () => {
       <Section>
         <h2>Benefits</h2>
         <p>
-          Parents: Track progress & events. Students: Access dashboard. Teachers: Efficient management. Admins: Integrated analytics.
+          Parents: Track progress & events. Students: Access dashboard.
+          Teachers: Efficient management. Admins: Integrated analytics.
         </p>
         <Grid>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/IACN2aivfx1EXayQZU6rvsjZuLV7jn21UiEBOYF6XShzc69JA.jpg"
-              alt="Group photo of the team"
-            />
+            <img src={teamWork} alt="Group photo of the team" />
             <p>Photos</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/wkfvaCaypExEeUCESXf7xzwIs6eEjbXKKgOK98KbVMfsOneeJA.jpg"
-              alt="Team members discussing roles"
-            />
+            <img src={interaction} alt="Team members discussing roles" />
             <p>Roles</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/TZCNelbRhuUcdKaXZATDjeDEfX12ft9doOR4bAfDff6S7c69JA.jpg"
-              alt="Team collaborating on a project"
-            />
+            <img src={teamWork} alt="Team collaborating on a project" />
             <p>Collaboration</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/LDRL840LNXreNScjP7gPsufTmhdV6ICXRjFQRoOfdGCSzp3nA.jpg"
-              alt="Team working on solutions"
-            />
+            <img src={teamWork} alt="Team working on solutions" />
             <p>Solutions</p>
           </div>
         </Grid>
@@ -152,27 +123,24 @@ const About = () => {
       <Section>
         <h2>Testimonials</h2>
         <p>
-          Parent: Updated and engaged. Student: Easy access to assignments. Teacher: Simplified communication.
+          Parent: Updated and engaged. Student: Easy access to assignments.
+          Teacher: Simplified communication.
         </p>
         <Grid>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/B6xffP1mUTvXyUjS7YAuPeuBQdGFoMFyo98A1e0mZ6QOnTvPB.jpg"
-              alt="Parent with children"
-            />
+            <img src={teamWork} alt="Parent with children" />
             <p>Parent: Updated and engaged</p>
           </div>
           <div>
-            <img
-              src="https://storage.googleapis.com/a1aa/image/Rmwea0RMfbk1aEeh10KfRYtW6jIL8E8b4NkEmnENjOtTnTvPB.jpg"
-              alt="Student in a classroom"
-            />
+            <img src={interaction} alt="Student in a classroom" />
             <p>Student: Easy access to assignments</p>
           </div>
         </Grid>
       </Section>
       <Button href="#">Be Part of the Educational Revolution</Button>
-      <Button href="#" secondary>Learn More</Button>
+      <Button href="#" secondary>
+        Learn More
+      </Button>
       <Footer>
         <p>© 2024 SchoolBridge</p>
         <FooterIcons>
@@ -186,13 +154,3 @@ const About = () => {
 };
 
 export default About;
-
-
-
-
-
-
-
-
-
-

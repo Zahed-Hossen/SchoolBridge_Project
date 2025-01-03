@@ -13,7 +13,7 @@ import path from 'path';
 
 export const getAllAssignments = async (req, res) => {
   try {
-    const assignments = await find();
+    const assignments = await Assignment.find().populate('classId');
     res.status(200).json(assignments);
   } catch (error) {
     res.status(500).json({ message: 'Server error. Please try again.' });
@@ -21,38 +21,43 @@ export const getAllAssignments = async (req, res) => {
 };
 
 export const addNewAssignment = async (req, res) => {
-    const { title, description, dueDate } = req.body;
-    try {
-      const newAssignment = new Assignment({ title, description, dueDate });
-      await newAssignment.save();
-      res.status(201).json(newAssignment);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error. Please try again.' });
-    }
-  };
+  const { title, description, dueDate, classId } = req.body;
+  try {
+    const newAssignment = new Assignment({
+      title,
+      description,
+      dueDate,
+      classId,
+    });
+    await newAssignment.save();
+    res.status(201).json(newAssignment);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+};
 
 export const updateAssignment = async (req, res) => {
-    const { title, description, dueDate } = req.body;
-    try {
-      const updatedAssignment = await findByIdAndUpdate(
-        req.params.id,
-        { title, description, dueDate },
-        { new: true },
-      );
-      res.status(200).json(updatedAssignment);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error. Please try again.' });
-    }
-  };
+  const { title, description, dueDate, classId } = req.body;
+  try {
+    const updatedAssignment = await Assignment.findByIdAndUpdate(
+      req.params.id,
+      { title, description, dueDate, classId },
+      { new: true },
+    ).populate('classId');
+    res.status(200).json(updatedAssignment);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+};
 
 export const deleteAssignment = async (req, res) => {
-    try {
-      await findByIdAndDelete(req.params.id);
-      res.status(200).json({ message: 'Assignment deleted successfully.' });
-    } catch (error) {
-      res.status(500).json({ message: 'Server error. Please try again.' });
-    }
-  };
+  try {
+    await Assignment.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Assignment deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+};
 export const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find();
@@ -90,22 +95,22 @@ export const getAllAttendanceRecords = async (req, res) => {
 };
 
 export const markAttendance = async (req, res) => {
-    const { studentId, status } = req.body;
-    try {
-      const newAttendance = new Attendance({
-        student: studentId,
-        status,
-        date: new Date(),
-      });
-      await newAttendance.save();
-      const populatedAttendance = await newAttendance
-        .populate('student')
-        .execPopulate();
-      res.status(201).json(populatedAttendance);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error. Please try again.' });
-    }
-  };
+  const { studentId, status } = req.body;
+  try {
+    const newAttendance = new Attendance({
+      student: studentId,
+      status,
+      date: new Date(),
+    });
+    await newAttendance.save();
+    const populatedAttendance = await newAttendance
+      .populate('student')
+      .execPopulate();
+    res.status(201).json(populatedAttendance);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+};
 
 export const getAllClasses = async (req, res) => {
   try {
@@ -135,38 +140,38 @@ export const addNewClass = async (req, res) => {
 };
 
 export const updateClass = async (req, res) => {
-    const { name, teacher, students } = req.body;
-    try {
-      const updatedClass = await Class.findByIdAndUpdate(
-        req.params.id,
-        { name, teacher, students: students.split(',').map((id) => id.trim()) },
-        { new: true },
-      ).populate('teacher students');
-      res.status(200).json(updatedClass);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error. Please try again.' });
-    }
-  };
+  const { name, teacher, students } = req.body;
+  try {
+    const updatedClass = await Class.findByIdAndUpdate(
+      req.params.id,
+      { name, teacher, students: students.split(',').map((id) => id.trim()) },
+      { new: true },
+    ).populate('teacher students');
+    res.status(200).json(updatedClass);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+};
 
 export const deleteClass = async (req, res) => {
-    try {
-      await Class.findByIdAndDelete(req.params.id);
-      res.status(200).json({ message: 'Class deleted successfully.' });
-    } catch (error) {
-      res.status(500).json({ message: 'Server error. Please try again.' });
-    }
-  };
+  try {
+    await Class.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Class deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+};
 
 export const getPerformanceData = async (req, res) => {
-    try {
-      const performanceData = await Performance.find({
-        userId: req.params.studentId,
-      });
-      res.status(200).json(performanceData);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error. Please try again.' });
-    }
-  };
+  try {
+    const performanceData = await Performance.find({
+      userId: req.params.studentId,
+    });
+    res.status(200).json(performanceData);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Please try again.' });
+  }
+};
 
 export const getAllMessages = async (req, res) => {
   try {
@@ -249,7 +254,9 @@ export const getAllResources = async (req, res) => {
     const resources = await Resource.find();
     res.status(200).json(resources);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching resources', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error fetching resources', error: error.message });
   }
 };
 
@@ -271,7 +278,9 @@ export const addNewResource = async (req, res) => {
     await newResource.save();
     res.status(201).json(newResource);
   } catch (error) {
-    res.status(500).json({ message: 'Error adding resource', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error adding resource', error: error.message });
   }
 };
 
@@ -289,6 +298,8 @@ export const deleteResource = async (req, res) => {
     await resource.remove();
     res.status(200).json({ message: 'Resource deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting resource', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Error deleting resource', error: error.message });
   }
 };
