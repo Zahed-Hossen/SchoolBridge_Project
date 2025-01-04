@@ -305,10 +305,10 @@
 
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import api from '../services/api';
+// import api from '../services/api';
 import Modal from './Modal';
 import {
   ModalHeader,
@@ -362,16 +362,21 @@ const SignUpModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (validateForm()) {
       const formData = { fullName, email, phone, password, role };
-      console.log('Request Body:', JSON.stringify(formData, null, 2)); // Log the request body
+      console.log('Request Body:', JSON.stringify(formData, null, 2));
       try {
-        const response = await api.post('/auth/signup', formData);
+        const response = await axios.post(
+          'https://schoolbridge-project-server.onrender.com/api/auth/signup',
+          formData,
+        );
 
         if (response.status >= 200 && response.status < 300) {
           const result = response.data;
           toast.success(
             'User registered successfully! Please check your email to verify your account.',
           );
-          navigate(`/verify-email?token=${result.accessToken}`);
+          navigate('/verify-email', {
+            state: { email, verificationCode: result.verificationCode },
+          });
           onClose();
           setFullName('');
           setEmail('');
@@ -389,37 +394,41 @@ const SignUpModal = ({ isOpen, onClose }) => {
         console.error('Error signing up:', error);
         console.log('Error details:', JSON.stringify(error, null, 2)); // Log error as JSON
         console.log('Error type:', typeof error); // Check error's type
+
         if (error && error.response) {
           console.log(
             'Response data:',
             JSON.stringify(error.response.data, null, 2),
-          ); // Format JSON for readability
+          );
           console.log('Response status:', error.response.status);
-          console.log('Response headers:', error.response.headers); // Add headers for more context
+          console.log(
+            'Response headers:',
+            JSON.stringify(error.response.headers, null, 2),
+          );
 
           // Prioritize the server's error message:
           if (error.response.data && error.response.data.message) {
             toast.error(error.response.data.message);
-          } else if (
-            error.response.data &&
-            typeof error.response.data === 'string'
-          ) {
-            toast.error(error.response.data); // Handle cases where the error is a simple string
+          } else if (typeof error.response.data === 'string') {
+            toast.error(error.response.data);
           } else {
             toast.error('Invalid signup information. Please try again.');
           }
-        } else if (error.request) {
+        } else if (error && error.request) {
           console.error('No response received:', error.request);
           toast.error('Network error. Please try again later.');
-        } else {
+        } else if (error && error.message) {
           console.error('Error setting up request:', error.message);
+          toast.error('An unexpected error occurred. Please try again later.');
+        } else {
+          console.error('Unknown error:', error);
           toast.error('An unexpected error occurred. Please try again later.');
         }
       }
     }
   };
 
-  // if (!isOpen) return null;
+  if (!isOpen) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
