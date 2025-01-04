@@ -1,9 +1,9 @@
 import  { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import TeacherLayout from '../../components/Teacher/TeacherLayout';
-import Footer from '../../components/Footer';
+import Footer from '../../components/Teacher/Footer';
 
 const Container = styled.div`
   padding: 20px;
@@ -26,7 +26,7 @@ const QuickLink = styled.a`
 
 const TeacherDashboard = () => {
   const [data, setData] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
