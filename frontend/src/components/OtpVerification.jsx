@@ -89,8 +89,8 @@ const VerifyEmail = () => {
       }
     } catch (error) {
       console.error('Error verifying email:', error);
-      console.log('Error details:', JSON.stringify(error, null, 2)); // Log error as JSON
-      console.log('Error type:', typeof error); // Check error's type
+      console.log('Error details:', JSON.stringify(error, null, 2));
+      console.log('Error type:', typeof error); 
 
       if (error && error.response) {
         console.log(
