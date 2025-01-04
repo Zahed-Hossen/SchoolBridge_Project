@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import TeacherLayout from '../../components/Teacher/TeacherLayout';
-import Footer from '../../components/Footer';
+import Footer from '../../components/Teacher/Footer';
 
 const Container = styled.div`
   padding: 20px;
