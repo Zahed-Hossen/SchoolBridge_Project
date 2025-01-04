@@ -255,13 +255,13 @@ const Header = () => {
         'https://schoolbridge-project-server.onrender.com/api/auth/logout',
       );
       if (response.data.success) {
-        // Clear local storage or any other client-side state
+
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('role'); // Assuming you have a role stored in local storage
+        localStorage.removeItem('role');
 
-        // Redirect to signup page
-        window.location.href = '/signup';
+        
+        window.location.href = '/login';
       } else {
         console.error('Logout failed:', response.data.message);
       }

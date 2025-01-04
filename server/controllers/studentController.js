@@ -7,7 +7,7 @@ import Assignment from '../models/Assignment.js';
 import Announcement from '../models/announcement.js';
 import bcrypt from 'bcryptjs';
 
-// Profile Controllers
+
 
 // Fetch user profile
 export const getUserProfile = asyncHandler(async (req, res) => {

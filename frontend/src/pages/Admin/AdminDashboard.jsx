@@ -109,7 +109,7 @@ const AdminDashboard = () => {
   const localizer = momentLocalizer(moment);
 
   useEffect(() => {
-    // Fetch events from the backend
+    
     const fetchEvents = async () => {
       try {
         const response = await axios.get(

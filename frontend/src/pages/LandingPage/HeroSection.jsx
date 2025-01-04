@@ -34,7 +34,7 @@ const HeroSection = () => {
         </HeroContent>
       </HeroSectionContainer>
 
-      {/* Render Modals */}
+
       {isLoginOpen && (
         <LoginModal isOpen={isLoginOpen} onClose={closeLoginModal} />
       )}

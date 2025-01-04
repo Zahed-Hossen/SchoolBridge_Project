@@ -17,7 +17,7 @@ const PerformanceRadarChart = ({ data }) => {
     scales: {
       y: {
         ticks: {
-          callback: (value) => String.fromCharCode(value), // Convert numeric back to grade
+          callback: (value) => String.fromCharCode(value), 
         },
       },
     },

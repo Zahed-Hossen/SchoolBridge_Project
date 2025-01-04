@@ -46,7 +46,7 @@ const AdminAuthManagement = () => {
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
-    // Fetch users and logs from the backend
+   
     const fetchUsers = async () => {
       try {
         const response = await fetch(

@@ -40,7 +40,7 @@ const Label = styled.label`
 const GradesPage = () => {
   const childId = 'dummyChildId123';
   // const { childId } = useParams();
-  const [gradesData, setGradesData] = useState([]); // Initialize as an empty array
+  const [gradesData, setGradesData] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState('All Subjects');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -86,7 +86,7 @@ const GradesPage = () => {
     return <p>Error: Invalid grades data received</p>;
   }
 
-  // Filtered Grades
+ 
   const filteredGrades =
     selectedSubject === 'All Subjects'
       ? gradesData

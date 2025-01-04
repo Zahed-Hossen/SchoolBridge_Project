@@ -2,13 +2,13 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-// Axios instance
+
 const api = axios.create({
   baseURL: 'https://schoolbridge-project-server.onrender.com/api',
   withCredentials: true,
 });
 
-// Add a request interceptor to include the access token in headers
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('authToken');
@@ -22,7 +22,7 @@ api.interceptors.request.use(
   },
 );
 
-// Add a response interceptor to handle token refresh
+
 api.interceptors.response.use(
   (response) => {
     return response;

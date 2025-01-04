@@ -123,7 +123,7 @@ const Profile = () => {
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}
 
-      {/* Profile Picture */}
+
       <ProfilePicture>
         <ProfileImage
           src={
@@ -140,7 +140,7 @@ const Profile = () => {
         />
       </ProfilePicture>
 
-      {/* User Info */}
+
       <div className="profile-details">
         <h2>{editMode ? 'Edit Profile' : 'Profile Details'}</h2>
         <ProfileDetailsForm>
@@ -186,7 +186,7 @@ const Profile = () => {
             disabled={!editMode}
           ></ProfileTextarea>
 
-          {/* Edit Mode Toggle */}
+
           {editMode ? (
             <ProfileButton type="button" onClick={handleSaveProfile}>
               Save Changes
@@ -199,7 +199,7 @@ const Profile = () => {
         </ProfileDetailsForm>
       </div>
 
-      {/* Change Password */}
+      
       <PasswordSection>
         <h3>Change Password</h3>
         <PasswordInput

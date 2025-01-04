@@ -146,7 +146,7 @@ const AdminAuthPage = () => {
 
   const handleLogout = () => {
     try {
-      // logout logic goes here (e.g., clear tokens, redirect to login page)
+     
       localStorage.removeItem('authToken');
       navigate(
         'https://schoolbridge-project-server.onrender.com/api/auth/signin',

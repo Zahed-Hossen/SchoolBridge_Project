@@ -12,12 +12,12 @@ const ProtectedRoute = ({ allowedRoles }) => {
   try {
     const decoded = jwtDecode(token);
 
-    // Check if the user's role is allowed
+
     if (!allowedRoles.includes(decoded.role)) {
       return <Navigate to="/unauthorized" />;
     }
 
-    return <Outlet />; // Render the nested routes
+    return <Outlet />; 
   } catch (err) {
     console.error(err);
     return <Navigate to="/login" />;

@@ -7,7 +7,7 @@ const PerformanceChart = ({ data }) => {
     datasets: [
       {
         label: 'Grades',
-        data: data.map((item) => item.grade.charCodeAt(0)), // Convert grades to numeric values
+        data: data.map((item) => item.grade.charCodeAt(0)),
         borderColor: '#4caf50',
         backgroundColor: 'rgba(76, 175, 80, 0.2)',
         fill: true,
@@ -20,7 +20,7 @@ const PerformanceChart = ({ data }) => {
     scales: {
       y: {
         ticks: {
-          callback: (value) => String.fromCharCode(value), // Convert numeric back to grade
+          callback: (value) => String.fromCharCode(value),
         },
       },
     },

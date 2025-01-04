@@ -61,7 +61,7 @@ const AdminClasses = () => {
   const [editingClass, setEditingClass] = useState(null);
 
   useEffect(() => {
-    // Fetch classes from the backend
+    
     const fetchClasses = async () => {
       try {
         const response = await axios.get(

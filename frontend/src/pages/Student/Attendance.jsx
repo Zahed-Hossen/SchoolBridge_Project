@@ -12,7 +12,7 @@ import {
 } from './AttendanceStyles.js';
 
 import { Bar } from 'react-chartjs-2';
-import 'chart.js/auto'; // Required for Chart.js
+import 'chart.js/auto';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
@@ -59,7 +59,7 @@ const Attendance = () => {
     Absent: attendanceData.filter((day) => day.status === 'Absent').length,
   };
 
-  // Data for the attendance chart
+  
   const chartData = {
     labels: ['Present', 'Absent'],
     datasets: [

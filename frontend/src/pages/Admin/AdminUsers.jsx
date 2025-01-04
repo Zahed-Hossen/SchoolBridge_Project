@@ -89,7 +89,7 @@ const AdminUsers = () => {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    // Fetch users from the backend
+
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
@@ -265,7 +265,7 @@ const AdminUsers = () => {
             </UserProfile>
             <Button>Manage</Button>
           </Item>
-          {/* Add more user items as needed */}
+
         </Section>
         <Section>
           <SectionTitle>Finances</SectionTitle>

@@ -62,7 +62,7 @@ const AdminEvents = () => {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    // Fetch events from the backend
+
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
@@ -71,7 +71,7 @@ const AdminEvents = () => {
             withCredentials: true,
           },
         );
-        console.log('Fetched events:', response.data); // Debugging statement
+        console.log('Fetched events:', response.data);
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
@@ -93,7 +93,7 @@ const AdminEvents = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        console.log('Updating event:', form); // Debugging statement
+        console.log('Updating event:', form);
         await axios.put(
           `https://schoolbridge-project-server.onrender.com/api/admin/events/${editingId}`,
           form,
@@ -107,7 +107,7 @@ const AdminEvents = () => {
           ),
         );
       } else {
-        console.log('Adding new event:', form); // Debugging statement
+        console.log('Adding new event:', form); 
         const response = await axios.post(
           'https://schoolbridge-project-server.onrender.com/api/admin/events',
           form,

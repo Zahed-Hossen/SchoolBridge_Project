@@ -1,29 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-// const CardContainer = styled.div`
-//   background-color: rgb(61, 147, 173);
-//   border: 1px solid #ccc;
-//   border-radius: 8px;
-//   padding: 20px;
-//   margin-bottom: 20px;
-//   box-shadow: 0 4px 8pxrgb (56, 127, 148);
-//   transition: transform 0.2s;
-
-//   &:hover {
-//     transform: translateY(-5px);
-//   }
-
-//   @media (max-width: 768px) {
-//     padding: 15px;
-//     margin-bottom: 15px;
-//   }
-
-//   @media (max-width: 480px) {
-//     padding: 10px;
-//     margin-bottom: 10px;
-//   }
-// `;
 
 const CardContainer = styled.div`
   background-color: #c1e5f6;

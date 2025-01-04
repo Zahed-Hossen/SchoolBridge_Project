@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import Modal from './EditModal'; // Reusable modal component
-import NotificationsDropdown from './NotificationsDropdown'; // Import NotificationsDropdown component
+import Modal from './EditModal'; 
+import NotificationsDropdown from './NotificationsDropdown';
 import ParentLayout from '../../../components/Parent/ParentLayout';
 
 const Container = styled.div`

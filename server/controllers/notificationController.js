@@ -4,7 +4,7 @@ import Notification from '../models/Notification.js';
 
 export const getAllNotifications = async (req, res) => {
   try {
-    const parentId = req.user.id; // Assume parent's ID is attached to the request
+    const parentId = req.user.id; 
     const notifications = await Notification.find({ parentId }).sort({ createdAt: -1 });
     res.status(200).json(notifications);
   } catch (error) {

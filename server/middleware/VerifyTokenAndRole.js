@@ -40,7 +40,7 @@ const verifyTokenAndRole = (roles) => {
         });
       }
 
-      next(); // Pass control to the next middleware or route handler
+      next();
     } catch (error) {
       console.error('Error in verifyTokenAndRole middleware:', error);
       res.status(400).json({ error: true, message: 'Invalid token.' });

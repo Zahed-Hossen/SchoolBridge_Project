@@ -27,8 +27,8 @@ import {
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [language, setLanguage] = useState('EN');
-  const [isLoginOpen, setIsLoginOpen] = useState(false); // State for login modal
-  const [isSignupOpen, setIsSignupOpen] = useState(false); // State for signup modal
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
@@ -37,15 +37,14 @@ const Navbar = () => {
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
-
   const toggleLanguage = () => {
     setLanguage((prevLanguage) => (prevLanguage === 'EN' ? 'FR' : 'EN'));
   };
 
-  const openLoginModal = () => setIsLoginOpen(true); // Open login modal
-  const openSignupModal = () => setIsSignupOpen(true); // Open signup modal
-  const closeLoginModal = () => setIsLoginOpen(false); // Close login modal
-  const closeSignupModal = () => setIsSignupOpen(false); // Close signup modal
+  const openLoginModal = () => setIsLoginOpen(true);
+  const openSignupModal = () => setIsSignupOpen(true);
+  const closeLoginModal = () => setIsLoginOpen(false);
+  const closeSignupModal = () => setIsSignupOpen(false); 
 
   return (
     <>

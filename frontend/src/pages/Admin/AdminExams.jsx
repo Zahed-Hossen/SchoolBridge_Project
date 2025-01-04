@@ -62,7 +62,7 @@ const AdminExams = () => {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    // Fetch exams from the backend
+
     const fetchExams = async () => {
       try {
         const response = await axios.get(
@@ -92,7 +92,7 @@ const AdminExams = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        console.log('Updating exam:', form); // Debugging statement
+        console.log('Updating exam:', form);
         await axios.put(
           `https://schoolbridge-project-server.onrender.com/api/admin/exams/${editingId}`,
           form,

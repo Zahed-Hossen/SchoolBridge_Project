@@ -20,7 +20,7 @@ const VerifyEmail = () => {
       toast.success('Email verified successfully');
       setMessage(response.data.message);
 
-      // Redirect based on user role
+
       const roleDashboardPaths = {
         Teacher: '/teacher/dashboard',
         Student: '/student/dashboard',

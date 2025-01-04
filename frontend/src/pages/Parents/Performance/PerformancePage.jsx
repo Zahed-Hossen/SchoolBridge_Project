@@ -31,7 +31,7 @@ const OverviewCard = styled.div`
 const PerformancePage = () => {
   const { childId } = useParams();
   const [performanceData, setPerformanceData] = useState([]);
-  const [achievements, setAchievements] = useState(null); // Initialize to null
+  const [achievements, setAchievements] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -50,11 +50,11 @@ const PerformancePage = () => {
             withCredentials: true,
           },
         );
-        setPerformanceData(response.data.performanceScores); // Radar chart data
-        setAchievements(response.data.achievements); // Achievements data
+        setPerformanceData(response.data.performanceScores);
+        setAchievements(response.data.achievements);
       } catch (error) {
         setError(error);
-        setAchievements([]); // Set achievements to an empty array on error
+        setAchievements([]);
       } finally {
         setLoading(false);
       }

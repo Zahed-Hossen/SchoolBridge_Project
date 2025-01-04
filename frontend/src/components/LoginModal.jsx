@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
-import { useNavigate } from 'react-router-dom'; // import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 // import api from '../services/api';
 import Modal from './Modal';
 import axios from 'axios';
@@ -71,7 +71,7 @@ const LoginModal = ({ isOpen, onClose }) => {
           loginData,
         );
 
-        // const result = await response.json();
+
         if (response.status >= 200 && response.status < 300) {
           const result = response.data;
           alert('Login Successful!');
@@ -97,11 +97,11 @@ const LoginModal = ({ isOpen, onClose }) => {
             alert('An unexpected error occurred');
           }
         } else if (error.request) {
-          // The request was made but no response was received
+
           console.error(error.request);
           alert('Network error. Please check your connection.');
         } else {
-          // Something happened in setting up the request that triggered an Error
+
           console.error('Error', error.message);
           alert('An unexpected error occurred');
         }
@@ -176,51 +176,3 @@ export default LoginModal;
 
 
 
-
-
-// const handleLoginSuccess = (token) => {
-//   localStorage.setItem('authToken', token);
-//   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-//   const decodedToken = jwtDecode(token);
-//   const userRole = decodedToken.role;
-
-//   const roleDashboardPaths = {
-//     Teacher: '/teacher/dashboard',
-//     Student: '/student/dashboard',
-//     Parent: '/parent/dashboard',
-//     Admin: '/admin/dashboard',
-//   };
-
-//   const dashboardPath = roleDashboardPaths[userRole];
-//   if (dashboardPath) {
-//     navigate(dashboardPath);
-//   } else {
-//     console.error('Invalid role or redirection path not defined.');
-//   }
-// };
-
-// const handleSubmit = async (e) => {
-//   e.preventDefault();
-//   if (validateForm()) {
-//     const loginData = { email, password, role };
-//     try {
-//       const response = await axios.post(
-//         'https://schoolbridge-project-server.onrender.com/api/auth/login',
-//         loginData,
-//         {
-//           withCredentials: true,
-//         },
-//       );
-
-//       // const result = await response.json();
-//       if (response.status >= 200 && response.status < 300) {
-//         const result = response.data;
-//         alert('Login Successful!');
-//         handleLoginSuccess(result.token);
-//         onClose();
-//         setEmail('');
-//         setPassword('');
-//         setRole('');
-//       } else {
-//         alert(response.data.message || 'Login failed. Please try again.');
-//       }
