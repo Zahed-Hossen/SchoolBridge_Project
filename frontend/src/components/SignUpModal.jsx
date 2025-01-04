@@ -374,9 +374,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
           toast.success(
             'User registered successfully! Please check your email to verify your account.',
           );
-          navigate('/verify-email', {
-            state: { email, verificationCode: result.verificationCode },
-          });
+          navigate(`/verify-email?token=${result.accessToken}`);
           onClose();
           setFullName('');
           setEmail('');
