@@ -68,6 +68,9 @@ const VerifyEmail = () => {
     e.preventDefault();
     const token = new URLSearchParams(location.search).get('token');
     const data = { token, verificationCode };
+
+    console.log('Data being sent:', JSON.stringify(data, null, 2));
+
     try {
       const response = await axios.post(
         'https://schoolbridge-project-server.onrender.com/api/auth/verify-email',
