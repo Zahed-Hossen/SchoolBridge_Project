@@ -305,10 +305,10 @@
 
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import api from '../services/api';
 import Modal from './Modal';
 import {
   ModalHeader,
@@ -364,10 +364,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
       const formData = { fullName, email, phone, password, role };
       console.log('Request Body:', JSON.stringify(formData, null, 2)); // Log the request body
       try {
-        const response = await axios.post(
-          'https://schoolbridge-project-server.onrender.com/api/auth/signup',
-          formData,
-        );
+        const response = await api.post('/auth/signup', formData);
 
         if (response.status >= 200 && response.status < 300) {
           const result = response.data;
@@ -422,7 +419,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
     }
   };
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
