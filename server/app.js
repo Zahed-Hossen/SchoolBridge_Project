@@ -30,23 +30,22 @@ const app = express();
 // Log environment variables to ensure they are loaded correctly
 console.log('MONGO_URI:', process.env.MONGO_URI);
 console.log('PORT:', process.env.PORT);
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
+console.log('JWT_REFRESH_SECRET:', process.env.JWT_REFRESH_SECRET);
 
-// Middleware
+// Configure CORS middleware
 app.use(
   cors({
     origin: 'https://schoolbridge-project-frontend.onrender.com',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   }),
 );
+
 app.use(express.json());
 app.use(cookieParser());
 // app.use(cors());
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  connectDB();
-  console.log('Server is running on port: ', PORT);
-});
 
 // Routes
 app.use('/api/achievements', achievementsRoutes);
@@ -65,6 +64,7 @@ app.use('/api/parent', parentRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/student', studentRoutes);
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -76,3 +76,10 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
   });
 }
+
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  connectDB();
+  console.log('Server is running on port: ', PORT);
+});
