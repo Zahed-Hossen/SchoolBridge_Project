@@ -67,10 +67,11 @@ const VerifyEmail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = new URLSearchParams(location.search).get('token');
+    const data = { token, verificationCode };
     try {
       const response = await axios.post(
         'https://schoolbridge-project-server.onrender.com/api/auth/verify-email',
-        { token, verificationCode },
+        data,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -84,10 +85,39 @@ const VerifyEmail = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          'Email verification failed. Please try again.',
-      );
+      console.error('Error verifying email:', error);
+      console.log('Error details:', JSON.stringify(error, null, 2)); // Log error as JSON
+      console.log('Error type:', typeof error); // Check error's type
+
+      if (error && error.response) {
+        console.log(
+          'Response data:',
+          JSON.stringify(error.response.data, null, 2),
+        );
+        console.log('Response status:', error.response.status);
+        console.log(
+          'Response headers:',
+          JSON.stringify(error.response.headers, null, 2),
+        );
+
+        // Prioritize the server's error message:
+        if (error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else if (typeof error.response.data === 'string') {
+          toast.error(error.response.data);
+        } else {
+          toast.error('Invalid verification information. Please try again.');
+        }
+      } else if (error && error.request) {
+        console.error('No response received:', error.request);
+        toast.error('Network error. Please try again later.');
+      } else if (error && error.message) {
+        console.error('Error setting up request:', error.message);
+        toast.error('An unexpected error occurred. Please try again later.');
+      } else {
+        console.error('Unknown error:', error);
+        toast.error('An unexpected error occurred. Please try again later.');
+      }
     }
   };
   return (
