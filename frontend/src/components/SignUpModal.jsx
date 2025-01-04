@@ -371,7 +371,9 @@ const SignUpModal = ({ isOpen, onClose }) => {
 
         if (response.status >= 200 && response.status < 300) {
           const result = response.data;
-          toast.success('User registered successfully! Please check your email to verify your account.');
+          toast.success(
+            'User registered successfully! Please check your email to verify your account.',
+          );
           navigate(`/verify-email?token=${result.accessToken}`);
           onClose();
           setFullName('');
@@ -382,23 +384,38 @@ const SignUpModal = ({ isOpen, onClose }) => {
           setRole('');
           setTermsAccepted(false);
         } else {
-          toast.error(response.data.message || 'Sign Up failed. Please try again.');
+          toast.error(
+            response.data.message || 'Sign Up failed. Please try again.',
+          );
         }
       } catch (error) {
         console.error('Error signing up:', error);
         console.log('Error details:', JSON.stringify(error, null, 2)); // Log error as JSON
         console.log('Error type:', typeof error); // Check error's type
         if (error && error.response) {
-          console.log('Response data:', JSON.stringify(error.response.data, null, 2)); // Format JSON for readability
+          console.log(
+            'Response data:',
+            JSON.stringify(error.response.data, null, 2),
+          ); // Format JSON for readability
           console.log('Response status:', error.response.status);
           console.log('Response headers:', error.response.headers); // Add headers for more context
-          toast.error(error.response.data.message || 'Invalid signup information. Please try again.');
+
+          // Prioritize the server's error message:
+          if (error.response.data && error.response.data.message) {
+            toast.error(error.response.data.message);
+          } else if (
+            error.response.data &&
+            typeof error.response.data === 'string'
+          ) {
+            toast.error(error.response.data); // Handle cases where the error is a simple string
+          } else {
+            toast.error('Invalid signup information. Please try again.');
+          }
         } else if (error.request) {
           console.error('No response received:', error.request);
-          toast.error('No response from server. Please try again later.');
+          toast.error('Network error. Please try again later.');
         } else {
           console.error('Error setting up request:', error.message);
-          console.error('Request config:', JSON.stringify(error.config, null, 2)); // Show request configuration
           toast.error('An unexpected error occurred. Please try again later.');
         }
       }
