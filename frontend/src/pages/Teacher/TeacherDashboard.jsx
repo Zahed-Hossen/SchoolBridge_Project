@@ -142,25 +142,13 @@ const TeacherDashboard = () => {
           </Section>
           <Section>
             <SectionTitle>Quick Links</SectionTitle>
-            <QuickLink href="/teacher/assignments">
-              {' '}
-              Assignment Homework{' '}
-            </QuickLink>
-            <QuickLink href="/teacher/attendance">
-              {' '}
-              Attendance Management{' '}
-            </QuickLink>
+            <QuickLink href="/teacher/assignments">Assignment Homework</QuickLink>
+            <QuickLink href="/teacher/attendance">Attendance Management</QuickLink>
             <QuickLink href="/teacher/classes">Class Management</QuickLink>
-            <QuickLink href="/teacher/performance">
-              {' '}
-              Performance Tracking{' '}
-            </QuickLink>
-            <QuickLink href="/teacher/communication">
-              {' '}
-              Teacher Communication{' '}
-            </QuickLink>
-            <QuickLink href="/teacher/gradebook"> Teacher Gradebook </QuickLink>
-            <QuickLink href="/teacher/resources"> Teacher Resources </QuickLink>
+            <QuickLink href="/teacher/performance">Performance Tracking</QuickLink>
+            <QuickLink href="/teacher/communication">Teacher Communication</QuickLink>
+            <QuickLink href="/teacher/gradebook">Teacher Gradebook</QuickLink>
+            <QuickLink href="/teacher/resources">Teacher Resources</QuickLink>
             <QuickLink href="/teacher/schedule">Teacher Schedule</QuickLink>
           </Section>
         </Container>

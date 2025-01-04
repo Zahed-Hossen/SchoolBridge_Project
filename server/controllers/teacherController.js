@@ -58,6 +58,7 @@ export const deleteAssignment = async (req, res) => {
     res.status(500).json({ message: 'Server error. Please try again.' });
   }
 };
+
 export const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find();
@@ -248,6 +249,7 @@ export const addNewScheduleEvent = async (req, res) => {
     res.status(500).json({ message: 'Server error. Please try again.' });
   }
 };
+
 // Fetch all resources
 export const getAllResources = async (req, res) => {
   try {
